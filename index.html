@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurador Premium | Studio Insulfilm</title>
+
+    <meta name="description" content="Simule o insulfilm perfeito para o seu carro: escolha modelo, nível de película, visão interna/externa e já peça seu orçamento pelo WhatsApp.">
+    <meta name="keywords" content="insulfilm, simulador, pelicula automotiva, g20, g5, g50, g70, carbono">
+    <meta name="author" content="Studio Insulfilm">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Model Viewer para o carro 3D (genérico, com possibilidade de trocar modelo depois via JS) -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</head>
+<body>
+
+    <div class="bg-abstract"></div>
+
+    <header class="main-header glass-panel">
+        <div class="header-container">
+            <div class="logo">STUDIO <span class="highlight">INSULFILM</span></div>
+            <nav>
+                <a href="#simulador" class="nav-item active">Simulador</a>
+                <a href="#beneficios" class="nav-item">Performance</a>
+                <a href="#faq" class="nav-item">FAQ</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+
+        <section id="simulador" class="simulator-section">
+            <div class="section-header">
+                <h1 class="page-title">CUSTOMIZAÇÃO <span class="text-gradient">HIGH PERFORMANCE</span></h1>
+                <p class="subtitle">Visualize a privacidade e o estilo do seu veículo em tempo real.</p>
+            </div>
+
+            <div class="simulator-grid">
+                
+                <!-- Painel de Controles -->
+                <aside class="controls-panel glass-panel">
+                    <div class="panel-header">
+                        <h2>🛠 Configuração</h2>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="car-model">SELECIONE O MODELO</label>
+                        <div class="custom-select-wrapper">
+                            <select id="car-model">
+                                <option value="sedan">Sedan Executivo</option>
+                                <option value="suv">SUV Premium</option>
+                                <option value="hatch">Hatch Sport</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="film-level">NÍVEL DE PRIVACIDADE</label>
+                        <div class="custom-select-wrapper">
+                            <select id="film-level">
+                                <option value="g70">G70 • Alta Visibilidade</option>
+                                <option value="g50">G50 • Intermediário</option>
+                                <option value="g20">G20 • Dark Comfort</option>
+                                <option value="g5">G5 • Blackout Total</option>
+                                <option value="carbon">Nano Carbono • Elite</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="control-divider"></div>
+
+                    <label>AMBIENTE & VISÃO</label>
+                    <div class="control-actions">
+                        <button id="toggle-day-night" class="action-btn outline">
+                            <span class="icon">☀</span> <span class="text">Modo Dia</span>
+                        </button>
+                        <button id="toggle-view" class="action-btn outline">
+                            <span class="icon">👁</span> <span class="text">Externa</span>
+                        </button>
+                    </div>
+                </aside>
+
+                <!-- Área de Visualização 3D -->
+                <div class="viewer-area">
+                    <div id="car-3d-viewer" class="car-viewer-display">
+                        <!-- Carro 3D minimalista com possibilidade de trocar modelo via JS -->
+                        <model-viewer
+                            id="car-viewer-3d"
+                            src="models/sedan.glb"
+                            alt="Visualizador 3D de carro com insulfilm"
+                            camera-controls
+                            disable-zoom
+                            exposure="1"
+                            environment-image="env/day.hdr"
+                            shadow-intensity="0.4"
+                            shadow-softness="0.7"
+                            auto-rotate="false"
+                            ar
+                            ar-modes="webxr scene-viewer quick-look"
+                        >
+                        </model-viewer>
+
+                        <!-- Overlay minimalista com instruções -->
+                        <div class="viewer-overlay-hint">
+                            Arraste para girar o carro • Use o painel para simular o insulfilm
+                        </div>
+                    </div>
+                    
+                    <!-- Barra de status do setup -->
+                    <div class="status-bar glass-panel">
+                        <div class="status-item">
+                            <span class="label">Veículo</span>
+                            <span class="value" id="status-model">-</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="label">Película</span>
+                            <span class="value" id="status-film">-</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="label">Cenário</span>
+                            <span class="value" id="status-mode">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Descrição técnica da película -->
+                    <div class="tech-specs glass-panel">
+                        <p id="film-description">Selecione uma película para ver os detalhes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Benefícios -->
+        <section id="beneficios" class="benefits-section">
+            <div class="content-wrapper">
+                <h2>POR QUE ESCOLHER A <span class="highlight">LINHA PREMIUM?</span></h2>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <h3>🛡 Proteção UV</h3>
+                        <p>Bloqueio de até 99% dos raios ultravioleta, protegendo sua pele e o painel do carro.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>❄ Conforto Térmico</h3>
+                        <p>Tecnologia de nano-cerâmica que rejeita o calor infravermelho.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>👁 Privacidade</h3>
+                        <p>Segurança visual para você e sua família, sem comprometer a visibilidade interna.</p>
+                    </div>
+                </div>
+                
+                <div class="cta-container">
+                    <a href="#" target="_blank" class="whatsapp-btn neon-pulse">
+                        SOLICITAR ORÇAMENTO VIP 
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="faq-section">
+            <h2>PERGUNTAS FREQUENTES</h2>
+            <div class="faq-container">
+                <details class="glass-panel">
+                    <summary>O simulador é 100% preciso?</summary>
+                    <p>É uma representação digital de alta fidelidade. Fatores como a cor do interior do veículo e a iluminação natural do dia podem causar leves variações.</p>
+                </details>
+                <details class="glass-panel">
+                    <summary>Qual a diferença da linha Carbono?</summary>
+                    <p>A linha Carbono/Cerâmica possui nanotecnologia que rejeita calor real, não apenas escurece o vidro. É a escolha premium para conforto.</p>
+                </details>
+                <details class="glass-panel">
+                    <summary>A instalação tem garantia?</summary>
+                    <p>Sim. Todas as nossas aplicações possuem certificado de garantia contra desbotamento e bolhas.</p>
+                </details>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 Studio Insulfilm. <span style="opacity: 0.5;">Performance & Estética Automotiva.</span></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
