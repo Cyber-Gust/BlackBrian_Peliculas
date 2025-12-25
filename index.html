@@ -82,7 +82,6 @@
                 id="car-viewer"
                 src="models/meucarro.glb" 
                 camera-controls 
-                disable-zoom
                 shadow-intensity="1.2" 
                 shadow-softness="0.8"
                 exposure="1"
@@ -90,11 +89,9 @@
                 environment-image="env/studio.hdr" 
                 alt="Veículo 3D"
                 interaction-prompt="none"
-                min-camera-orbit="auto auto 50%"
-                max-camera-orbit="auto auto 200%"
-                camera-orbit="45deg 75deg 145%"
-                camera-target="0m 0.8m 0m"
-                field-of-view="30deg">
+                min-camera-orbit="auto auto auto"
+                max-camera-orbit="auto auto auto"
+                camera-orbit="45deg 75deg 105%">
             </model-viewer>
         </div>
     </main>
