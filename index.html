@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Configurador Studio Insulfilm</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,7 +31,12 @@
     </script>
     
     <style>
-        body { transition: background-color 0.5s ease; }
+        /* Correção para altura dinâmica em mobile (barra de navegação) */
+        body { 
+            transition: background-color 0.5s ease;
+            height: 100dvh; /* Usa dynamic viewport height */
+        }
+        
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
@@ -49,9 +54,14 @@
         /* Tema Escuro */
         body.dark { background-color: #0f0f0f; color: white; }
         body.dark footer { background-color: rgba(20, 20, 20, 0.85); border-top-color: rgba(255,255,255,0.1); }
+
+        /* Ajuste fino para iOS safe area no footer */
+        footer {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
     </style>
 </head>
-<body class="h-screen w-full overflow-hidden bg-white text-black font-sans selection:bg-moss selection:text-white relative transition-colors duration-500">
+<body class="h-[100dvh] w-full overflow-hidden bg-white text-black font-sans selection:bg-moss selection:text-white relative transition-colors duration-500">
 
     <header class="absolute top-0 left-0 w-full p-6 z-20 flex justify-between items-start pointer-events-none">
         
@@ -80,14 +90,16 @@
                 environment-image="env/studio.hdr" 
                 alt="Veículo 3D"
                 interaction-prompt="none"
-                min-camera-orbit="auto auto auto"
-                max-camera-orbit="auto auto auto"
-                camera-orbit="45deg 75deg 105%">
+                min-camera-orbit="auto auto 50%"
+                max-camera-orbit="auto auto 200%"
+                camera-orbit="45deg 75deg 145%"
+                camera-target="0m 0.8m 0m"
+                field-of-view="30deg">
             </model-viewer>
         </div>
     </main>
 
-    <footer class="absolute bottom-0 w-full z-20 bg-white/85 backdrop-blur-xl border-t border-gray-200 pb-8 pt-4 px-4 md:px-12 flex flex-col gap-4 shadow-dock transition-colors duration-500">
+    <footer class="absolute bottom-0 w-full z-20 bg-white/85 backdrop-blur-xl border-t border-gray-200 pt-4 px-4 md:px-12 flex flex-col gap-4 shadow-dock transition-colors duration-500 pb-[calc(2rem+env(safe-area-inset-bottom))]">
         
         <a href="#" id="whatsapp-btn" class="absolute -top-12 right-4 md:right-12 bg-black dark:bg-white dark:text-black text-white pl-6 pr-4 py-3 rounded-full font-bold text-sm shadow-xl hover:bg-moss dark:hover:bg-moss dark:hover:text-white transition-all flex items-center gap-3 group z-30 transform hover:-translate-y-1">
             <span>ORÇAMENTO</span>
@@ -165,10 +177,11 @@
 
             updateTintButtonsUI();
             
+            // Mantendo o zoom afastado (145%) nas transições
             if(zone === 'front') {
-                viewer.cameraOrbit = '0deg 75deg 105%';
+                viewer.cameraOrbit = '0deg 75deg 145%'; 
             } else {
-                viewer.cameraOrbit = '45deg 75deg 105%';
+                viewer.cameraOrbit = '45deg 75deg 145%';
             }
         }
 
@@ -298,8 +311,7 @@
         document.getElementById('whatsapp-btn').addEventListener('click', (e) => {
             e.preventDefault();
             
-            // 👇 COLOQUE SEU NÚMERO COMPLETO AQUI (sem traços ou espaços)
-            // Formato: 55 (Brasil) + 32 (DDD) + Seu Número
+            // 👇 SEU NÚMERO AQUI
             const telefone = "5532999734079"; 
 
             const text = `Olá! Gostaria de cotar meu projeto:\n🚘 Parabrisa: ${tintData[state.currentTints.front].name}\n🚘 Laterais: ${tintData[state.currentTints.sides].name}`;
