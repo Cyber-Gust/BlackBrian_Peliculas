@@ -2,195 +2,315 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configurador Premium | Studio Insulfilm</title>
-
-    <meta name="description" content="Simule o insulfilm perfeito para o seu carro: escolha modelo, nível de película, visão interna/externa e já peça seu orçamento pelo WhatsApp.">
-    <meta name="keywords" content="insulfilm, simulador, pelicula automotiva, g20, g5, g50, g70, carbono">
-    <meta name="author" content="Studio Insulfilm">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Configurador Studio Insulfilm</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-    <link rel="stylesheet" href="styles.css">
-
-    <!-- Model Viewer para o carro 3D (genérico, com possibilidade de trocar modelo depois via JS) -->
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        moss: '#4F6F52',       /* Verde Musgo */
+                        mossDark: '#3A523C',
+                        black: '#111111',
+                    },
+                    fontFamily: { sans: ['"Inter"', 'sans-serif'] },
+                    boxShadow: { 'dock': '0 -10px 40px -10px rgba(0,0,0,0.1)' }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { transition: background-color 0.5s ease; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        model-viewer {
+            width: 100%; height: 100%;
+            --poster-color: transparent;
+            background-color: transparent;
+            outline: none;
+        }
+        
+        /* Animações UI */
+        .tint-btn { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .tint-btn:active { transform: scale(0.95); }
+        
+        /* Tema Escuro */
+        body.dark { background-color: #0f0f0f; color: white; }
+        body.dark footer { background-color: rgba(20, 20, 20, 0.85); border-top-color: rgba(255,255,255,0.1); }
+    </style>
 </head>
-<body>
+<body class="h-screen w-full overflow-hidden bg-white text-black font-sans selection:bg-moss selection:text-white relative transition-colors duration-500">
 
-    <div class="bg-abstract"></div>
-
-    <header class="main-header glass-panel">
-        <div class="header-container">
-            <div class="logo">STUDIO <span class="highlight">INSULFILM</span></div>
-            <nav>
-                <a href="#simulador" class="nav-item active">Simulador</a>
-                <a href="#beneficios" class="nav-item">Performance</a>
-                <a href="#faq" class="nav-item">FAQ</a>
-            </nav>
+    <header class="absolute top-0 left-0 w-full p-6 z-20 flex justify-between items-start pointer-events-none">
+        
+        <div class="pointer-events-auto">
+            <img src="imgs/logo.png" 
+                 alt="Logo Loja" 
+                 class="h-36 w-auto object-contain transition-all duration-500 brightness-0 dark:brightness-100 drop-shadow-sm">
         </div>
+
+        <button id="toggle-night" class="pointer-events-auto w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-gray-200 dark:border-gray-700 flex items-center justify-center shadow-lg transition-all hover:scale-110 group">
+            <i class="ph-fill ph-moon text-xl text-gray-600 dark:text-yellow-300 group-hover:text-moss dark:group-hover:text-yellow-300 transition-colors" id="night-icon"></i>
+        </button>
     </header>
 
-    <main>
-
-        <section id="simulador" class="simulator-section">
-            <div class="section-header">
-                <h1 class="page-title">CUSTOMIZAÇÃO <span class="text-gradient">HIGH PERFORMANCE</span></h1>
-                <p class="subtitle">Visualize a privacidade e o estilo do seu veículo em tempo real.</p>
-            </div>
-
-            <div class="simulator-grid">
-                
-                <!-- Painel de Controles -->
-                <aside class="controls-panel glass-panel">
-                    <div class="panel-header">
-                        <h2>🛠 Configuração</h2>
-                    </div>
-
-                    <div class="control-group">
-                        <label for="car-model">SELECIONE O MODELO</label>
-                        <div class="custom-select-wrapper">
-                            <select id="car-model">
-                                <option value="sedan">Sedan Executivo</option>
-                                <option value="suv">SUV Premium</option>
-                                <option value="hatch">Hatch Sport</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label for="film-level">NÍVEL DE PRIVACIDADE</label>
-                        <div class="custom-select-wrapper">
-                            <select id="film-level">
-                                <option value="g70">G70 • Alta Visibilidade</option>
-                                <option value="g50">G50 • Intermediário</option>
-                                <option value="g20">G20 • Dark Comfort</option>
-                                <option value="g5">G5 • Blackout Total</option>
-                                <option value="carbon">Nano Carbono • Elite</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="control-divider"></div>
-
-                    <label>AMBIENTE & VISÃO</label>
-                    <div class="control-actions">
-                        <button id="toggle-day-night" class="action-btn outline">
-                            <span class="icon">☀</span> <span class="text">Modo Dia</span>
-                        </button>
-                        <button id="toggle-view" class="action-btn outline">
-                            <span class="icon">👁</span> <span class="text">Externa</span>
-                        </button>
-                    </div>
-                </aside>
-
-                <!-- Área de Visualização 3D -->
-                <div class="viewer-area">
-                    <div id="car-3d-viewer" class="car-viewer-display">
-                        <!-- Carro 3D minimalista com possibilidade de trocar modelo via JS -->
-                        <model-viewer
-                            id="car-viewer-3d"
-                            src="models/sedan.glb"
-                            alt="Visualizador 3D de carro com insulfilm"
-                            camera-controls
-                            disable-zoom
-                            exposure="1"
-                            environment-image="env/day.hdr"
-                            shadow-intensity="0.4"
-                            shadow-softness="0.7"
-                            auto-rotate="false"
-                            ar
-                            ar-modes="webxr scene-viewer quick-look"
-                        >
-                        </model-viewer>
-
-                        <!-- Overlay minimalista com instruções -->
-                        <div class="viewer-overlay-hint">
-                            Arraste para girar o carro • Use o painel para simular o insulfilm
-                        </div>
-                    </div>
-                    
-                    <!-- Barra de status do setup -->
-                    <div class="status-bar glass-panel">
-                        <div class="status-item">
-                            <span class="label">Veículo</span>
-                            <span class="value" id="status-model">-</span>
-                        </div>
-                        <div class="status-item">
-                            <span class="label">Película</span>
-                            <span class="value" id="status-film">-</span>
-                        </div>
-                        <div class="status-item">
-                            <span class="label">Cenário</span>
-                            <span class="value" id="status-mode">-</span>
-                        </div>
-                    </div>
-
-                    <!-- Descrição técnica da película -->
-                    <div class="tech-specs glass-panel">
-                        <p id="film-description">Selecione uma película para ver os detalhes.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Seção Benefícios -->
-        <section id="beneficios" class="benefits-section">
-            <div class="content-wrapper">
-                <h2>POR QUE ESCOLHER A <span class="highlight">LINHA PREMIUM?</span></h2>
-                <div class="benefits-grid">
-                    <div class="benefit-card">
-                        <h3>🛡 Proteção UV</h3>
-                        <p>Bloqueio de até 99% dos raios ultravioleta, protegendo sua pele e o painel do carro.</p>
-                    </div>
-                    <div class="benefit-card">
-                        <h3>❄ Conforto Térmico</h3>
-                        <p>Tecnologia de nano-cerâmica que rejeita o calor infravermelho.</p>
-                    </div>
-                    <div class="benefit-card">
-                        <h3>👁 Privacidade</h3>
-                        <p>Segurança visual para você e sua família, sem comprometer a visibilidade interna.</p>
-                    </div>
-                </div>
-                
-                <div class="cta-container">
-                    <a href="#" target="_blank" class="whatsapp-btn neon-pulse">
-                        SOLICITAR ORÇAMENTO VIP 
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- FAQ -->
-        <section id="faq" class="faq-section">
-            <h2>PERGUNTAS FREQUENTES</h2>
-            <div class="faq-container">
-                <details class="glass-panel">
-                    <summary>O simulador é 100% preciso?</summary>
-                    <p>É uma representação digital de alta fidelidade. Fatores como a cor do interior do veículo e a iluminação natural do dia podem causar leves variações.</p>
-                </details>
-                <details class="glass-panel">
-                    <summary>Qual a diferença da linha Carbono?</summary>
-                    <p>A linha Carbono/Cerâmica possui nanotecnologia que rejeita calor real, não apenas escurece o vidro. É a escolha premium para conforto.</p>
-                </details>
-                <details class="glass-panel">
-                    <summary>A instalação tem garantia?</summary>
-                    <p>Sim. Todas as nossas aplicações possuem certificado de garantia contra desbotamento e bolhas.</p>
-                </details>
-            </div>
-        </section>
-
+    <main class="absolute inset-0 z-0 bg-gradient-to-b from-transparent to-black/5 dark:to-black/40 pointer-events-none">
+        <div class="w-full h-full pointer-events-auto pb-48 md:pb-32 transition-all duration-300">
+            <model-viewer 
+                id="car-viewer"
+                src="models/meucarro.glb" 
+                camera-controls 
+                disable-zoom
+                shadow-intensity="1.2" 
+                shadow-softness="0.8"
+                exposure="1"
+                tone-mapping="commerce"
+                environment-image="env/studio.hdr" 
+                alt="Veículo 3D"
+                interaction-prompt="none"
+                min-camera-orbit="auto auto auto"
+                max-camera-orbit="auto auto auto"
+                camera-orbit="45deg 75deg 105%">
+            </model-viewer>
+        </div>
     </main>
 
-    <footer class="main-footer">
-        <p>&copy; 2025 Studio Insulfilm. <span style="opacity: 0.5;">Performance & Estética Automotiva.</span></p>
+    <footer class="absolute bottom-0 w-full z-20 bg-white/85 backdrop-blur-xl border-t border-gray-200 pb-8 pt-4 px-4 md:px-12 flex flex-col gap-4 shadow-dock transition-colors duration-500">
+        
+        <a href="#" id="whatsapp-btn" class="absolute -top-12 right-4 md:right-12 bg-black dark:bg-white dark:text-black text-white pl-6 pr-4 py-3 rounded-full font-bold text-sm shadow-xl hover:bg-moss dark:hover:bg-moss dark:hover:text-white transition-all flex items-center gap-3 group z-30 transform hover:-translate-y-1">
+            <span>ORÇAMENTO</span>
+            <div class="bg-white/20 dark:bg-black/10 rounded-full p-1 group-hover:bg-white/30 transition-colors">
+                <i class="ph-bold ph-whatsapp-logo text-lg"></i>
+            </div>
+        </a>
+
+        <div class="flex justify-center w-full mb-1">
+            <div class="bg-gray-100 dark:bg-gray-800 p-1 rounded-full flex gap-1 shadow-inner">
+                <button onclick="setTargetZone('sides')" id="tab-sides" class="px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all bg-white text-black shadow-sm ring-1 ring-black/5">
+                    Laterais & Traseira
+                </button>
+                <button onclick="setTargetZone('front')" id="tab-front" class="px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white">
+                    Parabrisa
+                </button>
+            </div>
+        </div>
+
+        <div class="w-full">
+            <div class="flex justify-between items-center px-2 mb-2">
+                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest" id="zone-title">Editando: Laterais</span>
+                <span id="film-label" class="text-[10px] font-bold text-moss uppercase tracking-widest">G20</span>
+            </div>
+
+            <div class="flex gap-3 overflow-x-auto no-scrollbar py-2 px-1 snap-x" id="tints-container">
+                </div>
+        </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // ================= CONFIGURAÇÃO DE MATERIAIS =================
+        const materialNames = {
+            front: 'glass_front',
+            sides: 'glass_side', 
+            ignore: 'glass_back' 
+        };
+
+        const tintData = {
+            'clear': { opacity: 0.1, color: '#ffffff', roughness: 0.1, name: 'Original' },
+            'g70':   { opacity: 0.35, color: '#444444', roughness: 0.1, name: 'G70' },
+            'g35':   { opacity: 0.55, color: '#2a2a2a', roughness: 0.05, name: 'G35' },
+            'g20':   { opacity: 0.82, color: '#111111', roughness: 0.02, name: 'G20' },
+            'g5':    { opacity: 0.98, color: '#000000', roughness: 0.01, name: 'G5' },
+        };
+
+        let state = {
+            activeZone: 'sides',
+            currentTints: { sides: 'clear', front: 'clear' },
+            isNight: false
+        };
+
+        const viewer = document.getElementById('car-viewer');
+
+        // ================= FUNÇÕES DE ZONA =================
+
+        function setTargetZone(zone) {
+            state.activeZone = zone;
+            
+            const btnSides = document.getElementById('tab-sides');
+            const btnFront = document.getElementById('tab-front');
+            
+            const activeClass = "bg-white text-black shadow-sm ring-1 ring-black/5 dark:bg-gray-600 dark:text-white dark:ring-0";
+            const inactiveClass = "text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white";
+
+            if (zone === 'sides') {
+                btnSides.className = `px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all ${activeClass}`;
+                btnFront.className = `px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all ${inactiveClass}`;
+                document.getElementById('zone-title').innerText = "Editando: Laterais & Traseira";
+            } else {
+                btnFront.className = `px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all ${activeClass}`;
+                btnSides.className = `px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all ${inactiveClass}`;
+                document.getElementById('zone-title').innerText = "Editando: Parabrisa";
+            }
+
+            updateTintButtonsUI();
+            
+            if(zone === 'front') {
+                viewer.cameraOrbit = '0deg 75deg 105%';
+            } else {
+                viewer.cameraOrbit = '45deg 75deg 105%';
+            }
+        }
+
+        function setTint(tintId) {
+            state.currentTints[state.activeZone] = tintId;
+            updateTintButtonsUI();
+            applyTintToModel();
+        }
+
+        // ================= LÓGICA 3D =================
+
+        function applyTintToModel() {
+            if (!viewer.model) return;
+
+            const getParams = (id) => {
+                const d = tintData[id];
+                let c = d.color.substring(1).split('');
+                if(c.length===3) c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+                c= '0x'+c.join('');
+                const rgb = [((c>>16)&255)/255, ((c>>8)&255)/255, (c&255)/255];
+                return { rgb, ...d };
+            };
+
+            const sidesParams = getParams(state.currentTints.sides);
+            const frontParams = getParams(state.currentTints.front);
+
+            viewer.model.materials.forEach(mat => {
+                const name = mat.name.toLowerCase();
+
+                if (name.includes(materialNames.ignore)) return; 
+
+                if (name.includes(materialNames.front)) {
+                    applyMaterial(mat, frontParams);
+                } 
+                else if (name.includes(materialNames.sides)) {
+                    applyMaterial(mat, sidesParams);
+                }
+            });
+        }
+
+        function applyMaterial(mat, p) {
+            mat.pbrMetallicRoughness.setRoughnessFactor(p.roughness);
+            mat.pbrMetallicRoughness.setMetallicFactor(0.95);
+            mat.pbrMetallicRoughness.setBaseColorFactor([...p.rgb, p.opacity]);
+            mat.setAlphaMode('BLEND');
+            mat.setDoubleSided(true);
+        }
+
+        // ================= UI BUILDER =================
+
+        function renderTintButtons() {
+            const container = document.getElementById('tints-container');
+            container.innerHTML = '';
+
+            Object.keys(tintData).forEach(key => {
+                const t = tintData[key];
+                const btn = document.createElement('button');
+                btn.className = 'tint-btn snap-center flex-shrink-0 group cursor-pointer text-center min-w-[60px]';
+                btn.onclick = () => setTint(key);
+                btn.dataset.id = key;
+
+                let innerContent = '', bgStyle = '';
+                
+                if (key === 'clear') {
+                    innerContent = '<i class="ph ph-sun text-gray-400 text-lg"></i>';
+                    bgStyle = 'bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600';
+                } else {
+                    if(key === 'g70') bgStyle = 'bg-[#aaaaaa] border-gray-300';
+                    if(key === 'g35') bgStyle = 'bg-[#555555] border-gray-400';
+                    if(key === 'g20') bgStyle = 'bg-[#222222] border-gray-500';
+                    if(key === 'g5')  bgStyle = 'bg-[#000000] border-gray-600';
+                }
+
+                btn.innerHTML = `
+                    <div class="tint-circle w-12 h-12 rounded-full border transition-all relative overflow-hidden mx-auto mb-2 shadow-sm flex items-center justify-center ${bgStyle}">
+                        ${innerContent}
+                    </div>
+                    <span class="tint-text text-[9px] font-bold text-gray-400 uppercase group-hover:text-black dark:group-hover:text-white block">${t.name.split(' ')[0]}</span>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        function updateTintButtonsUI() {
+            const currentId = state.currentTints[state.activeZone];
+            document.getElementById('film-label').innerText = tintData[currentId].name;
+
+            document.querySelectorAll('.tint-btn').forEach(btn => {
+                const circle = btn.querySelector('.tint-circle');
+                const text = btn.querySelector('.tint-text');
+                const isSelected = btn.dataset.id === currentId;
+
+                if (isSelected) {
+                    circle.classList.add('ring-2', 'ring-moss', 'ring-offset-2', 'dark:ring-offset-gray-900', 'border-transparent');
+                    circle.classList.remove('border-gray-300', 'border-gray-400', 'border-gray-500', 'border-gray-600');
+                    text.classList.remove('text-gray-400');
+                    text.classList.add('text-black', 'dark:text-white');
+                } else {
+                    circle.classList.remove('ring-2', 'ring-moss', 'ring-offset-2', 'dark:ring-offset-gray-900', 'border-transparent');
+                    if(!circle.className.includes('border-')) circle.classList.add('border-gray-300');
+                    text.classList.add('text-gray-400');
+                    text.classList.remove('text-black', 'dark:text-white');
+                }
+            });
+        }
+
+        // ================= NIGHT MODE & INIT =================
+
+        document.getElementById('toggle-night').addEventListener('click', () => {
+            state.isNight = !state.isNight;
+            const body = document.body;
+            const icon = document.getElementById('night-icon');
+            
+            if (state.isNight) {
+                body.classList.add('dark');
+                icon.classList.replace('ph-moon', 'ph-sun');
+                viewer.environmentImage = 'env/night.hdr'; 
+                viewer.exposure = 0.7;
+            } else {
+                body.classList.remove('dark');
+                icon.classList.replace('ph-sun', 'ph-moon');
+                viewer.environmentImage = 'env/studio.hdr';
+                viewer.exposure = 1;
+            }
+        });
+
+        document.getElementById('whatsapp-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // 👇 COLOQUE SEU NÚMERO COMPLETO AQUI (sem traços ou espaços)
+            // Formato: 55 (Brasil) + 32 (DDD) + Seu Número
+            const telefone = "5532999734079"; 
+
+            const text = `Olá! Gostaria de cotar meu projeto:\n🚘 Parabrisa: ${tintData[state.currentTints.front].name}\n🚘 Laterais: ${tintData[state.currentTints.sides].name}`;
+            
+            window.open(`https://wa.me/${telefone}?text=${encodeURIComponent(text)}`, '_blank');
+        });
+
+        renderTintButtons();
+        setTargetZone('sides');
+        viewer.addEventListener('load', applyTintToModel);
+
+    </script>
 </body>
 </html>
