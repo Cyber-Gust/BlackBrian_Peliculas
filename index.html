@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -22,19 +22,22 @@
                         moss: '#4F6F52',       /* Verde Musgo */
                         mossDark: '#3A523C',
                         black: '#111111',
+                        surface: '#1A1A1A',
                     },
                     fontFamily: { sans: ['"Inter"', 'sans-serif'] },
-                    boxShadow: { 'dock': '0 -10px 40px -10px rgba(0,0,0,0.1)' }
+                    boxShadow: { 
+                        'dock': '0 -10px 40px -10px rgba(0,0,0,0.1)',
+                        'modal': '0 25px 50px -12px rgba(0, 0, 0, 0.25)' 
+                    }
                 }
             }
         }
     </script>
     
     <style>
-        /* Correção para altura dinâmica em mobile (barra de navegação) */
         body { 
             transition: background-color 0.5s ease;
-            height: 100dvh; /* Usa dynamic viewport height */
+            overflow-x: hidden;
         }
         
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -50,25 +53,57 @@
         /* Animações UI */
         .tint-btn { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
         .tint-btn:active { transform: scale(0.95); }
+
+        /* Card de Seleção no Modal */
+        .select-card {
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+        .select-card:hover { transform: translateY(-2px); }
+        .select-card.selected {
+            border-color: #4F6F52;
+            background-color: rgba(79, 111, 82, 0.05);
+        }
+        .dark .select-card.selected {
+            background-color: rgba(79, 111, 82, 0.2);
+        }
         
         /* Tema Escuro */
         body.dark { background-color: #0f0f0f; color: white; }
         body.dark footer { background-color: rgba(20, 20, 20, 0.85); border-top-color: rgba(255,255,255,0.1); }
 
-        /* Ajuste fino para iOS safe area no footer */
-        footer {
-            padding-bottom: env(safe-area-inset-bottom);
-        }
+        footer { padding-bottom: env(safe-area-inset-bottom); }
+
+        /* Fade In Modal */
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .modal-animate { animation: fadeIn 0.3s ease-out forwards; }
     </style>
 </head>
-<body class="h-[100dvh] w-full overflow-hidden bg-white text-black font-sans selection:bg-moss selection:text-white relative transition-colors duration-500">
 
-    <header class="absolute top-0 left-0 w-full p-6 z-20 flex justify-between items-start pointer-events-none">
-        
+
+<body class="bg-white text-black font-sans selection:bg-moss selection:text-white relative transition-colors duration-500 overflow-y-auto">
+
+    <div id="promo-toast" class="fixed top-4 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-auto md:right-auto z-50 flex items-center gap-3 bg-white dark:bg-[#1A1A1A] border border-green-200 dark:border-green-900 shadow-2xl p-4 rounded-2xl transform -translate-y-[200%] transition-transform duration-700 ease-out">
+    
+        <div class="bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 p-2.5 rounded-full flex-shrink-0 animate-bounce">
+            <i class="ph-fill ph-seal-warning text-xl"></i>
+        </div>
+
+        <div class="flex-grow">
+            <h6 class="font-bold text-sm text-black dark:text-white leading-tight">Ganhe 5% de Desconto!</h6>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Válido apenas para orçamentos via site.</p>
+        </div>
+
+        <button onclick="closeToast()" class="text-gray-400 hover:text-black dark:hover:text-white p-1 transition-colors">
+            <i class="ph-bold ph-x"></i>
+        </button>
+    </div>
+
+    <header class="fixed top-0 left-0 w-full p-6 z-40 flex justify-between items-start pointer-events-none">
         <div class="pointer-events-auto">
             <img src="imgs/logo.png" 
                  alt="Logo Loja" 
-                 class="h-36 w-auto object-contain transition-all duration-500 brightness-0 dark:brightness-100 drop-shadow-sm">
+                 class="h-24 md:h-36 w-auto z-2 object-contain transition-all duration-500 brightness-0 dark:brightness-100 drop-shadow-sm">
         </div>
 
         <button id="toggle-night" class="pointer-events-auto w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-gray-200 dark:border-gray-700 flex items-center justify-center shadow-lg transition-all hover:scale-110 group">
@@ -76,11 +111,13 @@
         </button>
     </header>
 
-    <main class="absolute inset-0 z-0 bg-gradient-to-b from-transparent to-black/5 dark:to-black/40 pointer-events-none">
-        <div class="w-full h-full pointer-events-auto pb-48 md:pb-32 transition-all duration-300">
+    <section class="h-[100dvh] w-full relative">
+        <div class="absolute inset-0 z-0 bg-gradient-to-b from-transparent to-black/5 dark:to-black/40 pointer-events-none"></div>
+        
+        <div class="w-full h-full pb-48 md:pb-32 transition-all duration-300">
             <model-viewer 
                 id="car-viewer"
-                src="models/meucarro.glb" 
+                src="models/fusca.glb" 
                 camera-controls 
                 shadow-intensity="1.2" 
                 shadow-softness="0.8"
@@ -94,41 +131,399 @@
                 camera-orbit="45deg 75deg 105%">
             </model-viewer>
         </div>
-    </main>
 
-    <footer class="absolute bottom-0 w-full z-20 bg-white/85 backdrop-blur-xl border-t border-gray-200 pt-4 px-4 md:px-12 flex flex-col gap-4 shadow-dock transition-colors duration-500 pb-[calc(2rem+env(safe-area-inset-bottom))]">
-        
-        <a href="#" id="whatsapp-btn" class="absolute -top-12 right-4 md:right-12 bg-black dark:bg-white dark:text-black text-white pl-6 pr-4 py-3 rounded-full font-bold text-sm shadow-xl hover:bg-moss dark:hover:bg-moss dark:hover:text-white transition-all flex items-center gap-3 group z-30 transform hover:-translate-y-1">
-            <span>ORÇAMENTO</span>
-            <div class="bg-white/20 dark:bg-black/10 rounded-full p-1 group-hover:bg-white/30 transition-colors">
-                <i class="ph-bold ph-whatsapp-logo text-lg"></i>
-            </div>
-        </a>
-
-        <div class="flex justify-center w-full mb-1">
-            <div class="bg-gray-100 dark:bg-gray-800 p-1 rounded-full flex gap-1 shadow-inner">
-                <button onclick="setTargetZone('sides')" id="tab-sides" class="px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all bg-white text-black shadow-sm ring-1 ring-black/5">
-                    Laterais & Traseira
-                </button>
-                <button onclick="setTargetZone('front')" id="tab-front" class="px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white">
-                    Parabrisa
-                </button>
-            </div>
-        </div>
-
-        <div class="w-full">
-            <div class="flex justify-between items-center px-2 mb-2">
-                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest" id="zone-title">Editando: Laterais</span>
-                <span id="film-label" class="text-[10px] font-bold text-moss uppercase tracking-widest">G20</span>
-            </div>
-
-            <div class="flex gap-3 overflow-x-auto no-scrollbar py-2 px-1 snap-x" id="tints-container">
+        <footer class="absolute bottom-0 w-full z-20 bg-white/85 backdrop-blur-xl border-t border-gray-200 pt-4 px-4 md:px-12 flex flex-col gap-4 shadow-dock transition-colors duration-500 pb-[calc(2rem+env(safe-area-inset-bottom))]">
+            
+            <button onclick="openModal()" class="absolute -top-12 right-4 md:right-12 bg-black dark:bg-white dark:text-black text-white pl-6 pr-4 py-3 rounded-full font-bold text-sm shadow-xl hover:bg-moss dark:hover:bg-moss dark:hover:text-white transition-all flex items-center gap-3 group z-30 transform hover:-translate-y-1">
+                <span>ORÇAMENTO</span>
+                <div class="bg-white/20 dark:bg-black/10 rounded-full p-1 group-hover:bg-white/30 transition-colors">
+                    <i class="ph-bold ph-currency-dollar text-lg"></i>
                 </div>
+            </button>
+
+            <div class="flex justify-center w-full mb-1">
+                <div class="bg-gray-100 dark:bg-gray-800 p-1 rounded-full flex gap-1 shadow-inner">
+                    <button onclick="setTargetZone('sides')" id="tab-sides" class="px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all bg-white text-black shadow-sm ring-1 ring-black/5">
+                        Laterais & Traseira
+                    </button>
+                    <button onclick="setTargetZone('front')" id="tab-front" class="px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white">
+                        Parabrisa
+                    </button>
+                </div>
+            </div>
+
+            <div class="w-full">
+                <div class="flex justify-between items-center px-2 mb-2">
+                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest" id="zone-title">Visualizando: Laterais</span>
+                    <span id="film-label" class="text-[10px] font-bold text-moss uppercase tracking-widest">G20</span>
+                </div>
+
+                <div class="flex gap-3 overflow-x-auto no-scrollbar py-2 px-1 snap-x" id="tints-container">
+                    </div>
+                
+                <div class="text-center mt-2">
+                    <span class="text-[10px] text-gray-400 animate-pulse">Role para baixo para ver detalhes das marcas ▼</span>
+                </div>
+            </div>
+        </footer>
+    </section>
+
+    <section class="relative z-50 bg-white dark:bg-[#111111] py-20 px-6 md:px-20 transition-colors duration-500">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center text-moss dark:text-white">Nossas Marcas Exclusivas</h2>
+            
+            <div class="mb-16 grid md:grid-cols-2 gap-8 items-center">
+                <div class="order-2 md:order-1">
+                    <h3 class="text-2xl font-bold mb-4 dark:text-white">BlueTech</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+                        A escolha inteligente para quem busca performance e estética. A linha BlueTech oferece excelente custo-benefício com duas variações principais:
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-2">
+                            <i class="ph-fill ph-shield-check text-moss mt-1"></i>
+                            <div>
+                                <strong class="block text-black dark:text-gray-200">Carbono (Média Retenção)</strong>
+                                <span class="text-sm text-gray-500">Estabilidade de cor e ótima privacidade. Ideal para o dia a dia.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph-fill ph-star text-moss mt-1"></i>
+                            <div>
+                                <strong class="block text-black dark:text-gray-200">Cerâmico (Alta Retenção)</strong>
+                                <span class="text-sm text-gray-500">Tecnologia WindowBlue. Maior rejeição de calor e clareza óptica superior.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="order-1 md:order-2 h-64 rounded-2xl overflow-hidden shadow-lg group">
+                <img src="imgs/bluetech.png" 
+                        alt="Película BlueTech" 
+                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                </div>
+            </div>
+
+            <hr class="border-gray-200 dark:border-gray-800 mb-16">
+
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="h-64 rounded-2xl overflow-hidden shadow-lg group">
+                    <img src="imgs/garware.png" 
+                        alt="Película Garware" 
+                        class="w-full object-cover transform group-hover:scale-105 mt-9 duration-700">
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 dark:text-white">Garware</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+                        Líder global em películas de alta performance. Durabilidade extrema e tecnologia de ponta para os clientes mais exigentes.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-2">
+                            <i class="ph-fill ph-fire text-moss mt-1"></i>
+                            <div>
+                                <strong class="block text-black dark:text-gray-200">Linha HP (High Performance)</strong>
+                                <span class="text-sm text-gray-500">Estrutura metalizada híbrida, oferecendo durabilidade e alta rejeição de calor.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="ph-fill ph-diamond text-moss mt-1"></i>
+                            <div>
+                                <strong class="block text-black dark:text-gray-200">Linha IR Plus (Infrared)</strong>
+                                <span class="text-sm text-gray-500">O topo de linha. Tecnologia de nano-cerâmica que bloqueia quase todo o infravermelho sem escurecer a visão interna.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-    </footer>
+    </section>
+
+    <div id="budget-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
+        
+        <div class="relative bg-white dark:bg-gray-900 w-full max-w-lg rounded-3xl shadow-modal overflow-hidden flex flex-col max-h-[90vh]">
+            
+            <div class="p-6 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
+                <div>
+                    <h3 class="text-lg font-bold dark:text-white">Configure seu Pacote</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Personalize para ver o valor final</p>
+                </div>
+                <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+                    <i class="ph-bold ph-x text-gray-600 dark:text-white"></i>
+                </button>
+            </div>
+
+            <div class="p-6 overflow-y-auto no-scrollbar">
+                
+                <div id="step-1" class="modal-step">
+                    <h4 class="text-sm font-bold text-moss uppercase tracking-wide mb-4">Passo 1/2: Laterais e Traseiro</h4>
+                    <div class="space-y-3" id="options-sides">
+                        </div>
+                </div>
+
+                <div id="step-2" class="modal-step hidden">
+                    <button onclick="changeStep(1)" class="text-xs text-gray-400 mb-2 flex items-center gap-1 hover:text-black dark:hover:text-white"><i class="ph ph-arrow-left"></i> Voltar</button>
+                    <h4 class="text-sm font-bold text-moss uppercase tracking-wide mb-4">Passo 2/2: Parabrisa (Opcional)</h4>
+                    <div class="space-y-3" id="options-front">
+                        </div>
+                </div>
+
+                <div id="step-3" class="modal-step hidden">
+                     <button onclick="changeStep(2)" class="text-xs text-gray-400 mb-2 flex items-center gap-1 hover:text-black dark:hover:text-white"><i class="ph ph-arrow-left"></i> Voltar</button>
+                    <h4 class="text-sm font-bold text-moss uppercase tracking-wide mb-4">Seus Dados</h4>
+                    
+                    <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-xl mb-6 border border-gray-100 dark:border-gray-700">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600 dark:text-gray-300">Laterais:</span>
+                            <span class="text-sm font-bold dark:text-white" id="summary-sides">-</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600 dark:text-gray-300">Parabrisa:</span>
+                            <span class="text-sm font-bold dark:text-white" id="summary-front">-</span>
+                        </div>
+                        <div class="border-t border-gray-200 dark:border-gray-600 my-2 pt-2 flex justify-between items-center">
+                            <span class="text-base font-bold text-black dark:text-white">Total Estimado:</span>
+                            <span class="text-xl font-bold text-moss" id="summary-total">R$ 0</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 mb-1">Seu Nome</label>
+                            <input type="text" id="client-name" class="w-full bg-gray-100 dark:bg-gray-800 border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-moss dark:text-white" placeholder="Como podemos te chamar?">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 mb-1">Seu Email</label>
+                            <input type="email" id="client-email" class="w-full bg-gray-100 dark:bg-gray-800 border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-moss dark:text-white" placeholder="seu@email.com">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="p-6 border-t border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50">
+                <div class="flex justify-between items-center">
+                    <div class="flex flex-col">
+                        <span class="text-[10px] text-gray-500 uppercase tracking-wider flex items-center gap-1">
+                            Valor Total 
+                            <span class="bg-green-100 text-green-700 text-[9px] px-1.5 rounded font-bold">5% OFF</span>
+                        </span>
+                        <span class="text-2xl font-bold text-moss" id="live-total">R$ 0</span>
+                    </div>
+                    <button id="next-btn" onclick="nextStep()" class="bg-black dark:bg-white text-white dark:text-black px-8 py-3 rounded-full font-bold text-sm shadow-lg hover:scale-105 transition-transform flex items-center gap-2">
+                        <span>Próximo</span>
+                        <i class="ph-bold ph-arrow-right"></i>
+                    </button>
+                    <button id="finish-btn" onclick="sendToWhatsapp()" class="hidden bg-[#25D366] text-white px-6 py-3 rounded-full font-bold text-sm shadow-lg hover:scale-105 transition-transform flex items-center gap-2">
+                        <span>Contratar no WhatsApp</span>
+                        <i class="ph-bold ph-whatsapp-logo text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // ================= CONFIGURAÇÃO DE MATERIAIS =================
+        
+        // ================= LÓGICA DO TOAST =================
+
+        // Função para mostrar o toast
+        function showToast() {
+            const toast = document.getElementById('promo-toast');
+            // Remove a classe que joga ele pra fora da tela (-translate-y-[200%])
+            toast.classList.remove('-translate-y-[200%]');
+        }
+
+        // Função para fechar o toast
+        function closeToast() {
+            const toast = document.getElementById('promo-toast');
+            // Joga ele pra cima de novo
+            toast.classList.add('-translate-y-[200%]');
+        }
+
+        // Ativa o toast automaticamente após 1.5 segundos que a página carregar
+        window.addEventListener('load', () => {
+            setTimeout(showToast, 1500);
+        });
+        // Função auxiliar para formatar dinheiro (BRL)
+        const formatMoney = (value) => {
+            return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        };
+        // ================= DADOS DE PREÇOS =================
+        const pricingData = {
+            sides: [
+                { id: 'bt_carb', brand: 'BlueTech', name: 'Carbono (Média Retenção)', price: 599, desc: 'Privacidade e custo-benefício.' },
+                { id: 'bt_cer',  brand: 'BlueTech', name: 'Cerâmico (Alta Retenção)', price: 799, desc: 'Tecnologia WindowBlue térmica.' },
+                { id: 'gw_hp',   brand: 'Garware',  name: 'HP (High Perf.)', price: 899, desc: 'Metalizada híbrida.' },
+                { id: 'gw_ir',   brand: 'Garware',  name: 'IR Plus (Top)',   price: 1499, desc: 'Máxima rejeição de calor.' }
+            ],
+            front: [
+                { id: 'none',    brand: '-',        name: 'Sem Película',    price: 0,   desc: 'Manter vidro original.' },
+                { id: 'bt_carb', brand: 'BlueTech', name: 'Carbono',         price: 279, desc: 'Proteção básica UV.' },
+                { id: 'bt_cer',  brand: 'BlueTech', name: 'Cerâmico',        price: 389, desc: 'Alta visibilidade noturna.' },
+                { id: 'gw_hp',   brand: 'Garware',  name: 'HP',              price: 499, desc: 'Conforto térmico.' },
+                { id: 'gw_ir',   brand: 'Garware',  name: 'IR Plus',         price: 749, desc: 'Premium nano-cerâmica.' }
+            ]
+        };
+
+        // Estado do Orçamento
+        let budgetState = {
+            step: 1,
+            sides: pricingData.sides[0], // Padrão
+            front: pricingData.front[0]  // Padrão
+        };
+
+        // ================= LÓGICA DO MODAL =================
+
+        function openModal() {
+            document.getElementById('budget-modal').classList.remove('hidden');
+            renderBudgetOptions();
+            updateBudgetUI();
+        }
+
+        function closeModal() {
+            document.getElementById('budget-modal').classList.add('hidden');
+            budgetState.step = 1;
+            changeStep(1); // Resetar para o inicio
+        }
+
+        function renderBudgetOptions() {
+            // Renderizar Laterais
+            const sidesContainer = document.getElementById('options-sides');
+            sidesContainer.innerHTML = pricingData.sides.map(opt => `
+                <div onclick="selectBudgetOption('sides', '${opt.id}')" 
+                     class="select-card cursor-pointer p-4 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 relative group ${budgetState.sides.id === opt.id ? 'selected' : ''}">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">${opt.brand}</span>
+                            <h5 class="font-bold text-black dark:text-white text-base">${opt.name}</h5>
+                            <p class="text-xs text-gray-500 mt-1">${opt.desc}</p>
+                        </div>
+                        <span class="font-bold text-moss text-lg">R$ ${opt.price}</span>
+                    </div>
+                    <div class="absolute right-4 top-1/2 -translate-y-1/2 text-moss opacity-0 ${budgetState.sides.id === opt.id ? 'opacity-100' : ''}">
+                        <i class="ph-fill ph-check-circle text-2xl"></i>
+                    </div>
+                </div>
+            `).join('');
+
+            // Renderizar Parabrisa
+            const frontContainer = document.getElementById('options-front');
+            frontContainer.innerHTML = pricingData.front.map(opt => `
+                <div onclick="selectBudgetOption('front', '${opt.id}')" 
+                     class="select-card cursor-pointer p-4 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 relative group ${budgetState.front.id === opt.id ? 'selected' : ''}">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">${opt.brand}</span>
+                            <h5 class="font-bold text-black dark:text-white text-base">${opt.name}</h5>
+                            <p class="text-xs text-gray-500 mt-1">${opt.desc}</p>
+                        </div>
+                        <span class="font-bold text-moss text-lg">${opt.price === 0 ? '--' : 'R$ ' + opt.price}</span>
+                    </div>
+                    <div class="absolute right-4 top-1/2 -translate-y-1/2 text-moss opacity-0 ${budgetState.front.id === opt.id ? 'opacity-100' : ''}">
+                        <i class="ph-fill ph-check-circle text-2xl"></i>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function selectBudgetOption(type, id) {
+            const list = type === 'sides' ? pricingData.sides : pricingData.front;
+            budgetState[type] = list.find(item => item.id === id);
+            renderBudgetOptions(); // Re-renderizar para atualizar visual de seleção
+            updateBudgetUI();
+        }
+
+        function updateBudgetUI() {
+            const rawTotal = budgetState.sides.price + budgetState.front.price;
+            const discount = rawTotal * 0.05; // 5% de desconto
+            const finalTotal = rawTotal - discount;
+
+            // Atualiza o total no rodapé (passo 1 e 2)
+            const totalHTML = `
+                <div class="flex flex-col items-end">
+                    <span class="text-xs text-gray-400 line-through decoration-red-500">${formatMoney(rawTotal)}</span>
+                    <span class="text-2xl font-bold text-moss">${formatMoney(finalTotal)}</span>
+                </div>
+            `;
+            
+            // Atualiza os elementos na tela
+            document.getElementById('live-total').innerHTML = totalHTML;
+            
+            // Atualiza o resumo no Modal (Passo 3)
+            document.getElementById('summary-total').innerHTML = `
+                <div class="flex flex-col items-end">
+                    <span class="text-xs text-gray-400 line-through">${formatMoney(rawTotal)}</span>
+                    <span class="text-xl font-bold text-moss">${formatMoney(finalTotal)}</span>
+                    <span class="text-[10px] text-green-600 bg-green-100 px-2 py-0.5 rounded-full font-bold">5% OFF Web</span>
+                </div>
+            `;
+            
+            // Resumo texto dos itens
+            document.getElementById('summary-sides').innerText = `${budgetState.sides.brand} ${budgetState.sides.name}`;
+            document.getElementById('summary-front').innerText = `${budgetState.front.brand} ${budgetState.front.name}`;
+        }
+
+        function nextStep() {
+            if(budgetState.step < 3) {
+                changeStep(budgetState.step + 1);
+            }
+        }
+
+        function changeStep(step) {
+            budgetState.step = step;
+            
+            // Esconder todos
+            document.getElementById('step-1').classList.add('hidden');
+            document.getElementById('step-2').classList.add('hidden');
+            document.getElementById('step-3').classList.add('hidden');
+            
+            // Mostrar atual
+            const currentDiv = document.getElementById(`step-${step}`);
+            currentDiv.classList.remove('hidden');
+            currentDiv.classList.add('modal-animate');
+
+            // Gerenciar Botões do Footer
+            const nextBtn = document.getElementById('next-btn');
+            const finishBtn = document.getElementById('finish-btn');
+
+            if (step === 3) {
+                nextBtn.classList.add('hidden');
+                finishBtn.classList.remove('hidden');
+                finishBtn.classList.add('flex');
+            } else {
+                nextBtn.classList.remove('hidden');
+                finishBtn.classList.add('hidden');
+                finishBtn.classList.remove('flex');
+            }
+        }
+
+        function sendToWhatsapp() {
+            const name = document.getElementById('client-name').value;
+            const email = document.getElementById('client-email').value;
+
+            if(!name) { alert('Por favor, digite seu nome.'); return; }
+
+            const rawTotal = budgetState.sides.price + budgetState.front.price;
+            const discount = rawTotal * 0.05;
+            const finalTotal = rawTotal - discount;
+
+            // SEU NÚMERO AQUI
+            const phone = "5532999734079"; 
+
+            const text = `*NOVO ORÇAMENTO SITE (COM DESCONTO)*\n` +
+                        `👤 Cliente: ${name}\n` +
+                        `📧 Email: ${email}\n\n` +
+                        `*Configuração Escolhida:*\n` +
+                        `🚗 Laterais/Traseira: ${budgetState.sides.brand} - ${budgetState.sides.name}\n` +
+                        `🚙 Parabrisa: ${budgetState.front.brand} - ${budgetState.front.name}\n\n` +
+                        `💰 Subtotal: ${formatMoney(rawTotal)}\n` +
+                        `📉 *Desconto Web (5%): -${formatMoney(discount)}*\n` +
+                        `✅ *VALOR FINAL: ${formatMoney(finalTotal)}*`;
+
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
+            closeModal();
+        }
+
+        // ================= CONFIGURAÇÃO DE MATERIAIS 3D =================
         const materialNames = {
             front: 'glass_front',
             sides: 'glass_side', 
@@ -151,7 +546,7 @@
 
         const viewer = document.getElementById('car-viewer');
 
-        // ================= FUNÇÕES DE ZONA =================
+        // ================= FUNÇÕES DE ZONA (VISUALIZADOR) =================
 
         function setTargetZone(zone) {
             state.activeZone = zone;
@@ -165,11 +560,11 @@
             if (zone === 'sides') {
                 btnSides.className = `px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all ${activeClass}`;
                 btnFront.className = `px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all ${inactiveClass}`;
-                document.getElementById('zone-title').innerText = "Editando: Laterais & Traseira";
+                document.getElementById('zone-title').innerText = "Visualizando: Laterais & Traseira";
             } else {
                 btnFront.className = `px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all ${activeClass}`;
                 btnSides.className = `px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all ${inactiveClass}`;
-                document.getElementById('zone-title').innerText = "Editando: Parabrisa";
+                document.getElementById('zone-title').innerText = "Visualizando: Parabrisa";
             }
 
             updateTintButtonsUI();
@@ -227,7 +622,7 @@
             mat.setDoubleSided(true);
         }
 
-        // ================= UI BUILDER =================
+        // ================= UI BUILDER (VISUALIZADOR) =================
 
         function renderTintButtons() {
             const container = document.getElementById('tints-container');
@@ -303,17 +698,6 @@
                 viewer.environmentImage = 'env/studio.hdr';
                 viewer.exposure = 1;
             }
-        });
-
-        document.getElementById('whatsapp-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            // 👇 SEU NÚMERO AQUI
-            const telefone = "5532999734079"; 
-
-            const text = `Olá! Gostaria de cotar meu projeto:\n🚘 Parabrisa: ${tintData[state.currentTints.front].name}\n🚘 Laterais: ${tintData[state.currentTints.sides].name}`;
-            
-            window.open(`https://wa.me/${telefone}?text=${encodeURIComponent(text)}`, '_blank');
         });
 
         renderTintButtons();
