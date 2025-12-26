@@ -114,23 +114,28 @@
     <section class="h-[100dvh] w-full relative">
         <div class="absolute inset-0 z-0 bg-gradient-to-b from-transparent to-black/5 dark:to-black/40 pointer-events-none"></div>
         
-        <div class="w-full h-full pb-48 md:pb-32 transition-all duration-300">
-            <model-viewer 
-                id="car-viewer"
-                src="models/fusca.glb" 
-                camera-controls 
-                shadow-intensity="1.2" 
-                shadow-softness="0.8"
-                exposure="1"
-                tone-mapping="commerce"
-                environment-image="env/studio.hdr" 
-                alt="Veículo 3D"
-                interaction-prompt="none"
-                min-camera-orbit="auto auto auto"
-                max-camera-orbit="auto auto auto"
-                camera-orbit="45deg 75deg 105%">
-            </model-viewer>
+        <div class="relative w-full h-full pb-48 md:pb-32 transition-all duration-300">
+    
+    <div id="loading-overlay" class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-white/30 dark:bg-black/30 backdrop-blur-md transition-opacity duration-700 pointer-events-none">
+            <div class="w-16 h-16 border-4 border-gray-300/50 border-t-moss rounded-full animate-spin mb-4"></div>
+            <span class="text-xs font-bold text-moss tracking-widest uppercase animate-pulse">Carregando 3D...</span>
         </div>
+        <model-viewer 
+            id="car-viewer"
+            src="models/fusca.glb" 
+            camera-controls 
+            shadow-intensity="1.2" 
+            shadow-softness="0.8"
+            exposure="1"
+            tone-mapping="commerce"
+            environment-image="env/studio.hdr" 
+            alt="Veículo 3D"
+            interaction-prompt="none"
+            min-camera-orbit="auto auto auto"
+            max-camera-orbit="auto auto auto"
+            camera-orbit="45deg 75deg 105%">
+        </model-viewer>
+    </div>
 
         <footer class="absolute bottom-0 w-full z-20 bg-white/85 backdrop-blur-xl border-t border-gray-200 pt-4 px-4 md:px-12 flex flex-col gap-4 shadow-dock transition-colors duration-500 pb-[calc(2rem+env(safe-area-inset-bottom))]">
             
@@ -170,7 +175,7 @@
 
     <section class="relative z-50 bg-white dark:bg-[#111111] py-20 px-6 md:px-20 transition-colors duration-500">
         <div class="max-w-4xl mx-auto">
-            <h2 class="text-3xl font-bold mb-12 text-center text-moss dark:text-white">Nossas Marcas Exclusivas</h2>
+            <h2 class="text-3xl font-bold mb-8 text-center text-moss dark:text-white">Nossas Marcas Exclusivas</h2>
             
             <div class="mb-16 grid md:grid-cols-2 gap-8 items-center">
                 <div class="order-2 md:order-1">
@@ -703,6 +708,67 @@
         renderTintButtons();
         setTargetZone('sides');
         viewer.addEventListener('load', applyTintToModel);
+
+        // ================= NIGHT MODE & LOADER REATIVO =================
+
+        const loader = document.getElementById('loading-overlay');
+        const nightBtn = document.getElementById('toggle-night');
+
+        // Função auxiliar para mostrar/esconder loader
+        function toggleLoader(show) {
+            if (show) {
+                loader.classList.remove('opacity-0');
+            } else {
+                // Pequeno delay estético para a transição ser suave
+                setTimeout(() => {
+                    loader.classList.add('opacity-0');
+                }, 500);
+            }
+        }
+
+        // 1. Lógica do Botão (Mostra o loader -> Troca o tema)
+        nightBtn.addEventListener('click', () => {
+            // Mostra o loader imediatamente
+            toggleLoader(true);
+
+            // Um pequeno timeout para dar tempo do navegador renderizar o loader
+            // antes de travar o processo trocando o HDR pesado
+            setTimeout(() => {
+                state.isNight = !state.isNight;
+                const body = document.body;
+                const icon = document.getElementById('night-icon');
+                
+                if (state.isNight) {
+                    body.classList.add('dark');
+                    icon.classList.replace('ph-moon', 'ph-sun');
+                    viewer.environmentImage = 'env/night.hdr'; 
+                    viewer.exposure = 0.7;
+                } else {
+                    body.classList.remove('dark');
+                    icon.classList.replace('ph-sun', 'ph-moon');
+                    viewer.environmentImage = 'env/studio.hdr';
+                    viewer.exposure = 1;
+                }
+            }, 100);
+        });
+
+        // 2. Quando o 3D terminar de carregar (inicial)
+        viewer.addEventListener('load', () => {
+            applyTintToModel();
+            toggleLoader(false);
+        });
+
+        // 3. Quando a iluminação (Environment) terminar de trocar
+        viewer.addEventListener('environment-change', () => {
+            toggleLoader(false);
+        });
+
+        // Fallback de segurança (caso o evento falhe ou demore demais)
+        setTimeout(() => toggleLoader(false), 8000);
+
+        // Inicialização
+        renderTintButtons();
+        setTargetZone('sides');
 
     </script>
 </body>
