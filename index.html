@@ -122,7 +122,7 @@
         </div>
         <model-viewer 
             id="car-viewer"
-            src="models/Compass.glb" 
+            src="models/Jaecoo.glb" 
             camera-controls 
             shadow-intensity="1.2" 
             shadow-softness="0.8"
@@ -167,7 +167,7 @@
                     </div>
                 
                 <div class="text-center mt-2">
-                    <span class="text-[10px] text-gray-400 animate-pulse">Role para baixo para ver detalhes das marcas ▼</span>
+                    <span class="text-[15px] dark:text-white text-gray-900 animate-pulse">Role para baixo para ver detalhes das marcas ▼</span>
                 </div>
             </div>
         </footer>
@@ -296,7 +296,7 @@
                             <input type="text" id="client-name" class="w-full bg-gray-100 dark:bg-gray-800 border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-moss dark:text-white" placeholder="Como podemos te chamar?">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 mb-1">Seu Email</label>
+                            <label class="block text-xs font-bold text-gray-500 mb-1">Seu Email (opcional)</label>
                             <input type="email" id="client-email" class="w-full bg-gray-100 dark:bg-gray-800 border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-moss dark:text-white" placeholder="seu@email.com">
                         </div>
                     </div>
@@ -529,8 +529,8 @@
             'clear': { opacity: 0.1, color: '#ffffff', roughness: 0.1, name: 'Original' },
             'g70':   { opacity: 0.35, color: '#444444', roughness: 0.1, name: 'G70' },
             'g35':   { opacity: 0.55, color: '#2a2a2a', roughness: 0.05, name: 'G35' },
-            'g20':   { opacity: 0.82, color: '#111111', roughness: 0.02, name: 'G20' },
-            'g5':    { opacity: 0.98, color: '#000000', roughness: 0.01, name: 'G5' },
+            'g20':   { opacity: 0.90, color: '#111111', roughness: 0.02, name: 'G20' },
+            'g5':    { opacity: 0.95, color: '#000000', roughness: 0.01, name: 'G5' },
         };
 
         let state = {
@@ -549,7 +549,7 @@
             const btnSides = document.getElementById('tab-sides');
             const btnFront = document.getElementById('tab-front');
             
-            const activeClass = "bg-white text-black shadow-sm ring-1 ring-black/5 dark:bg-gray-600 dark:text-white dark:ring-0";
+            const activeClass = "bg-moss text-white shadow-sm ring-1 ring-black/5 dark:bg-mossDark dark:text-white dark:ring-0";
             const inactiveClass = "text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white";
 
             if (zone === 'sides') {
