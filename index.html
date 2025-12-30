@@ -122,14 +122,14 @@
         
         <div class="relative w-full h-full pb-40 md:pb-32 transition-all duration-300">
             
-            <div id="loading-overlay" class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-white/30 dark:bg-black/30 backdrop-blur-md transition-opacity duration-700 pointer-events-none -translate-y-[20%] md:translate-y-0">
+            <div id="loading-overlay" class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-white/30 dark:bg-black/30 backdrop-blur-md transition-opacity duration-700 pointer-events-none -translate-y-[15%] md:translate-y-0">
                 <div class="w-16 h-16 border-4 border-gray-300/50 border-t-moss rounded-full animate-spin mb-4"></div>
                 <span class="text-xs font-bold text-moss tracking-widest uppercase animate-pulse">Carregando 3D...</span>
             </div>
 
             <model-viewer 
                 id="car-viewer"
-                class="w-full h-full -translate-y-[20%] md:translate-y-0 transition-transform duration-500" 
+                class="w-full h-full -translate-y-[10%] md:translate-y-0 transition-transform duration-500" 
                 src="models/Compass.glb" 
                 camera-controls 
                 carColors="['silver']"
@@ -279,14 +279,7 @@
                     </div>
                 </div>
 
-                <div class="text-center md:hidden mt-4 pb-1 flex flex-col items-center gap-1 cursor-pointer" onclick="document.querySelector('section:nth-of-type(2)').scrollIntoView({behavior: 'smooth'})">
-                    <span class="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase mb-6 tracking-widest leading-tight">
-                        Role para ver as marcas
-                    </span>
-                    <div class="animate-bounce mt-1 p-2 bg-gray-50 dark:bg-gray-800 rounded-full shadow-sm border border-gray-100 dark:border-gray-700">
-                        <i class="ph-bold ph-caret-down text-moss text-lg"></i>
-                    </div>
-                </div>
+                
             </div>
         </footer>
     </section>
