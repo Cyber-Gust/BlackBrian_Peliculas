@@ -83,91 +83,209 @@
 
 <body class="bg-white text-black font-sans selection:bg-moss selection:text-white relative transition-colors duration-500 overflow-y-auto">
 
-    <div id="promo-toast" class="fixed top-4 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-auto md:right-auto z-50 flex items-center gap-3 bg-white dark:bg-[#1A1A1A] border border-green-200 dark:border-green-900 shadow-2xl p-4 rounded-2xl transform -translate-y-[200%] transition-transform duration-700 ease-out">
-    
-        <div class="bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 p-2.5 rounded-full flex-shrink-0 animate-bounce">
-            <i class="ph-fill ph-seal-warning text-xl"></i>
+    <div id="promo-toast" class="fixed top-4 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-auto md:right-auto z-50 flex flex-col bg-white dark:bg-[#1A1A1A] border border-green-200 dark:border-green-900 shadow-2xl rounded-2xl transform -translate-y-[200%] transition-transform duration-700 ease-out overflow-hidden">
+        
+        <div class="flex items-center gap-3 p-4">
+            <div class="bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 p-2.5 rounded-full flex-shrink-0 animate-bounce">
+                <i class="ph-fill ph-seal-warning text-xl"></i>
+            </div>
+
+            <div class="flex-grow">
+                <h6 class="font-bold text-sm text-black dark:text-white leading-tight">Ganhe 5% de Desconto!</h6>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Válido apenas para orçamentos via site.</p>
+            </div>
+
+            <button onclick="closeToast()" class="text-gray-400 hover:text-black dark:hover:text-white p-1 transition-colors">
+                <i class="ph-bold ph-x"></i>
+            </button>
         </div>
 
-        <div class="flex-grow">
-            <h6 class="font-bold text-sm text-black dark:text-white leading-tight">Ganhe 5% de Desconto!</h6>
-            <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Válido apenas para orçamentos via site.</p>
+        <div class="h-1 w-full bg-gray-100 dark:bg-gray-800">
+            <div id="toast-progress" class="h-full bg-green-500 w-0"></div>
         </div>
-
-        <button onclick="closeToast()" class="text-gray-400 hover:text-black dark:hover:text-white p-1 transition-colors">
-            <i class="ph-bold ph-x"></i>
-        </button>
     </div>
 
     <header class="fixed top-0 left-0 w-full p-6 z-40 flex justify-between items-start pointer-events-none">
-        <div class="pointer-events-auto">
-            <img src="imgs/logo.png" 
-                 alt="Logo Loja" 
-                 class="h-24 md:h-36 w-auto z-2 object-contain transition-all duration-500 brightness-0 dark:brightness-100 drop-shadow-sm">
-        </div>
-
-        <button id="toggle-night" class="pointer-events-auto w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-gray-200 dark:border-gray-700 flex items-center justify-center shadow-lg transition-all hover:scale-110 group">
-            <i class="ph-fill ph-moon text-xl text-gray-600 dark:text-yellow-300 group-hover:text-moss dark:group-hover:text-yellow-300 transition-colors" id="night-icon"></i>
-        </button>
-    </header>
-
-    <section class="h-[100dvh] w-full relative">
-        <div class="absolute inset-0 z-0 bg-gradient-to-b from-transparent to-black/5 dark:to-black/40 pointer-events-none"></div>
-        
-        <div class="relative w-full h-full pb-48 md:pb-32 transition-all duration-300">
-    
-    <div id="loading-overlay" class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-white/30 dark:bg-black/30 backdrop-blur-md transition-opacity duration-700 pointer-events-none">
-            <div class="w-16 h-16 border-4 border-gray-300/50 border-t-moss rounded-full animate-spin mb-4"></div>
-            <span class="text-xs font-bold text-moss tracking-widest uppercase animate-pulse">Carregando 3D...</span>
-        </div>
-        <model-viewer 
-            id="car-viewer"
-            src="models/Jaecoo.glb" 
-            camera-controls 
-            shadow-intensity="1.2" 
-            shadow-softness="0.8"
-            exposure="1"
-            tone-mapping="commerce"
-            environment-image="env/studio.hdr" 
-            alt="Veículo 3D"
-            interaction-prompt="none"
-            min-camera-orbit="auto auto auto"
-            max-camera-orbit="auto auto auto"
-            camera-orbit="45deg 75deg 105%">
-        </model-viewer>
+    <div class="pointer-events-auto">
+        <img src="imgs/logo.png" 
+             alt="Logo Loja" 
+             class="h-24 md:h-36 w-auto z-2 object-contain transition-all duration-500 brightness-0 dark:brightness-100 drop-shadow-sm">
     </div>
 
-        <footer class="absolute bottom-0 w-full z-20 bg-white/85 backdrop-blur-xl border-t border-gray-200 pt-4 px-4 md:px-12 flex flex-col gap-4 shadow-dock transition-colors duration-500 pb-[calc(2rem+env(safe-area-inset-bottom))]">
+    <button id="toggle-night" class="pointer-events-auto w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-gray-200 dark:border-gray-700 flex items-center justify-center shadow-lg transition-all hover:scale-110 group">
+        <i class="ph-fill ph-moon text-xl text-gray-600 dark:text-yellow-300 group-hover:text-moss dark:group-hover:text-yellow-300 transition-colors" id="night-icon"></i>
+    </button>
+    </header>
+
+    <section class="h-[100dvh] w-full relative overflow-hidden">
+        <div class="absolute inset-0 z-0 bg-gradient-to-b from-transparent to-black/5 dark:to-black/40 pointer-events-none"></div>
+        
+        <div class="relative w-full h-full pb-40 md:pb-32 transition-all duration-300">
             
-            <button onclick="openModal()" class="absolute -top-12 right-4 md:right-12 bg-black dark:bg-white dark:text-black text-white pl-6 pr-4 py-3 rounded-full font-bold text-sm shadow-xl hover:bg-moss dark:hover:bg-moss dark:hover:text-white transition-all flex items-center gap-3 group z-30 transform hover:-translate-y-1">
+            <div id="loading-overlay" class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-white/30 dark:bg-black/30 backdrop-blur-md transition-opacity duration-700 pointer-events-none -translate-y-[20%] md:translate-y-0">
+                <div class="w-16 h-16 border-4 border-gray-300/50 border-t-moss rounded-full animate-spin mb-4"></div>
+                <span class="text-xs font-bold text-moss tracking-widest uppercase animate-pulse">Carregando 3D...</span>
+            </div>
+
+            <model-viewer 
+                id="car-viewer"
+                class="w-full h-full -translate-y-[20%] md:translate-y-0 transition-transform duration-500" 
+                src="models/Compass.glb" 
+                camera-controls 
+                carColors="['silver']"
+                shadow-intensity="1.2" 
+                shadow-softness="0.8"
+                exposure="1"
+                tone-mapping="commerce"
+                environment-image="env/studio.hdr" 
+                alt="Veículo 3D"
+                interaction-prompt="none"
+                min-camera-orbit="auto auto auto"
+                max-camera-orbit="auto auto auto"
+                camera-orbit="45deg 75deg 105%">
+            </model-viewer>
+        </div>
+
+        <footer class="absolute bottom-0 w-full z-20 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-t border-gray-200 dark:border-gray-800 pt-4 px-4 md:px-8 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-[0_-10px_40px_rgba(0,0,0,0.1)] rounded-t-3xl md:rounded-none transition-transform duration-500">
+            
+            <button onclick="openModal()" class="absolute -top-14 right-4 bg-black dark:bg-white dark:text-black text-white px-5 py-3 rounded-full font-bold text-xs shadow-xl hover:bg-moss dark:hover:bg-moss dark:hover:text-white transition-all flex items-center gap-2 group z-30 transform hover:-translate-y-1">
                 <span>ORÇAMENTO</span>
                 <div class="bg-white/20 dark:bg-black/10 rounded-full p-1 group-hover:bg-white/30 transition-colors">
-                    <i class="ph-bold ph-currency-dollar text-lg"></i>
+                    <i class="ph-bold ph-currency-dollar text-sm"></i>
                 </div>
             </button>
 
-            <div class="flex justify-center w-full mb-1">
-                <div class="bg-gray-100 dark:bg-gray-800 p-1 rounded-full flex gap-1 shadow-inner">
-                    <button onclick="setTargetZone('sides')" id="tab-sides" class="px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all bg-white text-black shadow-sm ring-1 ring-black/5">
-                        Laterais & Traseira
-                    </button>
-                    <button onclick="setTargetZone('front')" id="tab-front" class="px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white">
-                        Parabrisa
-                    </button>
-                </div>
-            </div>
-
-            <div class="w-full">
-                <div class="flex justify-between items-center px-2 mb-2">
-                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest" id="zone-title">Visualizando: Laterais</span>
-                    <span id="film-label" class="text-[10px] font-bold text-moss uppercase tracking-widest">G20</span>
-                </div>
-
-                <div class="flex gap-3 overflow-x-auto no-scrollbar py-2 px-1 snap-x" id="tints-container">
-                    </div>
+            <div class="max-w-4xl mx-auto flex flex-col gap-4">
                 
-                <div class="text-center mt-2">
-                    <span class="text-[15px] dark:text-white text-gray-900 animate-pulse">Role para baixo para ver detalhes das marcas ▼</span>
+                <div class="grid grid-cols-2 gap-3 w-full">
+
+                    <div class="relative" id="model-dropdown-container">
+                        <button onclick="toggleModelDropdown()" type="button" class="relative w-full bg-gray-100 dark:bg-gray-800 border-none text-gray-900 dark:text-gray-100 text-xs font-bold rounded-xl py-3 pl-10 pr-8 focus:ring-2 focus:ring-moss transition-all cursor-pointer text-left flex items-center justify-between">
+                            
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500 dark:text-gray-400">
+                                <i class="ph-fill ph-car text-lg"></i>
+                            </div>
+
+                            <span id="displayModelText" class="truncate">SUV</span>
+
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-500">
+                                <i id="modelArrow" class="ph-bold ph-caret-down transition-transform duration-200"></i>
+                            </div>
+                        </button>
+
+                        <div id="modelOptionsList" class="hidden absolute bottom-full mb-2 left-0 right-0 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 z-50 overflow-hidden transition-all animate-fade-in-up">
+                            <ul class="max-h-60 overflow-y-auto py-1">
+                                <li onclick="selectModel('suv', 'SUV')" class="cursor-pointer px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-xs font-bold text-gray-700 dark:text-gray-200">SUV</li>
+                                <li onclick="selectModel('sedan', 'Sedã')" class="cursor-pointer px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-xs font-bold text-gray-700 dark:text-gray-200">Sedã</li>
+                                <li onclick="selectModel('hatch', 'Hatch')" class="cursor-pointer px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-xs font-bold text-gray-700 dark:text-gray-200">Hatch</li>
+                                <li onclick="selectModel('pickup', 'Caminhonete')" class="cursor-pointer px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-xs font-bold text-gray-700 dark:text-gray-200">Caminhonete</li>
+                                <li onclick="selectModel('sport', 'Esportivo')" class="cursor-pointer px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-xs font-bold text-gray-700 dark:text-gray-200">Esportivo</li>
+                                <li onclick="selectModel('classic', 'Antigo')" class="cursor-pointer px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-xs font-bold text-gray-700 dark:text-gray-200">Antigo</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="relative" id="color-dropdown-container">
+                        <input type="hidden" id="selectedColorValue" value="silver">
+
+                        <button onclick="toggleColorDropdown()" type="button" class="relative w-full bg-gray-100 dark:bg-gray-800 border-none text-gray-900 dark:text-gray-100 text-xs font-bold rounded-xl py-3 pl-10 pr-8 focus:ring-2 focus:ring-moss transition-all cursor-pointer text-left flex items-center justify-between">
+                            
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500 dark:text-gray-400">
+                                <i class="ph-fill ph-paint-bucket text-lg"></i>
+                            </div>
+
+                            <span id="displayColorText" class="flex items-center gap-2 truncate">
+                                <span id="displayColorDot" class="w-3 h-3 rounded bg-gray-400 border border-gray-300"></span>
+                                Prata
+                            </span>
+
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-500">
+                                <i id="colorArrow" class="ph-bold ph-caret-down transition-transform duration-200"></i>
+                            </div>
+                        </button>
+
+                        <div id="colorOptionsList" class="hidden absolute bottom-full mb-2 left-0 right-0 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 z-50 overflow-hidden transition-all animate-fade-in-up">
+                            <ul class="max-h-60 overflow-y-auto py-1">
+                                <li onclick="selectColor('silver', 'Prata', 'bg-gray-400')" class="cursor-pointer px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-3 transition-colors">
+                                    <span class="w-4 h-4 rounded-md bg-gray-400 shadow-sm border border-gray-200"></span>
+                                    <span class="text-xs font-bold text-gray-700 dark:text-gray-200">Prata</span>
+                                </li>
+                                <li onclick="selectColor('black', 'Preto', 'bg-black')" class="cursor-pointer px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-3 transition-colors">
+                                    <span class="w-4 h-4 rounded-md bg-black shadow-sm"></span>
+                                    <span class="text-xs font-bold text-gray-700 dark:text-gray-200">Preto</span>
+                                </li>
+                                <li onclick="selectColor('white', 'Branco', 'bg-white')" class="cursor-pointer px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-3 transition-colors">
+                                    <span class="w-4 h-4 rounded-md bg-white border border-gray-300 shadow-sm"></span>
+                                    <span class="text-xs font-bold text-gray-700 dark:text-gray-200">Branco</span>
+                                </li>
+                                <li onclick="selectColor('gray', 'Cinza', 'bg-gray-600')" class="cursor-pointer px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-3 transition-colors">
+                                    <span class="w-4 h-4 rounded-md bg-gray-600 shadow-sm"></span>
+                                    <span class="text-xs font-bold text-gray-700 dark:text-gray-200">Cinza</span>
+                                </li>
+                                <li onclick="selectColor('red', 'Vermelho', 'bg-red-600')" class="cursor-pointer px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-3 transition-colors">
+                                    <span class="w-4 h-4 rounded-md bg-red-600 shadow-sm"></span>
+                                    <span class="text-xs font-bold text-gray-700 dark:text-gray-200">Vermelho</span>
+                                </li>
+                                <li onclick="selectColor('blue', 'Azul', 'bg-blue-700')" class="cursor-pointer px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-3 transition-colors">
+                                    <span class="w-4 h-4 rounded-md bg-blue-700 shadow-sm"></span>
+                                    <span class="text-xs font-bold text-gray-700 dark:text-gray-200">Azul</span>
+                                </li>
+                                <li onclick="selectColor('green', 'Verde', 'bg-green-900')" class="cursor-pointer px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-3 transition-colors">
+                                    <span class="w-4 h-4 rounded-md bg-green-900 shadow-sm"></span>
+                                    <span class="text-xs font-bold text-gray-700 dark:text-gray-200">Verde</span>
+                                </li>
+                                <li onclick="selectColor('brown', 'Marrom', 'bg-[#3d3126]')" class="cursor-pointer px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-3 transition-colors">
+                                    <span class="w-4 h-4 rounded-md bg-[#3d3126] shadow-sm"></span>
+                                    <span class="text-xs font-bold text-gray-700 dark:text-gray-200">Marrom</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-gray-100 dark:border-gray-800 w-full">
+
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                    
+                    <div class="flex flex-col w-full md:w-auto gap-1.5">
+    
+                        <span class="text-[10px] font-extrabold text-moss dark:text-green-400 uppercase tracking-widest ml-1 flex items-center gap-1">
+                            <i class="ph-bold ph-crosshair"></i>
+                            1. Selecione a Área
+                        </span>
+
+                        <div class="bg-gray-100 dark:bg-gray-800 p-1.5 rounded-xl flex gap-1 w-full shadow-inner border border-gray-200 dark:border-gray-700">
+                            
+                            <button onclick="setTargetZone('sides')" id="tab-sides" class="group flex-1 md:flex-none px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wide transition-all duration-300 flex items-center justify-center gap-2 bg-white dark:bg-gray-700 text-moss dark:text-white shadow-sm ring-1 ring-black/5">
+                                <i class="ph-fill ph-car-profile text-lg"></i>
+                                Laterais
+                            </button>
+
+                            <button onclick="setTargetZone('front')" id="tab-front" class="group flex-1 md:flex-none px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wide transition-all duration-300 flex items-center justify-center gap-2 text-gray-400 dark:text-gray-500 hover:text-black dark:hover:text-white hover:bg-white/50">
+                                <i class="ph-bold ph-wind"></i> Parabrisa
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <div class="w-full md:flex-1 overflow-hidden">
+                        <div class="flex items-center justify-between px-1 mb-2 md:hidden">
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest" id="zone-title">Visualizando: Laterais</span>
+                            <span id="film-label" class="text-[10px] font-bold text-moss uppercase tracking-widest">G20</span>
+                        </div>
+                        
+                        <div class="flex gap-3 overflow-x-auto no-scrollbar py-1 px-1 snap-x" id="tints-container">
+                            </div>
+                    </div>
+                </div>
+
+                <div class="text-center md:hidden mt-4 pb-1 flex flex-col items-center gap-1 cursor-pointer" onclick="document.querySelector('section:nth-of-type(2)').scrollIntoView({behavior: 'smooth'})">
+                    <span class="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase mb-6 tracking-widest leading-tight">
+                        Role para ver as marcas
+                    </span>
+                    <div class="animate-bounce mt-1 p-2 bg-gray-50 dark:bg-gray-800 rounded-full shadow-sm border border-gray-100 dark:border-gray-700">
+                        <i class="ph-bold ph-caret-down text-moss text-lg"></i>
+                    </div>
                 </div>
             </div>
         </footer>
@@ -242,106 +360,280 @@
     </section>
 
     <div id="budget-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center px-4">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
         
-        <div class="relative bg-white dark:bg-gray-900 w-full max-w-lg rounded-3xl shadow-modal overflow-hidden flex flex-col max-h-[90vh]">
+        <div class="relative bg-white dark:bg-gray-900 w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-fade-in-up">
             
-            <div class="p-6 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
-                <div>
-                    <h3 class="text-lg font-bold dark:text-white">Configure seu Pacote</h3>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">Personalize para ver o valor final</p>
-                </div>
-                <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
-                    <i class="ph-bold ph-x text-gray-600 dark:text-white"></i>
+            <div class="absolute top-4 right-4 z-10">
+                <button onclick="closeModal()" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    <i class="ph-bold ph-x text-lg"></i>
                 </button>
             </div>
 
-            <div class="p-6 overflow-y-auto no-scrollbar">
+            <div class="flex-1 overflow-y-auto no-scrollbar p-6 pt-12 relative">
                 
-                <div id="step-1" class="modal-step">
-                    <h4 class="text-sm font-bold text-moss uppercase tracking-wide mb-4">Passo 1/2: Laterais e Traseiro</h4>
-                    <div class="space-y-3" id="options-sides">
-                        </div>
-                </div>
-
-                <div id="step-2" class="modal-step hidden">
-                    <button onclick="changeStep(1)" class="text-xs text-gray-400 mb-2 flex items-center gap-1 hover:text-black dark:hover:text-white"><i class="ph ph-arrow-left"></i> Voltar</button>
-                    <h4 class="text-sm font-bold text-moss uppercase tracking-wide mb-4">Passo 2/2: Parabrisa (Opcional)</h4>
-                    <div class="space-y-3" id="options-front">
-                        </div>
-                </div>
-
-                <div id="step-3" class="modal-step hidden">
-                     <button onclick="changeStep(2)" class="text-xs text-gray-400 mb-2 flex items-center gap-1 hover:text-black dark:hover:text-white"><i class="ph ph-arrow-left"></i> Voltar</button>
-                    <h4 class="text-sm font-bold text-moss uppercase tracking-wide mb-4">Seus Dados</h4>
-                    
-                    <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-xl mb-6 border border-gray-100 dark:border-gray-700">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-sm text-gray-600 dark:text-gray-300">Laterais:</span>
-                            <span class="text-sm font-bold dark:text-white" id="summary-sides">-</span>
-                        </div>
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-sm text-gray-600 dark:text-gray-300">Parabrisa:</span>
-                            <span class="text-sm font-bold dark:text-white" id="summary-front">-</span>
-                        </div>
-                        <div class="border-t border-gray-200 dark:border-gray-600 my-2 pt-2 flex justify-between items-center">
-                            <span class="text-base font-bold text-black dark:text-white">Total Estimado:</span>
-                            <span class="text-xl font-bold text-moss" id="summary-total">R$ 0</span>
-                        </div>
+                <div id="step-1" class="modal-step flex flex-col min-h-full">
+                    <div class="text-center mb-8">
+                        <span class="text-xs font-bold text-moss uppercase tracking-widest bg-green-50 dark:bg-green-900/30 px-3 py-1 rounded-full">Passo 1 de 3</span>
+                        <h3 class="text-2xl font-black mt-4 leading-tight text-black dark:text-white">
+                            Configuração dos<br>Vidros Laterais e Traseiro
+                        </h3>
+                        <p class="text-sm text-gray-500 mt-2">Escolha a tecnologia ideal para o seu carro.</p>
                     </div>
 
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 mb-1">Seu Nome</label>
-                            <input type="text" id="client-name" class="w-full bg-gray-100 dark:bg-gray-800 border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-moss dark:text-white" placeholder="Como podemos te chamar?">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 mb-1">Seu Email (opcional)</label>
-                            <input type="email" id="client-email" class="w-full bg-gray-100 dark:bg-gray-800 border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-moss dark:text-white" placeholder="seu@email.com">
-                        </div>
+                    <div id="options-sides" class="space-y-6 mb-4"></div>
+
+                    <div class="sticky bottom-0 -mx-6 px-6 py-4 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 mt-auto">
+                         <button onclick="nextStep()" class="w-full bg-moss text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:bg-mossDark active:scale-95 transition-all flex items-center justify-center gap-2">
+                            Continuar
+                            <i class="ph-bold ph-arrow-right"></i>
+                        </button>
                     </div>
                 </div>
 
-            </div>
-
-            <div class="p-6 border-t border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50">
-                <div class="flex justify-between items-center">
-                    <div class="flex flex-col">
-                        <span class="text-[10px] text-gray-500 uppercase tracking-wider flex items-center gap-1">
-                            Valor Total 
-                            <span class="bg-green-100 text-green-700 text-[9px] px-1.5 rounded font-bold">5% OFF</span>
-                        </span>
-                        <span class="text-2xl font-bold text-moss" id="live-total">R$ 0</span>
-                    </div>
-                    <button id="next-btn" onclick="nextStep()" class="bg-black dark:bg-white text-white dark:text-black px-8 py-3 rounded-full font-bold text-sm shadow-lg hover:scale-105 transition-transform flex items-center gap-2">
-                        <span>Próximo</span>
-                        <i class="ph-bold ph-arrow-right"></i>
+                <div id="step-2" class="modal-step hidden flex flex-col min-h-full">
+                    <button onclick="changeStep(1)" class="mb-4 text-sm text-gray-400 hover:text-black dark:hover:text-white flex items-center gap-1 font-bold">
+                        <i class="ph-bold ph-arrow-left"></i> Voltar
                     </button>
-                    <button id="finish-btn" onclick="sendToWhatsapp()" class="hidden bg-[#25D366] text-white px-6 py-3 rounded-full font-bold text-sm shadow-lg hover:scale-105 transition-transform flex items-center gap-2">
-                        <span>Contratar no WhatsApp</span>
-                        <i class="ph-bold ph-whatsapp-logo text-lg"></i>
-                    </button>
+
+                    <div class="text-center mb-8">
+                        <span class="text-xs font-bold text-moss uppercase tracking-widest bg-green-50 dark:bg-green-900/30 px-3 py-1 rounded-full">Passo 2 de 3</span>
+                        <h3 class="text-2xl font-black mt-4 leading-tight text-black dark:text-white">
+                            Película para o<br>Para-brisa (Frente)
+                        </h3>
+                        <p class="text-sm text-gray-500 mt-2">Maior conforto térmico e visibilidade.</p>
+                    </div>
+
+                    <div id="options-front" class="space-y-6 mb-4"></div>
+
+                     <div class="sticky bottom-0 -mx-6 px-6 py-4 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 mt-auto">
+                         <button onclick="nextStep()" class="w-full bg-moss text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:bg-mossDark active:scale-95 transition-all flex items-center justify-center gap-2">
+                            Ver Resumo e Preço
+                            <i class="ph-bold ph-receipt"></i>
+                        </button>
+                    </div>
                 </div>
+
+                <div id="step-3" class="modal-step hidden flex flex-col min-h-full">
+                    <button onclick="changeStep(2)" class="mb-4 text-sm text-gray-400 hover:text-black dark:hover:text-white flex items-center gap-1 font-bold">
+                        <i class="ph-bold ph-arrow-left"></i> Voltar
+                    </button>
+
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-black text-black dark:text-white">Resumo do Pedido</h3>
+                        <p class="text-sm text-gray-500">Confira se está tudo certo.</p>
+                    </div>
+
+                    <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 mb-6">
+                        
+                        <div class="flex justify-between items-start mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
+                            <div>
+                                <span class="text-xs font-bold text-gray-400 uppercase">Laterais e Traseiro</span>
+                                <p class="font-bold text-black dark:text-white text-lg leading-tight" id="summary-sides-name">Modelo</p>
+                                <span class="text-xs text-moss font-bold" id="summary-sides-brand">Marca</span>
+                            </div>
+                            <span class="font-bold text-lg text-gray-700 dark:text-gray-300" id="summary-sides-price">R$ 0</span>
+                        </div>
+
+                        <div class="flex justify-between items-start mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
+                            <div>
+                                <span class="text-xs font-bold text-gray-400 uppercase">Para-brisa</span>
+                                <p class="font-bold text-black dark:text-white text-lg leading-tight" id="summary-front-name">Modelo</p>
+                                <span class="text-xs text-moss font-bold" id="summary-front-brand">Marca</span>
+                            </div>
+                            <span class="font-bold text-lg text-gray-700 dark:text-gray-300" id="summary-front-price">R$ 0</span>
+                        </div>
+
+                        <div class="flex justify-between items-end pt-2">
+                            <div class="flex flex-col">
+                                <span class="text-xs text-gray-400 line-through decoration-red-400" id="summary-raw-total">R$ 000</span>
+                                <span class="text-xs font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded-md w-fit">5% de Desconto Web</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs text-gray-500 block mb-0.5">Total Final</span>
+                                <span class="text-3xl font-black text-moss" id="summary-final-total">R$ 000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 mb-6">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 mb-1 ml-1">SEU NOME</label>
+                            <input type="text" id="client-name" class="w-full bg-gray-100 dark:bg-gray-800 border-2 border-transparent focus:border-moss focus:bg-white dark:focus:bg-black rounded-xl px-4 py-3.5 text-base outline-none transition-all dark:text-white font-bold" placeholder="Digite seu nome...">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 mb-1 ml-1">E-MAIL (Opcional)</label>
+                            <input type="email" id="client-email" class="w-full bg-gray-100 dark:bg-gray-800 border-2 border-transparent focus:border-moss focus:bg-white dark:focus:bg-black rounded-xl px-4 py-3.5 text-base outline-none transition-all dark:text-white" placeholder="seunome@email.com">
+                        </div>
+                    </div>
+
+                    <div class="sticky bottom-0 -mx-6 px-6 py-4 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 mt-auto">
+                        <button onclick="sendToWhatsapp()" class="w-full bg-[#25D366] text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2">
+                            <i class="ph-fill ph-whatsapp-logo text-2xl"></i>
+                            Enviar Pedido no WhatsApp
+                        </button>
+                        <p class="text-[10px] text-center text-gray-400 mt-3">Ao clicar, você será redirecionado para nosso atendimento.</p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 
     <script>
-        // ================= LÓGICA DO TOAST =================
+        // ================= LÓGICA DO DROPDOWN (CORES + MODELOS) =================
+        
+        // 1. Dropdown de CORES
+        function toggleColorDropdown() {
+            const list = document.getElementById('colorOptionsList');
+            const arrow = document.getElementById('colorArrow');
+            
+            // Fecha o outro se estiver aberto
+            document.getElementById('modelOptionsList').classList.add('hidden');
+            document.getElementById('modelArrow').classList.remove('rotate-180');
 
-        // Função para mostrar o toast
-        function showToast() {
-            const toast = document.getElementById('promo-toast');
-            toast.classList.remove('-translate-y-[200%]');
+            list.classList.toggle('hidden');
+            if (list.classList.contains('hidden')) {
+                arrow.classList.remove('rotate-180');
+            } else {
+                arrow.classList.add('rotate-180');
+            }
         }
 
-        // Função para fechar o toast
+        function selectColor(value, name, bgClass) {
+            // Atualiza o texto e a bolinha do botão principal
+            document.getElementById('displayColorText').innerHTML = `
+                <span class="w-3 h-3 rounded ${bgClass} border border-gray-300 shadow-sm"></span>
+                ${name}
+            `;
+            
+            // Atualiza o input escondido
+            document.getElementById('selectedColorValue').value = value;
+            
+            // Chama a função do modelo 3D
+            if (typeof setCarColor === 'function') {
+                setCarColor(value);
+            }
+            
+            // Fecha o dropdown
+            toggleColorDropdown();
+        }
+
+        // 2. Dropdown de MODELOS (Novo)
+        function toggleModelDropdown() {
+            const list = document.getElementById('modelOptionsList');
+            const arrow = document.getElementById('modelArrow');
+
+            // Fecha o outro se estiver aberto
+            document.getElementById('colorOptionsList').classList.add('hidden');
+            document.getElementById('colorArrow').classList.remove('rotate-180');
+
+            list.classList.toggle('hidden');
+            if (list.classList.contains('hidden')) {
+                arrow.classList.remove('rotate-180');
+            } else {
+                arrow.classList.add('rotate-180');
+            }
+        }
+
+        function selectModel(value, name) {
+            document.getElementById('displayModelText').innerText = name;
+            if (typeof setCarModel === 'function') setCarModel(value);
+            toggleModelDropdown();
+        }
+
+        // Fecha os dropdowns se clicar fora
+        window.addEventListener('click', function(e) {
+            const colorContainer = document.getElementById('color-dropdown-container');
+            const modelContainer = document.getElementById('model-dropdown-container');
+            
+            if (!colorContainer.contains(e.target)) {
+                document.getElementById('colorOptionsList').classList.add('hidden');
+                document.getElementById('colorArrow').classList.remove('rotate-180');
+            }
+            if (!modelContainer.contains(e.target)) {
+                document.getElementById('modelOptionsList').classList.add('hidden');
+                document.getElementById('modelArrow').classList.remove('rotate-180');
+            }
+        });
+
+
+        // ================= DADOS DOS MODELOS 3D =================
+        const carModels = {
+        sport: {
+            name: 'Esportivo',
+            src: 'models/911.glb',
+            camera: '45deg 75deg 145%'
+        },
+        suv: {
+            name: 'SUV',
+            src: 'models/Compass.glb',
+            camera: '35deg 75deg 155%'
+        },
+        hatch: {
+            name: 'Hatch',
+            src: 'models/Fit.glb',
+            camera: '45deg 70deg 150%'
+        },
+        sedan: {
+            name: 'Sedã',
+            src: 'models/M5.glb',
+            camera: '40deg 75deg 150%'
+        },
+        pickup: {
+            name: 'Caminhonete',
+            src: 'models/Frontier.glb',
+            camera: '30deg 70deg 165%'
+        },
+        classic: {
+            name: 'Antigo',
+            src: 'models/Fusca.glb',
+            camera: '50deg 75deg 140%'
+        }
+        };
+
+        // Cores dos carros
+
+        const carColors = {
+            black:  { name: 'Preto Sapphire',    color: '#080808' }, // Quase preto, mas permite reflexo
+            white:  { name: 'Branco Alpino',     color: '#e8e8e8' }, // Branco levemente cinza para não "estourar" na luz
+            silver: { name: 'Prata Glaciar',     color: '#c4c4c4' }, // Prata metálico clássico
+            gray:   { name: 'Cinza Mineral',     color: '#444444' }, // Chumbo escuro (Gunmetal)
+            red:    { name: 'Vermelho Melbourne',color: '#690f0f' }, // Vermelho sangue profundo, menos "brinquedo"
+            blue:   { name: 'Azul Phytonic',     color: '#0f1f3d' }, // Azul marinho noturno elegante
+            green:  { name: 'Verde Oxford',      color: '#0d2612' }, // Verde inglês bem fechado
+            brown:  { name: 'Bronze Dravit',     color: '#3d3126' }  // Marrom bronzeado sofisticado
+        };
+
+        // ================= LÓGICA DO TOAST =================
+
+        // Função para fechar o toast (manual ou automática)
         function closeToast() {
             const toast = document.getElementById('promo-toast');
             toast.classList.add('-translate-y-[200%]');
         }
 
-        // Ativa o toast automaticamente após 1.5 segundos
+        // Função para abrir e iniciar o timer
+        function showToast() {
+            const toast = document.getElementById('promo-toast');
+            const progressBar = document.getElementById('toast-progress');
+            
+            // 1. Mostra o toast (remove o translate que esconde)
+            toast.classList.remove('-translate-y-[200%]');
+
+            // 2. Anima a barra de progresso (espera 100ms para a transição funcionar)
+            setTimeout(() => {
+                progressBar.style.transition = 'width 5s linear'; // Define 5 segundos linear
+                progressBar.style.width = '100%'; // Enche a barra
+            }, 100);
+
+            // 3. Fecha automaticamente após 5 segundos (5000ms)
+            setTimeout(() => {
+                closeToast();
+            }, 5100); // 5100ms para dar tempo da barra chegar ao final
+        }
+
+        // Inicia tudo 1.5 segundos após o site carregar
         window.addEventListener('load', () => {
             setTimeout(showToast, 1500);
         });
@@ -353,27 +645,27 @@
 
         // ================= DADOS DE PREÇOS =================
         const pricingData = {
-            sides: [
-                { id: 'none',    brand: '-',        name: 'Sem Película',    price: 0,   desc: 'Manter vidro original.' },
-                { id: 'bt_carb', brand: 'BlueTech', name: 'Carbono (Média Retenção)', price: 599, desc: 'Privacidade e custo-benefício.' },
-                { id: 'bt_cer',  brand: 'BlueTech', name: 'Cerâmico (Alta Retenção)', price: 799, desc: 'Tecnologia WindowBlue térmica.' },
-                { id: 'gw_hp',   brand: 'Garware',  name: 'HP (High Perf.)', price: 899, desc: 'Metalizada híbrida.' },
-                { id: 'gw_ir',   brand: 'Garware',  name: 'IR Plus (Top)',   price: 1499, desc: 'Máxima rejeição de calor.' }
+            sides: [    
+                { id: 'none',    brand: 'Original',        name: 'Sem Película (Padrão)',   price: 0,   desc: 'Vidro original transparente.' },
+                { id: 'bt_carb', brand: 'BlueTech', name: 'Carbono (Média Retenção)', price: 599, desc: 'Privacidade e Ótimo Custo.' },
+                { id: 'bt_cer',  brand: 'BlueTech', name: 'Cerâmica (Alta Retenção)', price: 799, desc: 'Tecnologia WindowBlue Térmica.' },
+                { id: 'gw_hp',   brand: 'Garware',  name: 'HP (High Performance)', price: 899, desc: 'Híbrida Metalizada.' },
+                { id: 'gw_ir',   brand: 'Garware',  name: 'IR Plus (Top de Linha)',   price: 1499, desc: 'Máxima Rejeição de Calor.' }
             ],
             front: [
-                { id: 'none',    brand: '-',        name: 'Sem Película',    price: 0,   desc: 'Manter vidro original.' },
+                { id: 'none',    brand: 'Original',        name: 'Sem Película',     price: 0,   desc: 'Manter vidro original transparente.' },
                 { id: 'bt_carb', brand: 'BlueTech', name: 'Carbono',         price: 279, desc: 'Proteção básica UV.' },
-                { id: 'bt_cer',  brand: 'BlueTech', name: 'Cerâmico',        price: 389, desc: 'Alta visibilidade noturna.' },
+                { id: 'bt_cer',  brand: 'BlueTech', name: 'Cerâmica',        price: 389, desc: 'Visibilidade noturna.' },
                 { id: 'gw_hp',   brand: 'Garware',  name: 'HP',              price: 499, desc: 'Conforto térmico.' },
-                { id: 'gw_ir',   brand: 'Garware',  name: 'IR Plus',         price: 749, desc: 'Premium nano-cerâmica.' }
+                { id: 'gw_ir',   brand: 'Garware',  name: 'IR Plus',         price: 749, desc: 'Nano-cerâmica premium.' }
             ]
         };
 
-        // Estado do Orçamento
+        // Estado Inicial
         let budgetState = {
             step: 1,
-            sides: pricingData.sides[0],
-            front: pricingData.front[0]
+            sides: pricingData.sides[0], // Padrão
+            front: pricingData.front[0]  // Padrão
         };
 
         // ================= LÓGICA DO MODAL =================
@@ -381,84 +673,92 @@
         function openModal() {
             document.getElementById('budget-modal').classList.remove('hidden');
             renderBudgetOptions();
-            updateBudgetUI();
+            updateSummary();
         }
 
         function closeModal() {
             document.getElementById('budget-modal').classList.add('hidden');
             budgetState.step = 1;
-            changeStep(1);
+            changeStep(1); // Reseta para o passo 1
         }
 
+        // Função principal que desenha os botões agrupados
         function renderBudgetOptions() {
+            // Renderiza Passo 1: Laterais
             const sidesContainer = document.getElementById('options-sides');
-            sidesContainer.innerHTML = pricingData.sides.map(opt => `
-                <div onclick="selectBudgetOption('sides', '${opt.id}')" 
-                     class="select-card cursor-pointer p-4 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 relative group ${budgetState.sides.id === opt.id ? 'selected' : ''}">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">${opt.brand}</span>
-                            <h5 class="font-bold text-black dark:text-white text-base">${opt.name}</h5>
-                            <p class="text-xs text-gray-500 mt-1">${opt.desc}</p>
-                        </div>
-                        <span class="font-bold text-moss text-lg">R$ ${opt.price}</span>
-                    </div>
-                    <div class="absolute right-4 top-1/2 -translate-y-1/2 text-moss opacity-0 ${budgetState.sides.id === opt.id ? 'opacity-100' : ''}">
-                        <i class="ph-fill ph-check-circle text-2xl"></i>
-                    </div>
-                </div>
-            `).join('');
+            sidesContainer.innerHTML = createGroupedHTML(pricingData.sides, 'sides');
 
+            // Renderiza Passo 2: Parabrisa
             const frontContainer = document.getElementById('options-front');
-            frontContainer.innerHTML = pricingData.front.map(opt => `
-                <div onclick="selectBudgetOption('front', '${opt.id}')" 
-                     class="select-card cursor-pointer p-4 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 relative group ${budgetState.front.id === opt.id ? 'selected' : ''}">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">${opt.brand}</span>
-                            <h5 class="font-bold text-black dark:text-white text-base">${opt.name}</h5>
-                            <p class="text-xs text-gray-500 mt-1">${opt.desc}</p>
+            frontContainer.innerHTML = createGroupedHTML(pricingData.front, 'front');
+        }
+
+        // Função auxiliar para agrupar por marca e gerar HTML
+        function createGroupedHTML(items, type) {
+            // 1. Agrupa os itens por marca
+            const groups = {};
+            items.forEach(item => {
+                if (!groups[item.brand]) groups[item.brand] = [];
+                groups[item.brand].push(item);
+            });
+
+            // 2. Gera o HTML de cada grupo
+            let html = '';
+            
+            // Ordem de exibição das marcas (para ficar organizado)
+            const brandOrder = ['Original', 'BlueTech', 'Garware'];
+            
+            // Ordena as chaves do objeto groups baseado na lista brandOrder
+            const sortedBrands = Object.keys(groups).sort((a, b) => {
+                return brandOrder.indexOf(a) - brandOrder.indexOf(b);
+            });
+
+            sortedBrands.forEach(brand => {
+                // Título da Marca
+                html += `
+                    <div>
+                        <h5 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-3 ml-1 border-b border-gray-100 dark:border-gray-800 pb-1">
+                            ${brand === 'Original' ? 'Opção Padrão' : 'Marca: ' + brand}
+                        </h5>
+                        <div class="space-y-3">
+                `;
+
+                // Cartões de opções dentro dessa marca
+                groups[brand].forEach(opt => {
+                    const isSelected = budgetState[type].id === opt.id;
+                    const activeClass = isSelected ? 'border-moss bg-moss/5 ring-1 ring-moss' : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600';
+                    const checkIcon = isSelected ? '<i class="ph-fill ph-check-circle text-moss text-2xl animate-bounce"></i>' : '<div class="w-6 h-6 rounded-full border-2 border-gray-200 dark:border-gray-700"></div>';
+
+                    html += `
+                        <div onclick="selectBudgetOption('${type}', '${opt.id}')" 
+                             class="cursor-pointer relative p-4 rounded-xl border-2 transition-all duration-200 flex items-center justify-between group ${activeClass}">
+                            
+                            <div class="flex flex-col">
+                                <span class="font-bold text-black dark:text-white text-base">${opt.name}</span>
+                                <span class="text-xs text-gray-500 mt-0.5">${opt.desc}</span>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <span class="font-bold text-moss text-lg whitespace-nowrap">${opt.price === 0 ? 'Grátis' : 'R$ ' + opt.price}</span>
+                                ${checkIcon}
+                            </div>
+
                         </div>
-                        <span class="font-bold text-moss text-lg">${opt.price === 0 ? '--' : 'R$ ' + opt.price}</span>
-                    </div>
-                    <div class="absolute right-4 top-1/2 -translate-y-1/2 text-moss opacity-0 ${budgetState.front.id === opt.id ? 'opacity-100' : ''}">
-                        <i class="ph-fill ph-check-circle text-2xl"></i>
-                    </div>
-                </div>
-            `).join('');
+                    `;
+                });
+
+                html += `</div></div>`; // Fecha container do grupo
+            });
+
+            return html;
         }
 
         function selectBudgetOption(type, id) {
             const list = type === 'sides' ? pricingData.sides : pricingData.front;
             budgetState[type] = list.find(item => item.id === id);
+            
+            // Re-renderiza para atualizar a borda verde e o check
             renderBudgetOptions();
-            updateBudgetUI();
-        }
-
-        function updateBudgetUI() {
-            const rawTotal = budgetState.sides.price + budgetState.front.price;
-            const discount = rawTotal * 0.05;
-            const finalTotal = rawTotal - discount;
-
-            const totalHTML = `
-                <div class="flex flex-col items-end">
-                    <span class="text-xs text-gray-400 line-through decoration-red-500">${formatMoney(rawTotal)}</span>
-                    <span class="text-2xl font-bold text-moss">${formatMoney(finalTotal)}</span>
-                </div>
-            `;
-            
-            document.getElementById('live-total').innerHTML = totalHTML;
-            
-            document.getElementById('summary-total').innerHTML = `
-                <div class="flex flex-col items-end">
-                    <span class="text-xs text-gray-400 line-through">${formatMoney(rawTotal)}</span>
-                    <span class="text-xl font-bold text-moss">${formatMoney(finalTotal)}</span>
-                    <span class="text-[10px] text-green-600 bg-green-100 px-2 py-0.5 rounded-full font-bold">5% OFF Web</span>
-                </div>
-            `;
-            
-            document.getElementById('summary-sides').innerText = `${budgetState.sides.brand} ${budgetState.sides.name}`;
-            document.getElementById('summary-front').innerText = `${budgetState.front.brand} ${budgetState.front.name}`;
         }
 
         function nextStep() {
@@ -470,49 +770,72 @@
         function changeStep(step) {
             budgetState.step = step;
             
+            // Esconde todos
             document.getElementById('step-1').classList.add('hidden');
             document.getElementById('step-2').classList.add('hidden');
             document.getElementById('step-3').classList.add('hidden');
             
+            // Mostra o atual com animação
             const currentDiv = document.getElementById(`step-${step}`);
             currentDiv.classList.remove('hidden');
             currentDiv.classList.add('modal-animate');
 
-            const nextBtn = document.getElementById('next-btn');
-            const finishBtn = document.getElementById('finish-btn');
-
             if (step === 3) {
-                nextBtn.classList.add('hidden');
-                finishBtn.classList.remove('hidden');
-                finishBtn.classList.add('flex');
-            } else {
-                nextBtn.classList.remove('hidden');
-                finishBtn.classList.add('hidden');
-                finishBtn.classList.remove('flex');
+                updateSummary();
             }
+        }
+
+        function updateSummary() {
+            const rawTotal = budgetState.sides.price + budgetState.front.price;
+            const discount = rawTotal * 0.05;
+            const finalTotal = rawTotal - discount;
+            const format = (v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            // Atualiza Textos
+            document.getElementById('summary-sides-name').innerText = budgetState.sides.name;
+            document.getElementById('summary-sides-brand').innerText = budgetState.sides.brand;
+            document.getElementById('summary-sides-price').innerText = format(budgetState.sides.price);
+
+            document.getElementById('summary-front-name').innerText = budgetState.front.name;
+            document.getElementById('summary-front-brand').innerText = budgetState.front.brand;
+            document.getElementById('summary-front-price').innerText = budgetState.front.price === 0 ? 'Incluso' : format(budgetState.front.price);
+
+            document.getElementById('summary-raw-total').innerText = format(rawTotal);
+            document.getElementById('summary-final-total').innerText = format(finalTotal);
         }
 
         function sendToWhatsapp() {
             const name = document.getElementById('client-name').value;
             const email = document.getElementById('client-email').value;
 
-            if(!name) { alert('Por favor, digite seu nome.'); return; }
+            if(!name) { 
+                alert('Por favor, digite seu nome para finalizar.'); 
+                document.getElementById('client-name').focus();
+                return; 
+            }
 
             const rawTotal = budgetState.sides.price + budgetState.front.price;
             const discount = rawTotal * 0.05;
             const finalTotal = rawTotal - discount;
+            const format = (v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
             const phone = "5532999734079"; 
 
-            const text = `*NOVO ORÇAMENTO SITE (COM DESCONTO)*\n` +
-                        `👤 Cliente: ${name}\n` +
-                        `📧 Email: ${email}\n\n` +
-                        `*Configuração Escolhida:*\n` +
-                        `🚗 Laterais/Traseira: ${budgetState.sides.brand} - ${budgetState.sides.name}\n` +
-                        `🚙 Parabrisa: ${budgetState.front.brand} - ${budgetState.front.name}\n\n` +
-                        `💰 Subtotal: ${formatMoney(rawTotal)}\n` +
-                        `📉 *Desconto Web (5%): -${formatMoney(discount)}*\n` +
-                        `✅ *VALOR FINAL: ${formatMoney(finalTotal)}*`;
+            const text = `*NOVO PEDIDO PELO SITE (5% OFF)*\n` +
+                         `*Cliente:* ${name}\n` +
+                         `*Email:* ${email || 'Não informado'}\n\n` +
+                         `*PRODUTOS ESCOLHIDOS:*\n` +
+                         `*Laterais/Traseira:*\n` +
+                         `   Marca: ${budgetState.sides.brand}\n` +
+                         `   Linha: ${budgetState.sides.name}\n` +
+                         `   Valor: ${format(budgetState.sides.price)}\n\n` +
+                         `*Para-brisa:*\n` +
+                         `   Marca: ${budgetState.front.brand}\n` +
+                         `   Linha: ${budgetState.front.name}\n` +
+                         `   Valor: ${budgetState.front.price === 0 ? 'Grátis/Original' : format(budgetState.front.price)}\n\n` +
+                         `----------------------------\n` +
+                         `Subtotal: ${format(rawTotal)}\n` +
+                         `*TOTAL COM DESCONTO: ${format(finalTotal)}*`;
 
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
             closeModal();
@@ -536,10 +859,58 @@
         let state = {
             activeZone: 'sides',
             currentTints: { sides: 'clear', front: 'clear' },
-            isNight: false
+            isNight: false,
+            currentCar: 'suv',
+            currentColor: 'silver'
         };
 
         const viewer = document.getElementById('car-viewer');
+
+        // ================= FUNÇÕES DE CONTROLE DO VISUALIZADOR =================
+        function setCarModel(carKey) {
+        const car = carModels[carKey];
+        if (!car) return;
+
+        toggleLoader(true);
+
+        state.currentCar = carKey;
+        viewer.src = car.src;
+        viewer.cameraOrbit = car.camera;
+
+        viewer.addEventListener('load', () => {
+            applyTintToModel();
+            applyCarColor();
+            toggleLoader(false);
+        }, { once: true });
+        }
+
+        // ================= FUNÇÕES DE COR DO CARRO =================
+        function applyCarColor() {
+        if (!viewer.model) return;
+
+        const selected = carColors[state.currentColor];
+        if (!selected) return;
+
+        const hex = selected.color.replace('#','');
+        const rgb = [
+            parseInt(hex.substring(0,2),16)/255,
+            parseInt(hex.substring(2,4),16)/255,
+            parseInt(hex.substring(4,6),16)/255
+        ];
+
+        viewer.model.materials.forEach(mat => {
+            if (mat.name.toLowerCase().includes('paint_color')) {
+            mat.pbrMetallicRoughness.setBaseColorFactor([...rgb, 1]);
+            mat.pbrMetallicRoughness.setMetallicFactor(0.6);
+            mat.pbrMetallicRoughness.setRoughnessFactor(0.35);
+            }
+        });
+        }
+
+        function setCarColor(colorKey) {
+        state.currentColor = colorKey;
+        applyCarColor();
+        }
 
         // ================= FUNÇÕES DE ZONA (VISUALIZADOR) =================
 
@@ -549,16 +920,34 @@
             const btnSides = document.getElementById('tab-sides');
             const btnFront = document.getElementById('tab-front');
             
-            const activeClass = "bg-moss text-white shadow-sm ring-1 ring-black/5 dark:bg-mossDark dark:text-white dark:ring-0";
-            const inactiveClass = "text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white";
+            // Classes do botão ATIVO (Branco com texto Verde e Sombra)
+            const activeClass = "bg-white dark:bg-gray-700 text-moss dark:text-white shadow-sm ring-1 ring-black/5 scale-100";
+            // Classes do botão INATIVO (Cinza transparente)
+            const inactiveClass = "text-gray-400 dark:text-gray-500 hover:text-black dark:hover:text-white hover:bg-white/50 scale-95 opacity-70 hover:opacity-100";
+
+            // Ícones (Opcional: Trocar preenchimento do ícone)
+            const iconSides = btnSides.querySelector('i');
+            const iconFront = btnFront.querySelector('i');
 
             if (zone === 'sides') {
-                btnSides.className = `px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all ${activeClass}`;
-                btnFront.className = `px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all ${inactiveClass}`;
+                // Ativa Sides
+                btnSides.className = `group flex-1 md:flex-none px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wide transition-all duration-300 flex items-center justify-center gap-2 ${activeClass}`;
+                iconSides.classList.replace('ph-bold', 'ph-fill'); // Ícone cheio
+                
+                // Desativa Front
+                btnFront.className = `group flex-1 md:flex-none px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wide transition-all duration-300 flex items-center justify-center gap-2 ${inactiveClass}`;
+                iconFront.classList.replace('ph-fill', 'ph-bold'); // Ícone contorno
+
                 document.getElementById('zone-title').innerText = "Visualizando: Laterais & Traseira";
             } else {
-                btnFront.className = `px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all ${activeClass}`;
-                btnSides.className = `px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wide transition-all ${inactiveClass}`;
+                // Desativa Sides
+                btnSides.className = `group flex-1 md:flex-none px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wide transition-all duration-300 flex items-center justify-center gap-2 ${inactiveClass}`;
+                iconSides.classList.replace('ph-fill', 'ph-bold');
+
+                // Ativa Front
+                btnFront.className = `group flex-1 md:flex-none px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wide transition-all duration-300 flex items-center justify-center gap-2 ${activeClass}`;
+                iconFront.classList.replace('ph-bold', 'ph-fill');
+
                 document.getElementById('zone-title').innerText = "Visualizando: Parabrisa";
             }
 
@@ -715,8 +1104,9 @@
 
         // 2. Quando o 3D terminar de carregar (inicial)
         viewer.addEventListener('load', () => {
-            applyTintToModel();
-            toggleLoader(false);
+        applyTintToModel();
+        applyCarColor();
+        toggleLoader(false);
         });
 
         // 3. Quando a iluminação (Environment) terminar de trocar
