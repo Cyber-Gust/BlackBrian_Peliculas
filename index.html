@@ -355,112 +355,128 @@
     <div id="budget-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center px-4">
         <div class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
         
-        <div class="relative bg-white dark:bg-gray-900 w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-fade-in-up">
-            
-            <div class="absolute top-4 right-4 z-10">
-                <button onclick="closeModal()" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+        <div class="relative bg-white dark:bg-gray-900 w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden flex flex-col h-[90vh] max-h-[800px] animate-fade-in-up">
+        
+            <div class="flex items-center justify-between p-5 border-b border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 z-20 shrink-0">
+                <div>
+                    <h3 class="text-lg font-bold text-black dark:text-white">Orçamento Rápido</h3>
+                    <p class="text-xs text-gray-500">Personalize seu pacote</p>
+                </div>
+                <button onclick="closeModal()" class="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
                     <i class="ph-bold ph-x text-lg"></i>
                 </button>
             </div>
 
-            <div class="flex-1 overflow-y-auto no-scrollbar p-6 pt-12 relative">
+            <div class="flex-1 overflow-hidden relative bg-white dark:bg-gray-900">
                 
-                <div id="step-1" class="modal-step flex flex-col min-h-full">
-                    <div class="text-center mb-8">
-                        <span class="text-xs font-bold text-moss uppercase tracking-widest bg-green-50 dark:bg-green-900/30 px-3 py-1 rounded-full">Passo 1 de 3</span>
-                        <h3 class="text-2xl font-black mt-4 leading-tight text-black dark:text-white">
-                            Configuração dos<br>Vidros Laterais e Traseiro
-                        </h3>
-                        <p class="text-sm text-gray-500 mt-2">Escolha a tecnologia ideal para o seu carro.</p>
+                <div id="step-1" class="h-full flex flex-col">
+                    
+                    <div class="px-6 pt-6 pb-2 shrink-0 z-10 bg-white dark:bg-gray-900">
+                        <div class="text-center">
+                            <span class="text-xs font-bold text-moss uppercase tracking-widest bg-green-50 dark:bg-green-900/30 px-3 py-1 rounded-full">Passo 1 de 3</span>
+                            <h3 class="text-2xl font-black mt-4 leading-tight text-black dark:text-white">
+                                Configuração dos<br>Vidros Laterais e Traseiro
+                            </h3>
+                            <p class="text-sm text-gray-500 mt-2">Escolha a tecnologia ideal para o seu carro.</p>
+                        </div>
                     </div>
 
-                    <div id="options-sides" class="space-y-6 mb-4"></div>
+                    <div class="flex-1 overflow-y-auto p-6 scroll-smooth">
+                        <div id="options-sides" class="space-y-6"></div>
+                    </div>
 
-                    <div class="sticky bottom-0 -mx-6 px-6 py-4 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 mt-auto">
-                         <button onclick="nextStep()" class="w-full bg-moss text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:bg-mossDark active:scale-95 transition-all flex items-center justify-center gap-2">
+                    <div class="p-6 pt-4 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 shrink-0 z-10">
+                        <button onclick="nextStep()" class="w-full bg-moss text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:bg-mossDark active:scale-95 transition-all flex items-center justify-center gap-2">
                             Continuar
                             <i class="ph-bold ph-arrow-right"></i>
                         </button>
                     </div>
                 </div>
 
-                <div id="step-2" class="modal-step hidden flex flex-col min-h-full">
-                    <button onclick="changeStep(1)" class="mb-4 text-sm text-gray-400 hover:text-black dark:hover:text-white flex items-center gap-1 font-bold">
-                        <i class="ph-bold ph-arrow-left"></i> Voltar
-                    </button>
-
-                    <div class="text-center mb-8">
-                        <span class="text-xs font-bold text-moss uppercase tracking-widest bg-green-50 dark:bg-green-900/30 px-3 py-1 rounded-full">Passo 2 de 3</span>
-                        <h3 class="text-2xl font-black mt-4 leading-tight text-black dark:text-white">
-                            Película para o<br>Para-brisa (Frente)
-                        </h3>
-                        <p class="text-sm text-gray-500 mt-2">Maior conforto térmico e visibilidade.</p>
+                <div id="step-2" class="hidden h-full flex flex-col">
+                    
+                    <div class="px-6 pt-6 pb-2 shrink-0 z-10 bg-white dark:bg-gray-900">
+                        <button onclick="changeStep(1)" class="mb-2 text-sm text-gray-400 hover:text-black dark:hover:text-white flex items-center gap-1 font-bold">
+                            <i class="ph-bold ph-arrow-left"></i> Voltar
+                        </button>
+                        <div class="text-center">
+                            <span class="text-xs font-bold text-moss uppercase tracking-widest bg-green-50 dark:bg-green-900/30 px-3 py-1 rounded-full">Passo 2 de 3</span>
+                            <h3 class="text-2xl font-black mt-4 leading-tight text-black dark:text-white">
+                                Película para o<br>Para-brisa (Frente)
+                            </h3>
+                            <p class="text-sm text-gray-500 mt-2">Maior conforto térmico e visibilidade.</p>
+                        </div>
                     </div>
 
-                    <div id="options-front" class="space-y-6 mb-4"></div>
+                    <div class="flex-1 overflow-y-auto p-6 scroll-smooth">
+                        <div id="options-front" class="space-y-6"></div>
+                    </div>
 
-                     <div class="sticky bottom-0 -mx-6 px-6 py-4 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 mt-auto">
-                         <button onclick="nextStep()" class="w-full bg-moss text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:bg-mossDark active:scale-95 transition-all flex items-center justify-center gap-2">
+                    <div class="p-6 pt-4 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 shrink-0 z-10">
+                        <button onclick="nextStep()" class="w-full bg-moss text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:bg-mossDark active:scale-95 transition-all flex items-center justify-center gap-2">
                             Ver Resumo e Preço
                             <i class="ph-bold ph-receipt"></i>
                         </button>
                     </div>
                 </div>
 
-                <div id="step-3" class="modal-step hidden flex flex-col min-h-full">
-                    <button onclick="changeStep(2)" class="mb-4 text-sm text-gray-400 hover:text-black dark:hover:text-white flex items-center gap-1 font-bold">
-                        <i class="ph-bold ph-arrow-left"></i> Voltar
-                    </button>
-
-                    <div class="text-center mb-6">
-                        <h3 class="text-2xl font-black text-black dark:text-white">Resumo do Pedido</h3>
-                        <p class="text-sm text-gray-500">Confira se está tudo certo.</p>
+                <div id="step-3" class="hidden h-full flex flex-col">
+                    
+                    <div class="px-6 pt-6 pb-2 shrink-0 z-10 bg-white dark:bg-gray-900">
+                        <button onclick="changeStep(2)" class="mb-4 text-sm text-gray-400 hover:text-black dark:hover:text-white flex items-center gap-1 font-bold">
+                            <i class="ph-bold ph-arrow-left"></i> Voltar
+                        </button>
+                        <div class="text-center">
+                            <h3 class="text-2xl font-black text-black dark:text-white">Resumo do Pedido</h3>
+                            <p class="text-sm text-gray-500">Confira se está tudo certo.</p>
+                        </div>
                     </div>
 
-                    <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 mb-6">
-                        
-                        <div class="flex justify-between items-start mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
+                    <div class="flex-1 overflow-y-auto p-6 scroll-smooth">
+                        <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 mb-6">
+                            <div class="flex justify-between items-start mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
+                                <div>
+                                    <span class="text-xs font-bold text-gray-400 uppercase">Laterais e Traseiro</span>
+                                    <p class="font-bold text-black dark:text-white text-lg leading-tight" id="summary-sides-name">Modelo</p>
+                                    <span class="text-xs text-moss font-bold" id="summary-sides-brand">Marca</span>
+                                </div>
+                                <span class="font-bold text-lg text-gray-700 dark:text-gray-300" id="summary-sides-price">R$ 0</span>
+                            </div>
+
+                            <div class="flex justify-between items-start mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
+                                <div>
+                                    <span class="text-xs font-bold text-gray-400 uppercase">Para-brisa</span>
+                                    <p class="font-bold text-black dark:text-white text-lg leading-tight" id="summary-front-name">Modelo</p>
+                                    <span class="text-xs text-moss font-bold" id="summary-front-brand">Marca</span>
+                                </div>
+                                <span class="font-bold text-lg text-gray-700 dark:text-gray-300" id="summary-front-price">R$ 0</span>
+                            </div>
+
+                            <div class="flex justify-between items-end pt-2">
+                                <div class="flex flex-col">
+                                    <span class="text-xs text-gray-400 line-through decoration-red-400" id="summary-raw-total">R$ 000</span>
+                                    <span class="text-xs font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded-md w-fit">5% de Desconto Web</span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-xs text-gray-500 block mb-0.5">Total Final</span>
+                                    <span class="text-3xl font-black text-moss" id="summary-final-total">R$ 000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 mb-2">
                             <div>
-                                <span class="text-xs font-bold text-gray-400 uppercase">Laterais e Traseiro</span>
-                                <p class="font-bold text-black dark:text-white text-lg leading-tight" id="summary-sides-name">Modelo</p>
-                                <span class="text-xs text-moss font-bold" id="summary-sides-brand">Marca</span>
+                                <label class="block text-xs font-bold text-gray-500 mb-1 ml-1">SEU NOME</label>
+                                <input type="text" id="client-name" class="w-full bg-gray-100 dark:bg-gray-800 border-2 border-transparent focus:border-moss focus:bg-white dark:focus:bg-black rounded-xl px-4 py-3.5 text-base outline-none transition-all dark:text-white font-bold" placeholder="Digite seu nome...">
                             </div>
-                            <span class="font-bold text-lg text-gray-700 dark:text-gray-300" id="summary-sides-price">R$ 0</span>
-                        </div>
-
-                        <div class="flex justify-between items-start mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
                             <div>
-                                <span class="text-xs font-bold text-gray-400 uppercase">Para-brisa</span>
-                                <p class="font-bold text-black dark:text-white text-lg leading-tight" id="summary-front-name">Modelo</p>
-                                <span class="text-xs text-moss font-bold" id="summary-front-brand">Marca</span>
-                            </div>
-                            <span class="font-bold text-lg text-gray-700 dark:text-gray-300" id="summary-front-price">R$ 0</span>
-                        </div>
-
-                        <div class="flex justify-between items-end pt-2">
-                            <div class="flex flex-col">
-                                <span class="text-xs text-gray-400 line-through decoration-red-400" id="summary-raw-total">R$ 000</span>
-                                <span class="text-xs font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded-md w-fit">5% de Desconto Web</span>
-                            </div>
-                            <div class="text-right">
-                                <span class="text-xs text-gray-500 block mb-0.5">Total Final</span>
-                                <span class="text-3xl font-black text-moss" id="summary-final-total">R$ 000</span>
+                                <label class="block text-xs font-bold text-gray-500 mb-1 ml-1">E-MAIL (Opcional)</label>
+                                <input type="email" id="client-email" class="w-full bg-gray-100 dark:bg-gray-800 border-2 border-transparent focus:border-moss focus:bg-white dark:focus:bg-black rounded-xl px-4 py-3.5 text-base outline-none transition-all dark:text-white" placeholder="seunome@email.com">
                             </div>
                         </div>
                     </div>
 
-                    <div class="space-y-4 mb-6">
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 mb-1 ml-1">SEU NOME</label>
-                            <input type="text" id="client-name" class="w-full bg-gray-100 dark:bg-gray-800 border-2 border-transparent focus:border-moss focus:bg-white dark:focus:bg-black rounded-xl px-4 py-3.5 text-base outline-none transition-all dark:text-white font-bold" placeholder="Digite seu nome...">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 mb-1 ml-1">E-MAIL (Opcional)</label>
-                            <input type="email" id="client-email" class="w-full bg-gray-100 dark:bg-gray-800 border-2 border-transparent focus:border-moss focus:bg-white dark:focus:bg-black rounded-xl px-4 py-3.5 text-base outline-none transition-all dark:text-white" placeholder="seunome@email.com">
-                        </div>
-                    </div>
-
-                    <div class="sticky bottom-0 -mx-6 px-6 py-4 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 mt-auto">
+                    <div class="p-6 pt-4 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 shrink-0 z-10">
                         <button onclick="sendToWhatsapp()" class="w-full bg-[#25D366] text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2">
                             <i class="ph-fill ph-whatsapp-logo text-2xl"></i>
                             Enviar Pedido no WhatsApp
@@ -639,18 +655,18 @@
         // ================= DADOS DE PREÇOS =================
         const pricingData = {
             sides: [    
-                { id: 'none',    brand: 'Original',        name: 'Sem Película (Padrão)',   price: 0,   desc: 'Vidro original transparente.' },
-                { id: 'bt_carb', brand: 'BlueTech', name: 'Carbono (Média Retenção)', price: 599, desc: 'Privacidade e Ótimo Custo.' },
-                { id: 'bt_cer',  brand: 'BlueTech', name: 'Cerâmica (Alta Retenção)', price: 799, desc: 'Tecnologia WindowBlue Térmica.' },
-                { id: 'gw_hp',   brand: 'Garware',  name: 'HP (High Performance)', price: 899, desc: 'Híbrida Metalizada.' },
-                { id: 'gw_ir',   brand: 'Garware',  name: 'IR Plus (Top de Linha)',   price: 1499, desc: 'Máxima Rejeição de Calor.' }
+                { id: 'none',    brand: 'Original',        name: 'Sem Película',   price: 0,   desc: 'Vidro original transparente.' },
+                { id: 'bt_carb', brand: 'BlueTech "Custo Benefício"', name: 'Carbono (Média Retenção)', price: 599, desc: 'Privacidade e Ótimo Custo.' },
+                { id: 'bt_cer',  brand: 'BlueTech "Custo Benefício"', name: 'Cerâmica (Alta Retenção)', price: 799, desc: 'Tecnologia WindowBlue Térmica.' },
+                { id: 'gw_hp',   brand: 'Garware "Premium"',  name: 'HP (Média Retenção)', price: 899, desc: 'Privacidade e Ótima Visibilidade.' },
+                { id: 'gw_ir',   brand: 'Garware "Premium"',  name: 'IR Plus (Alta Retenção)',   price: 1499, desc: 'Máxima Rejeição de Calor.' }
             ],
             front: [
-                { id: 'none',    brand: 'Original',        name: 'Sem Película',     price: 0,   desc: 'Manter vidro original transparente.' },
-                { id: 'bt_carb', brand: 'BlueTech', name: 'Carbono',         price: 279, desc: 'Proteção básica UV.' },
-                { id: 'bt_cer',  brand: 'BlueTech', name: 'Cerâmica',        price: 389, desc: 'Visibilidade noturna.' },
-                { id: 'gw_hp',   brand: 'Garware',  name: 'HP',              price: 499, desc: 'Conforto térmico.' },
-                { id: 'gw_ir',   brand: 'Garware',  name: 'IR Plus',         price: 749, desc: 'Nano-cerâmica premium.' }
+                { id: 'bt_carb', brand: 'BlueTech "Custo Benefício"', name: 'Carbono (Média Retenção)',         price: 279, desc: 'Privacidade e Ótimo Custo.' },
+                { id: 'bt_cer',  brand: 'BlueTech "Custo Benefício"', name: 'Cerâmica (Alta Retenção)',        price: 389, desc: 'Tecnologia WindowBlue Térmica.' },
+                { id: 'gw_hp',   brand: 'Garware "Premium"',  name: 'HP (Média Retenção)',              price: 499, desc: 'Privacidade e Ótima Visibilidade.' },
+                { id: 'gw_ir',   brand: 'Garware "Premium"',  name: 'IR Plus (Alta Retenção)',         price: 749, desc: 'Máxima Rejeição de Calor.' },
+                { id: 'none',    brand: 'Original', name: 'Sem Película',    price: 0,   desc: 'Manter vidro original transparente.'}
             ]
         };
 
@@ -699,7 +715,7 @@
             let html = '';
             
             // Ordem de exibição das marcas (para ficar organizado)
-            const brandOrder = ['Original', 'BlueTech', 'Garware'];
+            const brandOrder = ['BlueTech', 'Garware', 'Original'];
             
             // Ordena as chaves do objeto groups baseado na lista brandOrder
             const sortedBrands = Object.keys(groups).sort((a, b) => {
@@ -843,10 +859,10 @@
 
         const tintData = {
             'clear': { opacity: 0.1, color: '#ffffff', roughness: 0.1, name: 'Original' },
-            'g70':   { opacity: 0.35, color: '#444444', roughness: 0.1, name: 'G70' },
-            'g35':   { opacity: 0.55, color: '#2a2a2a', roughness: 0.05, name: 'G35' },
-            'g20':   { opacity: 0.90, color: '#111111', roughness: 0.02, name: 'G20' },
-            'g5':    { opacity: 0.95, color: '#000000', roughness: 0.01, name: 'G5' },
+            'g70':   { opacity: 0.25, color: '#444444', roughness: 0.1, name: 'G70' },
+            'g35':   { opacity: 0.45, color: '#2a2a2a', roughness: 0.05, name: 'G35' },
+            'g20':   { opacity: 0.84, color: '#111111', roughness: 0.02, name: 'G20' },
+            'g5':    { opacity: 0.92, color: '#000000', roughness: 0.01, name: 'G5' },
         };
 
         let state = {
