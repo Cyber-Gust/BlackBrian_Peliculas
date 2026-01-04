@@ -130,7 +130,7 @@
             <model-viewer 
                 id="car-viewer"
                 class="w-full h-full -translate-y-[10%] md:translate-y-0 transition-transform duration-500" 
-                src="models/Compass.glb" 
+                src="models/Jaecoo.glb" 
                 camera-controls 
                 carColors="['silver']"
                 shadow-intensity="1.2" 
@@ -455,7 +455,7 @@
                             <div class="flex justify-between items-end pt-2">
                                 <div class="flex flex-col">
                                     <span class="text-xs text-gray-400 line-through decoration-red-400" id="summary-raw-total">R$ 000</span>
-                                    <span class="text-xs font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded-md w-fit">5% de Desconto Web</span>
+                                    <span class="text-xs font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded-md w-fit">5% de Desconto Web (À Vista)</span>
                                 </div>
                                 <div class="text-right">
                                     <span class="text-xs text-gray-500 block mb-0.5">Total Final</span>
@@ -576,17 +576,17 @@
         },
         suv: {
             name: 'SUV',
-            src: 'models/Compass.glb',
+            src: 'models/Jaecoo.glb',
             camera: '35deg 75deg 155%'
         },
         hatch: {
             name: 'Hatch',
-            src: 'models/Fit.glb',
+            src: 'models/Golf.glb',
             camera: '45deg 70deg 150%'
         },
         sedan: {
             name: 'Sedã',
-            src: 'models/M5.glb',
+            src: 'models/Sentra.glb',
             camera: '40deg 75deg 150%'
         },
         pickup: {
@@ -656,16 +656,17 @@
         const pricingData = {
             sides: [    
                 { id: 'none',    brand: 'Original',        name: 'Sem Película',   price: 0,   desc: 'Vidro original transparente.' },
-                { id: 'bt_carb', brand: 'BlueTech "Custo Benefício"', name: 'Carbono (Média Retenção)', price: 599, desc: 'Privacidade e Ótimo Custo.' },
-                { id: 'bt_cer',  brand: 'BlueTech "Custo Benefício"', name: 'Cerâmica (Alta Retenção)', price: 799, desc: 'Tecnologia WindowBlue Térmica.' },
+                { id: 'bt_carb', brand: 'BlueTech "Custo Benefício"', name: 'Carbono (Média Retenção)', price: 690, desc: 'Privacidade e Ótimo Custo.' },
+                { id: 'bt_cer',  brand: 'BlueTech "Custo Benefício"', name: 'Cerâmica (Alta Retenção)', price: 890, desc: 'Tecnologia WindowBlue Térmica.' },
                 { id: 'gw_hp',   brand: 'Garware "Premium"',  name: 'HP (Média Retenção)', price: 899, desc: 'Privacidade e Ótima Visibilidade.' },
                 { id: 'gw_ir',   brand: 'Garware "Premium"',  name: 'IR Plus (Alta Retenção)',   price: 1499, desc: 'Máxima Rejeição de Calor.' }
             ],
             front: [
-                { id: 'bt_carb', brand: 'BlueTech "Custo Benefício"', name: 'Carbono (Média Retenção)',         price: 279, desc: 'Privacidade e Ótimo Custo.' },
-                { id: 'bt_cer',  brand: 'BlueTech "Custo Benefício"', name: 'Cerâmica (Alta Retenção)',        price: 389, desc: 'Tecnologia WindowBlue Térmica.' },
-                { id: 'gw_hp',   brand: 'Garware "Premium"',  name: 'HP (Média Retenção)',              price: 499, desc: 'Privacidade e Ótima Visibilidade.' },
-                { id: 'gw_ir',   brand: 'Garware "Premium"',  name: 'IR Plus (Alta Retenção)',         price: 749, desc: 'Máxima Rejeição de Calor.' },
+                { id: 'bt_carb', brand: 'BlueTech "Custo Benefício"', name: 'Carbono (Média Retenção)',         price: 410, desc: 'Privacidade e Ótimo Custo.' },
+                { id: 'bt_cer',  brand: 'BlueTech "Custo Benefício"', name: 'Cerâmica (Alta Retenção)',        price: 510, desc: 'Tecnologia WindowBlue Térmica.' },
+                { id: 'gw_hp',   brand: 'Garware "Premium"',  name: 'HP (Média Retenção)',              price: 540, desc: 'Privacidade e Ótima Visibilidade.' },
+                { id: 'gw_ic',   brand: 'Garware "Premium"',  name: 'Ice Cool (Alta Retenção G70)',         price: 750, desc: 'Máxima Rejeição de Calor.' },
+                { id: 'gw_ir',   brand: 'Garware "Premium"',  name: 'IR Plus (Alta Retenção)',         price: 900, desc: 'Máxima Rejeição de Calor.' },
                 { id: 'none',    brand: 'Original', name: 'Sem Película',    price: 0,   desc: 'Manter vidro original transparente.'}
             ]
         };
@@ -859,10 +860,10 @@
 
         const tintData = {
             'clear': { opacity: 0.1, color: '#ffffff', roughness: 0.1, name: 'Original' },
-            'g70':   { opacity: 0.22, color: '#444444', roughness: 0.1, name: 'G70' },
-            'g35':   { opacity: 0.45, color: '#2a2a2a', roughness: 0.05, name: 'G35' },
-            'g20':   { opacity: 0.81, color: '#111111', roughness: 0.02, name: 'G20' },
-            'g5':    { opacity: 0.90, color: '#000000', roughness: 0.01, name: 'G5' },
+            'g70':   { opacity: 0.18, color: '#444444', roughness: 0.1, name: 'G70' },
+            'g35':   { opacity: 0.85, color: '#2a2a2a', roughness: 0.05, name: 'G35' },
+            'g20':   { opacity: 0.94, color: '#111111', roughness: 0.02, name: 'G20' },
+            'g5':    { opacity: 0.98, color: '#000000', roughness: 0.01, name: 'G5' },
         };
 
         let state = {

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Black Brian — Escolha o Serviço</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              500: "#4e7f49",
+              600: "#3d6538"
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: #000;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen relative text-white font-sans antialiased overflow-hidden">
+
+  <!-- BACKGROUND IMAGE -->
+  <div class="absolute inset-0">
+    <div 
+      class="absolute inset-0 bg-[url('imgs/bg.jpg')] bg-cover bg-center bg-no-repeat scale-105">
+    </div>
+
+    <!-- Overlay escuro -->
+    <div class="absolute inset-0 bg-black/70 backdrop-blur-[2px]"></div>
+  </div>
+
+  <!-- CONTENT -->
+  <main class="relative z-10 min-h-screen flex items-center justify-center px-6">
+    
+    <div class="w-full max-w-3xl">
+
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-black mb-4">
+          Escolha o que você procura
+        </h1>
+        <p class="text-zinc-300">
+          Selecione abaixo o serviço desejado para continuar.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- CARDÁPIO -->
+        <a href="Cardapio/index.html"
+           class="group rounded-3xl p-10 bg-white/10 backdrop-blur-md border border-white/20 hover:border-brand-500 hover:bg-brand-500/20 transition-all duration-300 flex flex-col items-center justify-center text-center">
+          
+          <span class="text-sm uppercase tracking-widest text-zinc-300 mb-2 group-hover:text-brand-500 transition">
+            Serviços
+          </span>
+
+          <h2 class="text-2xl font-black mb-2">
+            Cardápio Completo
+          </h2>
+
+          <p class="text-zinc-300 text-sm">
+            Detalhamento, vitrificação e pacotes.
+          </p>
+        </a>
+
+        <!-- PELÍCULAS -->
+        <a href="Peliculas_Solares/index.html"
+           class="group rounded-3xl p-10 bg-white/10 backdrop-blur-md border border-white/20 hover:border-brand-500 hover:bg-brand-500/20 transition-all duration-300 flex flex-col items-center justify-center text-center">
+          
+          <span class="text-sm uppercase tracking-widest text-zinc-300 mb-2 group-hover:text-brand-500 transition">
+            Proteção
+          </span>
+
+          <h2 class="text-2xl font-black mb-2">
+            Películas Solares
+          </h2>
+
+          <p class="text-zinc-300 text-sm">
+            Conforto térmico, estética e segurança.
+          </p>
+        </a>
+
+      </div>
+
+      <footer class="mt-16 text-center text-zinc-400 text-xs">
+        © 2024 Black Brian Car Detailer
+      </footer>
+
+    </div>
+
+  </main>
+
+</body>
+</html>
