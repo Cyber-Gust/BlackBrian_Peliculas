@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  
+  <link rel="apple-touch-icon" href="imgs/apple_icon.png"> <link rel="icon" type="image/png" href="icone.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <title>Agenda Black Brian Pro</title>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50: "#f2fcf1", 100: "#e1f7de", 400: "#6f9f6a", 500: "#4e7f49", 600: "#3d6538", 900: "#1a2e19" },
+            dark: { 800: "#18181b", 900: "#09090b" }
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          boxShadow: {
+            'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body { background-color: #f4f4f5; color: #18181b; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .day-cell { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+    .day-cell:active { transform: scale(0.90); }
+    .modal-overlay { transition: opacity 0.3s ease; }
+    .modal-content { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+    
+    .glass-header {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+
+<body class="antialiased min-h-screen flex flex-col pb-24 bg-zinc-50">
+
+  <header class="fixed top-0 w-full z-40 glass-header pt-safe-top">
+    <div class="px-5 pt-4 pb-2">
+      <div class="flex justify-between items-center mb-4">
+        <div class="flex items-center gap-3">
+          <img src="imgs/logoo.png" alt="Logo" class="h-14 object-contain rounded-xl">
+          <div class="flex items-center gap-2 mt-0.5">
+                <div class="w-2 h-2 bg-brand-600 rotate-45 rounded-[1px]"></div>
+                <p class="text-[15px] font-bold text-zinc-400 uppercase tracking-wider">Agenda</p>
+            </div>
+        </div>
+        <button onclick="fetchMonthData()" class="p-2 rounded-full hover:bg-zinc-100 text-zinc-400 transition">
+           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        </button>
+      </div>
+
+      <div class="flex items-center justify-between mb-4">
+        <button onclick="changeMonth(-1)" class="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-zinc-200 shadow-sm text-zinc-600 hover:text-brand-600 active:scale-90 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <h2 id="current-month-label" class="text-lg font-bold text-zinc-800 capitalize w-32 text-center">...</h2>
+        <button onclick="changeMonth(1)" class="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-zinc-200 shadow-sm text-zinc-600 hover:text-brand-600 active:scale-90 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+
+      <div class="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+        <button onclick="setFilter('todos')" id="filter-todos" class="filter-chip px-5 py-2 rounded-full text-xs font-bold bg-brand-600 text-white shadow-lg shadow-brand-500/20 transition-all">Todos</button>
+        <button onclick="setFilter('martelinho')" id="filter-martelinho" class="filter-chip px-5 py-2 rounded-full text-xs font-bold bg-white text-zinc-500 border border-zinc-200 hover:bg-zinc-50 transition-all">Martelinho</button>
+        <button onclick="setFilter('estetica')" id="filter-estetica" class="filter-chip px-5 py-2 rounded-full text-xs font-bold bg-white text-zinc-500 border border-zinc-200 hover:bg-zinc-50 transition-all">Estética</button>
+        <button onclick="setFilter('insulfilm')" id="filter-insulfilm" class="filter-chip px-5 py-2 rounded-full text-xs font-bold bg-white text-zinc-500 border border-zinc-200 hover:bg-zinc-50 transition-all">Insulfilm</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="mt-[200px] px-4 w-full max-w-lg mx-auto">
+    
+    <div class="bg-white rounded-3xl p-4 shadow-glass border border-zinc-100 mb-6">
+        <div class="grid grid-cols-7 gap-1 mb-2 text-center">
+            <span class="text-[10px] font-bold text-red-400 uppercase">D</span>
+            <span class="text-[10px] font-bold text-zinc-400 uppercase">S</span>
+            <span class="text-[10px] font-bold text-zinc-400 uppercase">T</span>
+            <span class="text-[10px] font-bold text-zinc-400 uppercase">Q</span>
+            <span class="text-[10px] font-bold text-zinc-400 uppercase">Q</span>
+            <span class="text-[10px] font-bold text-zinc-400 uppercase">S</span>
+            <span class="text-[10px] font-bold text-zinc-400 uppercase">S</span>
+        </div>
+        <div id="calendar-grid" class="grid grid-cols-7 gap-1 place-items-center">
+        </div>
+    </div>
+
+    <div class="flex items-center justify-between mb-4 px-2">
+        <h3 id="selected-date-label" class="font-bold text-xl text-zinc-900">Hoje</h3>
+        <span id="daily-count" class="text-xs font-bold bg-zinc-200 text-zinc-600 px-2 py-1 rounded-md">0 agendamentos</span>
+    </div>
+
+    <div id="schedule-list" class="space-y-3 min-h-[200px]">
+       <div class="flex flex-col items-center justify-center py-10 opacity-50">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500 mb-2"></div>
+            <p class="text-xs text-zinc-500">Sincronizando...</p>
+       </div>
+    </div>
+
+  </main>
+
+  <button onclick="openModal()" class="fixed bottom-6 right-6 w-16 h-16 bg-brand-600 rounded-full flex items-center justify-center shadow-lg shadow-brand-600/40 text-white hover:scale-105 active:scale-95 transition z-40 group">
+    <svg class="w-8 h-8 group-hover:rotate-90 transition duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+  </button>
+
+  <div id="modal-overlay" class="modal-overlay fixed inset-0 bg-zinc-900/60 z-50 hidden backdrop-blur-sm opacity-0" onclick="closeModal()"></div>
+  <div id="modal-content" class="modal-content fixed bottom-0 left-0 right-0 bg-white rounded-t-[2.5rem] p-6 z-50 transform translate-y-full shadow-2xl max-w-lg mx-auto sm:relative sm:rounded-[2.5rem] sm:translate-y-0 sm:hidden flex flex-col max-h-[90vh] overflow-y-auto">
+    
+    <div class="w-12 h-1.5 bg-zinc-200 rounded-full mx-auto mb-6"></div>
+
+    <div class="flex justify-between items-center mb-6">
+        <h2 id="modal-title" class="text-2xl font-bold text-zinc-900">Novo Agendamento</h2>
+    </div>
+
+    <form onsubmit="saveSchedule(event)" class="space-y-5">
+        <input type="hidden" id="inp-id"> <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs font-bold text-zinc-400 uppercase mb-1 ml-1">Data</label>
+                <input type="date" id="inp-data" required class="w-full bg-zinc-50 border border-zinc-200 rounded-2xl p-3.5 font-semibold text-zinc-800 focus:ring-2 focus:ring-brand-500 focus:bg-white outline-none transition">
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-zinc-400 uppercase mb-1 ml-1">Horário</label>
+                <input type="time" id="inp-hora" required class="w-full bg-zinc-50 border border-zinc-200 rounded-2xl p-3.5 font-semibold text-zinc-800 focus:ring-2 focus:ring-brand-500 focus:bg-white outline-none transition">
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-xs font-bold text-zinc-400 uppercase mb-1 ml-1">Cliente</label>
+            <input type="text" id="inp-cliente" required placeholder="Nome do cliente" class="w-full bg-zinc-50 border border-zinc-200 rounded-2xl p-3.5 font-semibold text-zinc-800 placeholder-zinc-400 focus:ring-2 focus:ring-brand-500 focus:bg-white outline-none transition">
+        </div>
+
+        <div>
+            <label class="block text-xs font-bold text-zinc-400 uppercase mb-1 ml-1">Categoria</label>
+            <div class="grid grid-cols-3 gap-3">
+                
+                <label class="cursor-pointer group relative">
+                    <input type="radio" name="cat" value="martelinho" class="peer sr-only" checked>
+                    <div class="h-full flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-zinc-100 bg-white text-zinc-500 transition-all 
+                        peer-checked:bg-amber-50 peer-checked:text-amber-700 peer-checked:border-amber-500 peer-checked:shadow-sm">
+                        <span class="text-xs font-bold">Martelinho</span>
+                    </div>
+                </label>
+                
+                <label class="cursor-pointer group relative">
+                    <input type="radio" name="cat" value="estetica" class="peer sr-only">
+                    <div class="h-full flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-zinc-100 bg-white text-zinc-500 transition-all 
+                        peer-checked:bg-teal-50 peer-checked:text-teal-700 peer-checked:border-teal-500 peer-checked:shadow-sm">
+                        <span class="text-xs font-bold">Estética</span>
+                    </div>
+                </label>
+                
+                <label class="cursor-pointer group relative">
+                    <input type="radio" name="cat" value="insulfilm" class="peer sr-only">
+                    <div class="h-full flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-zinc-100 bg-white text-zinc-500 transition-all 
+                        peer-checked:bg-violet-50 peer-checked:text-violet-700 peer-checked:border-violet-500 peer-checked:shadow-sm">
+                        <span class="text-xs font-bold">Insulfilm</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-4">
+            <div class="col-span-2">
+                 <label class="block text-xs font-bold text-zinc-400 uppercase mb-1 ml-1">Serviço</label>
+                 <input type="text" id="inp-servico" required placeholder="Ex: Polimento" class="w-full bg-zinc-50 border border-zinc-200 rounded-2xl p-3.5 font-semibold text-zinc-800 focus:ring-2 focus:ring-brand-500 focus:bg-white outline-none transition">
+            </div>
+            <div class="col-span-1">
+                <label class="block text-xs font-bold text-zinc-400 uppercase mb-1 ml-1">R$</label>
+                <input type="number" id="inp-valor" placeholder="00" class="w-full bg-zinc-50 border border-zinc-200 rounded-2xl p-3.5 font-semibold text-zinc-800 focus:ring-2 focus:ring-brand-500 focus:bg-white outline-none transition">
+            </div>
+        </div>
+
+        <div class="pt-2">
+            <button type="submit" id="btn-save" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-bold py-4 rounded-2xl shadow-xl shadow-brand-500/20 active:scale-95 transition transform">
+                CONFIRMAR
+            </button>
+        </div>
+        <button type="button" onclick="closeModal()" class="w-full text-zinc-400 font-semibold text-sm pb-2">Cancelar</button>
+    </form>
+  </div>
+
+  <div id="delete-modal" class="fixed inset-0 bg-zinc-900/70 z-[60] hidden backdrop-blur-sm flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+     <div class="bg-white rounded-3xl p-6 w-full max-w-xs text-center shadow-2xl transform scale-95 transition-transform duration-300" id="delete-card">
+        <div class="w-16 h-16 bg-red-100 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+        </div>
+        <h3 class="text-lg font-bold text-zinc-900 mb-1">Excluir Agendamento?</h3>
+        <p class="text-sm text-zinc-500 mb-6">Essa ação não pode ser desfeita.</p>
+        
+        <div class="flex gap-3">
+            <button onclick="closeDeleteModal()" class="flex-1 py-3 rounded-xl bg-zinc-100 text-zinc-600 font-bold text-sm hover:bg-zinc-200 transition">Cancelar</button>
+            <button onclick="performDelete()" id="btn-confirm-delete" class="flex-1 py-3 rounded-xl bg-red-500 text-white font-bold text-sm hover:bg-red-600 shadow-lg shadow-red-500/30 transition">Excluir</button>
+        </div>
+     </div>
+  </div>
+
+  <script>
+    // --- SUPABASE CONFIG ---
+    const SUPABASE_URL = 'https://vdxliqcozysjgomcfuhs.supabase.co'; 
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZkeGxpcWNvenlzamdvbWNmdWhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc1NDUwOTUsImV4cCI6MjA4MzEyMTA5NX0.-QUm03qwxrFJuCDQEv276PYLtOJEwEni478GrnMeEPI';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // --- STATE ---
+    let viewDate = new Date();
+    let selectedDate = new Date();
+    let appointmentsCache = [];
+    let currentCategory = 'todos';
+    let itemToDeleteId = null; 
+
+    // --- INIT ---
+    document.addEventListener('DOMContentLoaded', () => {
+        viewDate.setHours(0,0,0,0);
+        selectedDate.setHours(0,0,0,0);
+        fetchMonthData();
+    });
+
+    // --- FETCH DATA ---
+    async function fetchMonthData() {
+        const year = viewDate.getFullYear();
+        const month = viewDate.getMonth();
+        const firstDay = new Date(year, month, 1).toISOString().split('T')[0];
+        const lastDay = new Date(year, month + 1, 0).toISOString().split('T')[0];
+
+        const { data, error } = await supabaseClient
+            .from('agendamentos')
+            .select('*')
+            .gte('data_agendamento', firstDay)
+            .lte('data_agendamento', lastDay);
+
+        if (error) { console.error('Erro:', error); return; }
+
+        appointmentsCache = data || [];
+        renderCalendar();
+        renderList();
+    }
+
+    // --- RENDER CALENDAR ---
+    function renderCalendar() {
+        const grid = document.getElementById('calendar-grid');
+        const monthLabel = document.getElementById('current-month-label');
+        
+        const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+        monthLabel.innerText = `${monthNames[viewDate.getMonth()]} ${viewDate.getFullYear()}`;
+
+        grid.innerHTML = '';
+
+        const year = viewDate.getFullYear();
+        const month = viewDate.getMonth();
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        for(let i = 0; i < firstDayOfMonth; i++) {
+            grid.innerHTML += `<div class="h-10 w-full"></div>`;
+        }
+
+        for (let d = 1; d <= daysInMonth; d++) {
+            const dateObj = new Date(year, month, d);
+            const currentDateString = dateObj.toISOString().split('T')[0];
+            const isSelected = selectedDate.getDate() === d && selectedDate.getMonth() === month && selectedDate.getFullYear() === year;
+            const isToday = new Date().toISOString().split('T')[0] === currentDateString;
+            const isSunday = dateObj.getDay() === 0; // Verifica se é domingo
+
+            const appsOfDay = appointmentsCache.filter(app => app.data_agendamento === currentDateString);
+            const hasApps = appsOfDay.length > 0;
+            const busyLevel = appsOfDay.length > 3 ? 'bg-orange-400' : 'bg-brand-400';
+
+            // Lógica de Classes
+            let bgClass = '';
+            
+            if (isSelected) {
+                // Selecionado (Verde)
+                bgClass = 'bg-brand-600 text-white shadow-lg shadow-brand-500/40';
+            } else if (isToday) {
+                // Hoje (Fundo cinza, texto verde)
+                bgClass = 'bg-zinc-100 text-brand-600 font-bold';
+            } else {
+                // Normal
+                bgClass = 'bg-transparent hover:bg-zinc-50 ';
+                // Se for domingo e não estiver selecionado, fica vermelho
+                if (isSunday) {
+                    bgClass += 'text-red-500 font-bold';
+                } else {
+                    bgClass += 'text-zinc-600';
+                }
+            }
+
+            let dotHtml = hasApps && !isSelected ? `<div class="w-1.5 h-1.5 rounded-full ${busyLevel} absolute bottom-1"></div>` : '';
+
+            const cell = document.createElement('div');
+            cell.className = `day-cell h-10 w-10 rounded-xl flex flex-col items-center justify-center relative cursor-pointer select-none ${bgClass}`;
+            cell.innerHTML = `<span class="text-sm z-10">${d}</span>${dotHtml}`;
+            cell.onclick = () => selectDay(d);
+            
+            grid.appendChild(cell);
+        }
+    }
+
+    function changeMonth(delta) {
+        viewDate.setMonth(viewDate.getMonth() + delta);
+        fetchMonthData();
+    }
+
+    function selectDay(day) {
+        selectedDate = new Date(viewDate.getFullYear(), viewDate.getMonth(), day);
+        renderCalendar();
+        renderList();
+    }
+
+    // --- RENDER LIST ---
+    function renderList() {
+        const container = document.getElementById('schedule-list');
+        const countLabel = document.getElementById('daily-count');
+        const dateLabel = document.getElementById('selected-date-label');
+        
+        const todayStr = new Date().toISOString().split('T')[0];
+        const selectedStr = selectedDate.toISOString().split('T')[0];
+        
+        dateLabel.innerText = selectedStr === todayStr ? 'Hoje' : selectedDate.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
+
+        let dailyApps = appointmentsCache.filter(app => app.data_agendamento === selectedStr);
+        
+        if (currentCategory !== 'todos') {
+            dailyApps = dailyApps.filter(app => app.categoria === currentCategory);
+        }
+
+        dailyApps.sort((a, b) => a.horario.localeCompare(b.horario));
+
+        countLabel.innerText = `${dailyApps.length} agendamentos`;
+        container.innerHTML = '';
+
+        if (dailyApps.length === 0) {
+            container.innerHTML = `
+                <div class="flex flex-col items-center justify-center py-12 px-4 border-2 border-dashed border-zinc-200 rounded-3xl bg-zinc-50/50">
+                    <p class="text-zinc-400 font-medium text-center">Nenhum cliente agendado.</p>
+                    <button onclick="openModal()" class="mt-4 text-brand-600 text-sm font-bold hover:underline">Agendar agora</button>
+                </div>`;
+            return;
+        }
+
+        dailyApps.forEach(item => {
+            let colors = {
+                martelinho: { border: 'bg-amber-500', bg: 'bg-amber-50', text: 'text-amber-700' },
+                estetica:   { border: 'bg-teal-500', bg: 'bg-teal-50', text: 'text-teal-700' },
+                insulfilm:  { border: 'bg-violet-500', bg: 'bg-violet-50', text: 'text-violet-700' }
+            };
+            const theme = colors[item.categoria] || colors.estetica;
+            
+            const hora = item.horario.slice(0, 5);
+            const valor = item.valor ? `R$ ${item.valor}` : '';
+            const itemString = encodeURIComponent(JSON.stringify(item));
+
+            const card = `
+                <div class="bg-white rounded-2xl p-4 flex items-center gap-4 shadow-sm border border-zinc-100 relative group overflow-hidden transition hover:shadow-md">
+                    <div class="absolute left-0 top-0 bottom-0 w-1.5 ${theme.border}"></div>
+                    
+                    <div class="flex flex-col items-center min-w-[3.5rem] pl-2">
+                        <span class="text-lg font-black text-zinc-800">${hora}</span>
+                        <span class="text-[10px] uppercase font-bold text-zinc-400">Hora</span>
+                    </div>
+                    
+                    <div class="h-10 w-px bg-zinc-100"></div>
+
+                    <div class="flex-1 min-w-0 py-1">
+                        <div class="flex justify-between items-start">
+                             <h4 class="font-bold text-zinc-900 truncate pr-16">${item.cliente}</h4>
+                        </div>
+                        <p class="text-sm text-zinc-500 truncate mb-1.5">${item.servico}</p>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded ${theme.bg} ${theme.text} tracking-wide">${item.categoria}</span>
+                            ${valor ? `<span class="text-[10px] font-bold text-zinc-500 bg-zinc-100 px-2 py-0.5 rounded border border-zinc-200">${valor}</span>` : ''}
+                        </div>
+                    </div>
+
+                    <div class="absolute top-3 right-3 flex gap-1">
+                         <button onclick="editItem('${itemString}')" class="p-2 text-zinc-300 hover:text-brand-600 hover:bg-brand-50 rounded-full transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                        </button>
+                        <button onclick="confirmDelete(${item.id})" class="p-2 text-zinc-300 hover:text-red-500 hover:bg-red-50 rounded-full transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += card;
+        });
+    }
+
+    function setFilter(cat) {
+        currentCategory = cat;
+        // Reseta todos para branco
+        document.querySelectorAll('.filter-chip').forEach(btn => {
+            btn.classList.remove('bg-brand-600', 'text-white', 'shadow-lg');
+            btn.classList.add('bg-white', 'text-zinc-500');
+        });
+        
+        // Coloca o ativo em verde (brand-600)
+        const active = document.getElementById('filter-' + cat);
+        active.classList.remove('bg-white', 'text-zinc-500');
+        active.classList.add('bg-brand-600', 'text-white', 'shadow-lg');
+        
+        renderList();
+    }
+
+    // --- MODAL PRINCIPAL (CRIAR/EDITAR) ---
+    function openModal(data = null) {
+        const overlay = document.getElementById('modal-overlay');
+        const content = document.getElementById('modal-content');
+        const title = document.getElementById('modal-title');
+        const btnSave = document.getElementById('btn-save');
+
+        document.querySelector('form').reset();
+        document.getElementById('inp-id').value = '';
+
+        if(data) {
+            title.innerText = "Editar Agendamento";
+            btnSave.innerText = "ATUALIZAR";
+            
+            document.getElementById('inp-id').value = data.id;
+            document.getElementById('inp-cliente').value = data.cliente;
+            document.getElementById('inp-hora').value = data.horario;
+            document.getElementById('inp-data').value = data.data_agendamento;
+            document.getElementById('inp-servico').value = data.servico;
+            document.getElementById('inp-valor').value = data.valor;
+            
+            const radios = document.getElementsByName('cat');
+            for(let r of radios) {
+                if(r.value === data.categoria) r.checked = true;
+            }
+
+        } else {
+            title.innerText = "Novo Agendamento";
+            btnSave.innerText = "CONFIRMAR";
+            document.getElementById('inp-data').value = selectedDate.toISOString().split('T')[0];
+            const now = new Date();
+            document.getElementById('inp-hora').value = now.toTimeString().slice(0,5);
+        }
+
+        overlay.classList.remove('hidden');
+        content.classList.remove('hidden');
+        
+        setTimeout(() => {
+            overlay.classList.remove('opacity-0');
+            content.classList.remove('translate-y-full');
+        }, 10);
+    }
+
+    function editItem(itemString) {
+        const item = JSON.parse(decodeURIComponent(itemString));
+        openModal(item);
+    }
+
+    function closeModal() {
+        const overlay = document.getElementById('modal-overlay');
+        const content = document.getElementById('modal-content');
+
+        content.classList.add('translate-y-full');
+        overlay.classList.add('opacity-0');
+
+        setTimeout(() => {
+            overlay.classList.add('hidden');
+            // content.classList.add('hidden'); 
+        }, 300);
+    }
+
+    // --- SALVAR (INSERT OU UPDATE) ---
+    async function saveSchedule(e) {
+        e.preventDefault();
+        const btn = e.target.querySelector('button[type="submit"]');
+        const oldText = btn.innerText;
+        btn.innerText = "SALVANDO...";
+        btn.disabled = true;
+
+        const id = document.getElementById('inp-id').value;
+
+        const formData = {
+            cliente: document.getElementById('inp-cliente').value,
+            horario: document.getElementById('inp-hora').value,
+            data_agendamento: document.getElementById('inp-data').value,
+            servico: document.getElementById('inp-servico').value,
+            categoria: document.querySelector('input[name="cat"]:checked').value,
+            valor: document.getElementById('inp-valor').value || null,
+            status: 'pendente'
+        };
+
+        let error = null;
+
+        if (id) {
+            const res = await supabaseClient.from('agendamentos').update(formData).eq('id', id);
+            error = res.error;
+        } else {
+            const res = await supabaseClient.from('agendamentos').insert([formData]);
+            error = res.error;
+        }
+
+        if (error) {
+            alert('Erro: ' + error.message);
+        } else {
+            const savedDate = new Date(formData.data_agendamento);
+            if (savedDate.getMonth() === viewDate.getMonth()) {
+                await fetchMonthData();
+            } else {
+                alert('Salvo com sucesso!');
+            }
+            closeModal();
+        }
+        btn.innerText = oldText;
+        btn.disabled = false;
+    }
+
+    // --- DELETAR ---
+    function confirmDelete(id) {
+        itemToDeleteId = id;
+        const modal = document.getElementById('delete-modal');
+        const card = document.getElementById('delete-card');
+        
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            card.classList.remove('scale-95');
+            card.classList.add('scale-100');
+        }, 10);
+    }
+
+    function closeDeleteModal() {
+        const modal = document.getElementById('delete-modal');
+        const card = document.getElementById('delete-card');
+        
+        modal.classList.add('opacity-0');
+        card.classList.remove('scale-100');
+        card.classList.add('scale-95');
+        
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            itemToDeleteId = null;
+        }, 300);
+    }
+
+    async function performDelete() {
+        if (!itemToDeleteId) return;
+
+        const btn = document.getElementById('btn-confirm-delete');
+        btn.innerText = "...";
+        
+        const { error } = await supabaseClient.from('agendamentos').delete().eq('id', itemToDeleteId);
+        
+        if (!error) {
+            appointmentsCache = appointmentsCache.filter(app => app.id !== itemToDeleteId);
+            renderCalendar();
+            renderList();
+            closeDeleteModal();
+        } else {
+            alert("Erro ao excluir");
+            closeDeleteModal();
+        }
+        btn.innerText = "Excluir";
+    }
+  </script>
+</body>
+</html>
