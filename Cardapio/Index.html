@@ -808,9 +808,17 @@
 
     <div class="relative w-full max-w-lg max-h-[85vh] glass rounded-3xl flex flex-col border border-white/10 overflow-hidden shadow-2xl">
       
-      <div class="p-6 pb-4 shrink-0 border-b border-white/5">
-        <h3 id="modal-title" class="text-xl font-black text-white mb-1"></h3>
-        <p id="modal-rule" class="text-sm text-zinc-400"></p>
+      <div class="p-6 pb-4 shrink-0 border-b border-white/5 flex justify-between items-start gap-4">
+        <div>
+          <h3 id="modal-title" class="text-xl font-black text-white mb-1"></h3>
+          <p id="modal-rule" class="text-sm text-zinc-400"></p>
+        </div>
+
+        <button onclick="closeOptionsModal()" class="text-zinc-500 hover:text-white bg-white/5 hover:bg-red-500/20 hover:text-red-400 p-2 rounded-lg transition-colors duration-200" aria-label="Fechar">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
       </div>
 
       <div id="modal-options" class="p-6 overflow-y-auto modal-scroll space-y-3 flex-1">
