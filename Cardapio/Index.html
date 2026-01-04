@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Black Brian — Menu de Serviços</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              400: "#6f9f6a",
+              500: "#4e7f49",
+              600: "#3d6538",
+              700: "#32512e",
+              800: "#2a4227",
+              900: "#233722"
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          backgroundImage: {
+            'hero-pattern': "url('imgs/image.png')",
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #000;
+      color: #e4e4e7;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #09090b; }
+    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
+
+    /* Efeito Glass */
+    .glass {
+      background: rgba(24, 24, 27, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .glass-strong {
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Máscara do Background */
+    .bg-mask {
+      background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 60%, #000 100%);
+    }
+
+    /* Checkbox Customizado (Builder) */
+    .custom-checkbox:checked + div {
+        background-color: #4e7f49;
+        border-color: #4e7f49;
+    }
+    .custom-checkbox:checked + div svg {
+        opacity: 1;
+    }
+  </style>
+</head>
+
+<body class="antialiased">
+
+  <nav class="fixed top-0 w-full z-50 glass-strong h-24 flex items-center transition-all duration-300 rounded-b-3xl shadow-lg shadow-black/50">
+      <div class="max-w-7xl mx-auto px-4 w-full flex justify-between items-center">
+        
+        <div class="flex items-center gap-6">
+          
+          <img src="imgs/LOGO.png" alt="Black Brian Logo" class="h-20 w-auto object-contain"> 
+          
+          <div class="flex items-center gap-2 border-l border-white/10 pl-6 py-2 hidden md:flex">
+              <div class="w-2 h-2 rounded-full bg-brand-500 shadow-[0_0_10px_rgba(78,127,73,0.8)]"></div>
+              <span class="text-zinc-300 font-bold text-sm tracking-widest uppercase">Lista de Tratamentos</span>
+          </div>
+
+        </div>
+
+        <button onclick="toggleCart()" class="relative group p-3 rounded-full hover:bg-white/5 transition">
+          <svg class="w-6 h-6 text-white group-hover:text-brand-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+          <span id="cart-badge" class="absolute top-1 right-1 bg-brand-600 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full opacity-0 transition-opacity">0</span>
+        </button>
+      </div>
+  </nav>
+
+  <header class="relative w-full h-[60vh] bg-hero-pattern bg-cover bg-center bg-fixed bg-no-repeat mt-10 flex items-end pb-20">
+      <div class="absolute inset-0 bg-mask"></div> 
+      
+      <div class="relative z-10 max-w-7xl mx-auto px-4 w-full">
+        <div class="max-w-2xl">
+          
+          <a href="index.html" class="inline-flex items-center gap-2 text-zinc-400 hover:text-brand-400 transition-colors mb-6 group cursor-pointer">
+              <svg class="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"></path>
+              </svg>
+              <span class="text-xs font-bold tracking-widest uppercase">Voltar ao Início</span>
+          </a>
+
+          <h1 class="text-5xl md:text-7xl font-black text-white tracking-tight mb-4 leading-tight">
+            SEU CARRO <br />
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-500">MERECE O MELHOR</span>
+          </h1>
+          <p class="text-zinc-400 text-lg md:text-xl max-w-lg">
+            Tratamentos exclusivos, proteção cerâmica e detalhamento minucioso para elevar o nível da sua máquina.
+          </p>
+        </div>
+      </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 pb-16 space-y-24">
+
+    <section>
+      <div class="flex items-end justify-between mb-10 border-b border-white/10 pb-4">
+        <div>
+          <h2 class="text-3xl font-bold text-white mb-1">Limpeza Protetora</h2>
+          <p class="text-zinc-500 text-sm">Pacotes com escolha flexível de opcionais.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        
+        <div class="glass p-6 rounded-3xl hover:border-brand-500/50 transition duration-300 flex flex-col">
+          <div class="mb-4">
+            <span class="text-xs font-bold text-zinc-500 uppercase tracking-widest">Standard</span>
+            <h3 class="text-xl font-bold text-white">LIMPEZA <span class="text-brand-500">PLUS</span></h3>
+          </div>
+          <div class="flex items-baseline gap-1 mb-6">
+            <span class="text-sm text-zinc-500">R$</span>
+            <span class="text-4xl font-black text-white">390</span>
+          </div>
+          
+          <div class="flex-1">
+            <ul class="space-y-2 mb-6 text-sm text-zinc-400">
+              <li class="flex gap-2"><span class="text-brand-500">✓</span> Lavagem Técnica</li>
+              <li class="flex gap-2"><span class="text-brand-500">✓</span> Aspiração</li>
+              <li class="flex gap-2 items-center font-semibold text-white mt-4 bg-white/5 p-2 rounded-lg border border-white/10">
+                <span class="text-brand-400 text-lg">+</span> Escolha 1 Opcional
+              </li>
+            </ul>
+          </div>
+
+          <button onclick="addToCart('Limpeza Plus (com Cera)', 390)" class="w-full py-3 rounded-xl font-bold bg-white/5 text-white border border-white/10 hover:bg-white hover:text-black transition">
+            SELECIONAR
+          </button>
+        </div>
+
+        <div class="glass p-6 rounded-3xl border-brand-500/30 relative overflow-hidden flex flex-col">
+            <div class="absolute top-0 right-0 bg-brand-600 px-3 py-1 rounded-bl-xl text-[10px] font-bold uppercase text-white">Recomendado</div>
+            <div class="mb-4">
+                <span class="text-xs font-bold text-brand-400 uppercase tracking-widest">Premium</span>
+                <h3 class="text-xl font-bold text-white">LIMPEZA <span class="text-brand-500">PRO</span></h3>
+            </div>
+            <div class="flex items-baseline gap-1 mb-6">
+                <span class="text-sm text-zinc-500">R$</span>
+                <span class="text-4xl font-black text-white">510</span>
+            </div>
+            
+            <div class="flex-1">
+                <ul class="space-y-2 mb-6 text-sm text-zinc-400">
+                <li class="flex gap-2"><span class="text-brand-500">✓</span> Lavagem Detalhada</li>
+                <li class="flex gap-2"><span class="text-brand-500">✓</span> Aspiração Profunda</li>
+                <li class="flex gap-2 items-center font-semibold text-white mt-4 bg-brand-500/10 p-2 rounded-lg border border-brand-500/20">
+                    <span class="text-brand-400 text-lg">+</span> Escolha 2 Opcionais
+                  </li>
+                </ul>
+            </div>
+
+            <button onclick="addToCart('Limpeza Pro (2 Opcionais)', 3810)" class="w-full py-3 rounded-xl font-bold bg-brand-600 text-white hover:bg-brand-500 transition shadow-lg shadow-brand-900/20">
+                SELECIONAR
+            </button>
+        </div>
+
+        <div class="glass p-6 rounded-3xl hover:border-brand-500/50 transition duration-300 flex flex-col">
+            <div class="mb-4">
+                <span class="text-xs font-bold text-zinc-500 uppercase tracking-widest">Ultimate</span>
+                <h3 class="text-xl font-bold text-white">LIMPEZA <span class="text-brand-500">MAX</span></h3>
+            </div>
+            <div class="flex items-baseline gap-1 mb-6">
+                <span class="text-sm text-zinc-500">R$</span>
+                <span class="text-4xl font-black text-white">650</span>
+            </div>
+            
+            <div class="flex-1">
+                <ul class="space-y-2 mb-6 text-sm text-zinc-400">
+                <li class="flex gap-2"><span class="text-brand-500">✓</span> Lavagem Completa</li>
+                <li class="flex gap-2"><span class="text-brand-500">✓</span> Descontaminação Férrea</li>
+                <li class="flex gap-2 items-center font-semibold text-white mt-4 bg-white/5 p-2 rounded-lg border border-white/10">
+                    <span class="text-brand-400 text-lg">+</span> Escolha 3 Opcionais
+                  </li>
+                </ul>
+            </div>
+
+            <button onclick="addToCart('Limpeza Max (3 Opcionais)', 650)" class="w-full py-3 rounded-xl font-bold bg-white/5 text-white border border-white/10 hover:bg-white hover:text-black transition">
+                SELECIONAR
+            </button>
+        </div>
+
+      </div>
+
+      <div class="bg-zinc-900/50 rounded-3xl p-8 border border-white/5">
+        <h4 class="text-sm font-bold text-zinc-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-brand-500"></span>
+            Menu de Opcionais Disponíveis
+        </h4>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="flex items-center gap-3 p-3 bg-black/40 rounded-xl border border-white/5">
+                <div class="w-2 h-2 bg-zinc-600 rounded-full"></div>
+                <span class="text-sm text-zinc-300">Tratamento de Motor</span>
+            </div>
+            <div class="flex items-center gap-3 p-3 bg-black/40 rounded-xl border border-white/5">
+                <div class="w-2 h-2 bg-zinc-600 rounded-full"></div>
+                <span class="text-sm text-zinc-300">Tratamento dos Bancos</span>
+            </div>
+            <div class="flex items-center gap-3 p-3 bg-black/40 rounded-xl border border-white/5">
+                <div class="w-2 h-2 bg-zinc-600 rounded-full"></div>
+                <span class="text-sm text-zinc-300">Tratamento dos Vidros</span>
+            </div>
+            <div class="flex items-center gap-3 p-3 bg-black/40 rounded-xl border border-white/5">
+                <div class="w-2 h-2 bg-zinc-600 rounded-full"></div>
+                <span class="text-sm text-zinc-300">Selante Sintético (3 meses)</span>
+            </div>
+        </div>
+        <p class="mt-4 text-xs text-zinc-500 text-center italic">*Você escolherá seus opcionais no momento da realização do serviço.</p>
+      </div>
+
+    </section>
+
+    <section>
+        <div class="mb-10 border-b border-white/10 pb-4">
+             <h2 class="text-3xl font-bold text-white mb-1">Tratamentos Específicos</h2>
+             <p class="text-zinc-500 text-sm">Personalize seu tratamento adicionando extras.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <div class="glass p-8 rounded-3xl relative flex flex-col">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-2xl font-bold text-white">HIGIENIZAÇÃO <span class="text-brand-500">INTERNA</span></h3>
+                    <div class="flex flex-col items-end">
+                        <span class="text-xs text-zinc-500 uppercase tracking-wider">Total</span>
+                        <span class="text-3xl font-black text-white">R$ <span id="price-higienizacao">750</span></span>
+                    </div>
+                </div>
+                <p class="text-zinc-400 text-sm mb-8">Limpeza profunda de bancos, teto, carpetes e painel com oxi-sanitização inclusa.</p>
+
+                <div class="bg-black/30 rounded-xl p-5 mb-6 border border-white/5 flex-1">
+                    <p class="text-xs font-bold text-zinc-500 uppercase mb-4 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        Turbine este serviço:
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition">
+                            <span class="text-sm text-zinc-300">+ Enceramento Premium <span class="text-brand-400 font-bold ml-1">(+ R$ 150)</span></span>
+                            <label class="inline-flex items-center cursor-pointer relative">
+                                <input type="checkbox" value="150" data-name="Enceramento Premium" class="sr-only peer higienizacao-addon" onchange="updateComplexPrice('higienizacao', 750)">
+                                <div class="w-11 h-6 bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-500"></div>
+                            </label>
+                        </div>
+
+                        <div class="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition">
+                            <span class="text-sm text-zinc-300">+ Vitrificação Plásticos <span class="text-brand-400 font-bold ml-1">(+ R$ 200)</span></span>
+                            <label class="inline-flex items-center cursor-pointer relative">
+                                <input type="checkbox" value="200" data-name="Vitrificação Plásticos Int." class="sr-only peer higienizacao-addon" onchange="updateComplexPrice('higienizacao', 750)">
+                                <div class="w-11 h-6 bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-500"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="addComplexServiceToCart('Higienização Interna', 750, 'higienizacao')" class="w-full py-4 rounded-xl font-bold bg-brand-600 text-white hover:bg-brand-500 transition shadow-lg shadow-brand-900/30">
+                    ADICIONAR AO CARRINHO
+                </button>
+            </div>
+
+            <div class="glass p-8 rounded-3xl relative flex flex-col">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-2xl font-bold text-white">CRISTALIZAÇÃO <span class="text-brand-500">PAINT</span></h3>
+                    <div class="flex flex-col items-end">
+                        <span class="text-xs text-zinc-500 uppercase tracking-wider">Total</span>
+                        <span class="text-3xl font-black text-white">R$ <span id="price-cristalizacao">650</span></span>
+                    </div>
+                </div>
+                <p class="text-zinc-400 text-sm mb-8">Correção leve de pintura, remoção de hologramas e proteção por até 6 meses.</p>
+
+                <div class="bg-black/30 rounded-xl p-5 mb-6 border border-white/5 flex-1">
+                    <p class="text-xs font-bold text-zinc-500 uppercase mb-4 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        Turbine este serviço:
+                    </p>
+                    <div class="space-y-4">
+                         <div class="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition">
+                            <span class="text-sm text-zinc-300">+ Vitrificação Vidros <span class="text-brand-400 font-bold ml-1">(+ R$ 180)</span></span>
+                            <label class="inline-flex items-center cursor-pointer relative">
+                                <input type="checkbox" value="180" data-name="Vitrificação Vidros" class="sr-only peer cristalizacao-addon" onchange="updateComplexPrice('cristalizacao', 650)">
+                                <div class="w-11 h-6 bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-500"></div>
+                            </label>
+                        </div>
+
+                         <div class="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition">
+                            <span class="text-sm text-zinc-300">+ Hidratação Couros <span class="text-brand-400 font-bold ml-1">(+ R$ 150)</span></span>
+                            <label class="inline-flex items-center cursor-pointer relative">
+                                <input type="checkbox" value="150" data-name="Hidratação Couros" class="sr-only peer cristalizacao-addon" onchange="updateComplexPrice('cristalizacao', 650)">
+                                <div class="w-11 h-6 bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-500"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="addComplexServiceToCart('Cristalização Base', 650, 'cristalizacao')" class="w-full py-4 rounded-xl font-bold bg-brand-600 text-white hover:bg-brand-500 transition shadow-lg shadow-brand-900/30">
+                    ADICIONAR AO CARRINHO
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <section>
+      <div class="mb-8 text-center md:text-left">
+          <span class="text-brand-500 font-bold tracking-widest uppercase text-sm">Tecnologia Nano</span>
+          <h2 class="text-3xl font-black text-white mt-2">VITRIFICAÇÃO DE PINTURA</h2>
+          <p class="text-zinc-500 mt-2">A máxima proteção com durabilidade garantida.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <div class="glass p-8 rounded-3xl hover:border-brand-500/50 transition duration-300 flex flex-col group">
+            <div class="flex justify-between items-start mb-6">
+               <div>
+                   <h3 class="text-xl font-bold text-zinc-300">PROTEÇÃO <br>BRONZE</h3>
+               </div>
+               <div class="bg-zinc-800 border border-zinc-700 px-3 py-1 rounded text-xs font-bold text-zinc-400 uppercase tracking-wider">Entrada</div>
+            </div>
+            
+            <div class="mb-8 text-center bg-black/30 rounded-2xl py-6 border border-white/5">
+                <span class="block text-zinc-500 text-xs uppercase font-bold tracking-widest mb-1">Durabilidade</span>
+                <span class="block text-5xl font-black text-white">1 ANO</span>
+            </div>
+
+            <ul class="space-y-3 mb-8 flex-1">
+                <li class="flex items-center gap-3 text-sm text-zinc-400">
+                    <div class="w-1.5 h-1.5 bg-zinc-500 rounded-full"></div> Resistência
+                </li>
+                <li class="flex items-center gap-3 text-sm text-zinc-400">
+                    <div class="w-1.5 h-1.5 bg-zinc-500 rounded-full"></div> Brilho Intenso
+                </li>
+                <li class="flex items-center gap-3 text-sm text-zinc-400">
+                    <div class="w-1.5 h-1.5 bg-zinc-500 rounded-full"></div> Proteção UV Básica
+                </li>
+                <li class="flex items-center gap-3 text-sm text-zinc-400">
+                    <div class="w-1.5 h-1.5 bg-zinc-500 rounded-full"></div> Hidrofobia Moderada
+                </li>
+            </ul>
+
+            <div class="mb-4 text-center">
+                 <span class="text-2xl font-bold text-white">R$ 1.200</span>
+            </div>
+            <button onclick="addToCart('Vitrificação 1 Ano', 1200)" class="w-full py-3 rounded-xl font-bold bg-white/5 text-white border border-white/10 hover:bg-white hover:text-black transition">
+                SELECIONAR
+            </button>
+        </div>
+
+        <div class="glass p-1 rounded-3xl relative flex flex-col group transition hover:-translate-y-1 duration-300">
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-600 text-white text-xs font-bold px-4 py-1 rounded-full shadow-lg z-20 uppercase tracking-widest">Mais Vendido</div>
+            
+            <div class="bg-zinc-900/80 p-8 rounded-[1.4rem] h-full flex flex-col border-2 border-brand-500">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-white">PROTEÇÃO <br><span class="text-brand-400">SILVER</span></h3>
+                    </div>
+                    <div class="bg-brand-900/50 border border-brand-500/30 px-3 py-1 rounded text-xs font-bold text-brand-400 uppercase tracking-wider">Premium</div>
+                </div>
+                
+                <div class="mb-8 text-center bg-brand-500/10 rounded-2xl py-6 border border-brand-500/20">
+                    <span class="block text-brand-400 text-xs uppercase font-bold tracking-widest mb-1">Durabilidade</span>
+                    <span class="block text-5xl font-black text-white">3 ANOS</span>
+                </div>
+
+                <ul class="space-y-3 mb-8 flex-1">
+                    <li class="flex items-center gap-3 text-sm text-zinc-300">
+                        <div class="w-1.5 h-1.5 bg-brand-500 rounded-full"></div> Resistência
+                    </li>
+                    <li class="flex items-center gap-3 text-sm text-zinc-300">
+                        <div class="w-1.5 h-1.5 bg-brand-500 rounded-full"></div> Brilho Profundo
+                    </li>
+                    <li class="flex items-center gap-3 text-sm text-zinc-300">
+                        <div class="w-1.5 h-1.5 bg-brand-500 rounded-full"></div> Toque Aveludado
+                    </li>
+                    <li class="flex items-center gap-3 text-sm text-zinc-300">
+                        <div class="w-1.5 h-1.5 bg-brand-500 rounded-full"></div> Alta Hidrofobia
+                    </li>
+                </ul>
+
+                <div class="mb-4 text-center">
+                      <span class="text-3xl font-black text-white">R$ 1.850</span>
+                </div>
+                <button onclick="addToCart('Vitrificação 3 Anos', 1850)" class="w-full py-3 rounded-xl font-bold bg-brand-600 text-white hover:bg-brand-500 transition shadow-lg shadow-brand-900/50">
+                    SELECIONAR
+                </button>
+            </div>
+        </div>
+
+        <div class="glass p-8 rounded-3xl hover:border-white/30 transition duration-300 flex flex-col group border border-white/10">
+            <div class="flex justify-between items-start mb-6">
+               <div>
+                   <h3 class="text-xl font-bold text-white">PROTEÇÃO <br><span class="text-zinc-300">GOLD</span></h3>
+               </div>
+               <div class="bg-white/10 border border-white/20 px-3 py-1 rounded text-xs font-bold text-white uppercase tracking-wider">Ultimate</div>
+            </div>
+            
+            <div class="mb-8 text-center bg-white/5 rounded-2xl py-6 border border-white/10">
+                <span class="block text-zinc-400 text-xs uppercase font-bold tracking-widest mb-1">Durabilidade</span>
+                <span class="block text-5xl font-black text-white">5 ANOS</span>
+            </div>
+
+            <ul class="space-y-3 mb-8 flex-1">
+                <li class="flex items-center gap-3 text-sm text-zinc-300">
+                    <div class="w-1.5 h-1.5 bg-white rounded-full"></div> Resistência Máxima
+                </li>
+                <li class="flex items-center gap-3 text-sm text-zinc-300">
+                    <div class="w-1.5 h-1.5 bg-white rounded-full"></div> Brilho Superior
+                </li>
+                <li class="flex items-center gap-3 text-sm text-zinc-300">
+                    <div class="w-1.5 h-1.5 bg-white rounded-full"></div> Autolimpeza (Self-clean)
+                </li>
+                <li class="flex items-center gap-3 text-sm text-zinc-300">
+                    <div class="w-1.5 h-1.5 bg-white rounded-full"></div> Garantia Estendida
+                </li>
+            </ul>
+
+            <div class="mb-4 text-center">
+                 <span class="text-2xl font-bold text-white">R$ 2.500</span>
+            </div>
+            <button onclick="addToCart('Vitrificação 5 Anos', 2500)" class="w-full py-3 rounded-xl font-bold bg-white text-black hover:bg-zinc-200 transition">
+                SELECIONAR
+            </button>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="space-y-8">
+        <h2 class="text-3xl font-black text-white mb-6 border-l-4 border-brand-500 pl-4">Combos Especiais</h2>
+
+        <div class="relative rounded-3xl overflow-hidden glass border border-white/5 group">
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <div class="p-8 flex flex-col justify-center">
+                    <span class="text-brand-400 text-xs font-bold uppercase tracking-widest mb-2">Foco Interno</span>
+                    <h3 class="text-2xl font-black text-white mb-4">INTERIOR NOVO</h3>
+                    <p class="text-zinc-400 text-sm mb-6">Combo perfeito para quem quer o interior zerado. Higienização completa + proteção de couros e plásticos.</p>
+                    <ul class="text-sm text-zinc-500 mb-6 space-y-1">
+                        <li>• Higienização Completa</li>
+                        <li>• Vitrificação dos Couros</li>
+                        <li>• Vitrificação de Plásticos Internos</li>
+                    </ul>
+                    <div class="flex items-center gap-4">
+                        <span class="text-2xl font-black text-white">R$ 1150</span>
+                        <button onclick="addToCart('Pacote Interior Novo', 1150)" class="px-6 py-2 bg-white/10 hover:bg-white hover:text-black text-white rounded-lg font-bold transition">Agendar</button>
+                    </div>
+                </div>
+                <div class="h-48 md:h-auto bg-[url('imgs/image2.png')] bg-cover bg-center opacity-50 group-hover:opacity-80 transition duration-500"></div>
+            </div>
+        </div>
+
+        <div class="relative rounded-3xl overflow-hidden glass border border-white/5 group">
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <div class="h-48 md:h-auto order-last md:order-first bg-[url('imgs/image3.png')] bg-cover bg-center opacity-50 group-hover:opacity-80 transition duration-500"></div>
+                <div class="p-8 flex flex-col justify-center text-right md:text-left">
+                    <span class="text-brand-400 text-xs font-bold uppercase tracking-widest mb-2 md:self-start self-end">Proteção Externa</span>
+                    <h3 class="text-2xl font-black text-white mb-4">BLINDAGEM EXTERNA</h3>
+                    <p class="text-zinc-400 text-sm mb-6">Foco total no brilho e proteção da lataria e vidros.</p>
+                    <ul class="text-sm text-zinc-500 mb-6 space-y-1">
+                        <li>• Polimento Técnico</li>
+                        <li>• Vitrificação 1 Ano</li>
+                        <li>• Remoção Chuva Ácida + Proteção Vidros</li>
+                    </ul>
+                    <div class="flex items-center gap-4 justify-end md:justify-start">
+                        <span class="text-2xl font-black text-white">R$ 1.600</span>
+                        <button onclick="addToCart('Pacote Blindagem Externa', 1600)" class="px-6 py-2 bg-white/10 hover:bg-white hover:text-black text-white rounded-lg font-bold transition">Agendar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative rounded-[3rem] overflow-hidden border border-brand-500/30">
+            <div class="absolute inset-0 bg-zinc-900">
+                <div class="absolute inset-0 opacity-20 bg-[url('imgs/image4.png')] bg-cover bg-center mix-blend-overlay"></div>
+            </div>
+
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2">
+                <div class="p-10 md:p-16 flex flex-col justify-center">
+                    <span class="inline-block px-4 py-2 bg-brand-600 text-white text-xs font-black uppercase tracking-widest rounded-lg w-max mb-6">O Mais Completo</span>
+                    <h2 class="text-4xl md:text-5xl font-black text-white mb-6">FULL DETAIL</h2>
+                    <p class="text-zinc-400 text-base mb-8 leading-relaxed">
+                        A transformação total. Inclui vitrificação de pintura (5 anos), plásticos, couros, vidros, motor e higienização interna completa.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row items-center gap-6">
+                        <div class="text-4xl font-black text-brand-400">R$ 4.500</div>
+                        <button onclick="addToCart('Pacote Full Detail', 4500)" class="px-8 py-4 bg-white text-black font-bold rounded-xl hover:bg-brand-400 transition w-full sm:w-auto">
+                            AGENDAR FULL DETAIL
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-black/20 backdrop-blur-sm p-10 md:p-16 border-l border-white/5 flex flex-col justify-center">
+                    <ul class="grid grid-cols-2 gap-4">
+                        <li class="flex items-center gap-2 text-zinc-300 text-sm"><span class="text-brand-500">★</span> Pintura (5 Anos)</li>
+                        <li class="flex items-center gap-2 text-zinc-300 text-sm"><span class="text-brand-500">★</span> Higienização Full</li>
+                        <li class="flex items-center gap-2 text-zinc-300 text-sm"><span class="text-brand-500">★</span> Motor Detalhado</li>
+                        <li class="flex items-center gap-2 text-zinc-300 text-sm"><span class="text-brand-500">★</span> Vitrificação Couros</li>
+                        <li class="flex items-center gap-2 text-zinc-300 text-sm"><span class="text-brand-500">★</span> Vitrificação Plásticos</li>
+                        <li class="flex items-center gap-2 text-zinc-300 text-sm"><span class="text-brand-500">★</span> Rodas e Caixas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-white/10 bg-black py-10 text-center">
+    <p class="text-zinc-600 text-sm">© 2024 Black Brian Car Detailer. Todos os direitos reservados.</p>
+  </footer>
+
+  <div id="cart-overlay" class="fixed inset-0 bg-black/80 z-[60] hidden backdrop-blur-sm transition-opacity" onclick="toggleCart()"></div>
+  <aside id="cart-sidebar" class="fixed top-0 right-0 h-full w-full max-w-md bg-zinc-950 border-l border-white/10 z-[70] transform translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
+    
+    <div class="p-6 border-b border-white/10 flex justify-between items-center bg-black/20">
+      <h2 class="text-xl font-bold text-white flex items-center gap-2">
+        <span>Seu Carrinho</span>
+        <span class="text-xs bg-brand-900 text-brand-300 px-2 py-0.5 rounded border border-brand-500/20">Checkout</span>
+      </h2>
+      <button onclick="toggleCart()" class="text-zinc-400 hover:text-white transition">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+    </div>
+
+    <div class="flex-1 overflow-y-auto p-6 space-y-4" id="cart-items">
+      <div class="flex flex-col items-center justify-center h-full text-zinc-600 space-y-4">
+        <svg class="w-12 h-12 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+        <p>Seu carrinho está vazio.</p>
+      </div>
+    </div>
+
+    <div class="p-6 bg-black/40 border-t border-white/10 space-y-4">
+      <div class="flex justify-between items-end">
+        <span class="text-zinc-400 text-sm font-medium">Total Estimado</span>
+        <span class="text-3xl font-black text-white" id="cart-total-display">R$ 0</span>
+      </div>
+      <button onclick="checkoutWhatsApp()" class="w-full py-4 rounded-xl font-bold bg-[#25D366] text-black hover:bg-[#20bd5a] transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-green-900/20">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        ENVIAR PEDIDO
+      </button>
+    </div>
+  </aside>
+
+  <script>
+    const WHATSAPP_NUMBER = "5532999999999"; // Substitua pelo número real
+
+    let cart = [];
+    let customSelection = [];
+    let isCartOpen = false;
+
+    // --- LÓGICA DE PREÇO DINÂMICO PARA HIGIENIZAÇÃO E CRISTALIZAÇÃO ---
+    
+    function updateComplexPrice(servicePrefix, basePrice) {
+        // Seleciona todos os checkboxes marcados com a classe específica do serviço
+        const checkboxes = document.querySelectorAll(`.${servicePrefix}-addon:checked`);
+        let totalAddons = 0;
+        
+        checkboxes.forEach(cb => {
+            totalAddons += parseFloat(cb.value);
+        });
+        
+        const finalPrice = basePrice + totalAddons;
+        
+        // Atualiza o texto do preço no card
+        const displayElement = document.getElementById(`price-${servicePrefix}`);
+        if(displayElement) {
+            displayElement.innerText = finalPrice.toLocaleString('pt-BR');
+        }
+    }
+
+    function addComplexServiceToCart(serviceName, basePrice, servicePrefix) {
+        const checkboxes = document.querySelectorAll(`.${servicePrefix}-addon:checked`);
+        let totalAddons = 0;
+        let addonNames = [];
+        
+        checkboxes.forEach(cb => {
+            totalAddons += parseFloat(cb.value);
+            addonNames.push(cb.getAttribute('data-name'));
+        });
+        
+        let finalName = serviceName;
+        // Se houver addons, adiciona ao nome para aparecer no carrinho
+        if(addonNames.length > 0) {
+            finalName += ` (+ ${addonNames.join(', ')})`;
+        }
+        
+        // Adiciona ao carrinho com o preço total calculado
+        addToCart(finalName, basePrice + totalAddons);
+        
+        // Opcional: Resetar checkboxes após adicionar? 
+        // Se quiser resetar, descomente as linhas abaixo:
+        /*
+        document.querySelectorAll(`.${servicePrefix}-addon`).forEach(cb => cb.checked = false);
+        updateComplexPrice(servicePrefix, basePrice);
+        */
+    }
+
+    // --- LÓGICA DO CARRINHO (EXISTENTE) ---
+
+    function toggleCart() {
+      const sidebar = document.getElementById('cart-sidebar');
+      const overlay = document.getElementById('cart-overlay');
+      isCartOpen = !isCartOpen;
+      
+      if (isCartOpen) {
+        sidebar.classList.remove('translate-x-full');
+        overlay.classList.remove('hidden');
+        setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+      } else {
+        sidebar.classList.add('translate-x-full');
+        overlay.classList.add('opacity-0');
+        setTimeout(() => overlay.classList.add('hidden'), 300);
+      }
+    }
+
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      updateCartUI();
+      if(!isCartOpen) toggleCart();
+    }
+
+    function toggleSelection(name, price) {
+        const index = customSelection.findIndex(item => item.name === name);
+        if (index > -1) {
+            customSelection.splice(index, 1);
+        } else {
+            customSelection.push({ name, price });
+        }
+    }
+
+    function addCustomToCart() {
+        if (customSelection.length === 0) return alert('Selecione ao menos um item.');
+        
+        customSelection.forEach(item => {
+            cart.push(item);
+        });
+        
+        // Reset visual checkboxes
+        document.querySelectorAll('.custom-checkbox').forEach(cb => cb.checked = false);
+        customSelection = []; // Limpa a seleção temporária
+        
+        updateCartUI();
+        if(!isCartOpen) toggleCart();
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const container = document.getElementById('cart-items');
+      const totalDisplay = document.getElementById('cart-total-display');
+      const badge = document.getElementById('cart-badge');
+      
+      // Badge update
+      badge.innerText = cart.length;
+      badge.classList.toggle('opacity-0', cart.length === 0);
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="flex flex-col items-center justify-center h-full text-zinc-600 space-y-4">
+            <svg class="w-12 h-12 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+            <p>Seu carrinho está vazio.</p>
+          </div>
+        `;
+        totalDisplay.innerText = 'R$ 0';
+        return;
+      }
+
+      let html = '';
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price;
+        html += `
+          <div class="bg-white/5 p-4 rounded-xl flex justify-between items-center border border-white/5 group hover:border-brand-500/30 transition">
+            <div>
+              <div class="text-white font-bold text-sm max-w-[200px] leading-tight">${item.name}</div>
+              <div class="text-brand-400 text-xs font-mono mt-1">R$ ${item.price.toLocaleString('pt-BR')}</div>
+            </div>
+            <button onclick="removeFromCart(${index})" class="text-zinc-600 hover:text-red-400 transition p-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+            </button>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+      totalDisplay.innerText = `R$ ${total.toLocaleString('pt-BR')}`;
+    }
+
+    function checkoutWhatsApp() {
+      if (cart.length === 0) return alert('Adicione serviços ao carrinho primeiro.');
+
+      let message = "*Olá, Black Brian!* Gostaria de agendar os seguintes serviços:\n\n";
+      let total = 0;
+
+      cart.forEach(item => {
+        message += `▪ ${item.name} - R$ ${item.price}\n`;
+        total += item.price;
+      });
+
+      message += `\n💰 *Total Estimado: R$ ${total.toLocaleString('pt-BR')}*`;
+      message += `\n\nQual a disponibilidade de agenda?`;
+
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
+    }
+  </script>
+</body>
+</html>
