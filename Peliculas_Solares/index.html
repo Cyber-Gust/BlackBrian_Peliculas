@@ -433,7 +433,7 @@
                     </div>
 
                     <div class="flex-1 overflow-y-auto p-6 scroll-smooth">
-                        <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 mb-6">
+                        <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700">
                             <div class="flex justify-between items-start mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
                                 <div>
                                     <span class="text-xs font-bold text-gray-400 uppercase">Laterais e Traseiro</span>
@@ -462,6 +462,13 @@
                                     <span class="text-3xl font-black text-moss" id="summary-final-total">R$ 000</span>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="mt-4 mb-6 flex gap-2 items-start bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-xl border border-yellow-100 dark:border-yellow-800/30">
+                            <i class="ph-fill ph-warning text-yellow-600 dark:text-yellow-400 mt-0.5 text-lg shrink-0"></i>
+                            <p class="text-[11px] leading-snug text-yellow-800 dark:text-yellow-200">
+                                <strong>Importante:</strong> O valor pode variar de acordo com a quantidade de vidros no carro.
+                            </p>
                         </div>
 
                         <div class="space-y-4 mb-2">
@@ -655,11 +662,13 @@
         // ================= DADOS DE PREÇOS =================
         const pricingData = {
             sides: [    
-                { id: 'none',    brand: 'Original',        name: 'Sem Película',   price: 0,   desc: 'Vidro original transparente.' },
+                
                 { id: 'bt_carb', brand: 'BlueTech "Custo Benefício"', name: 'Carbono (Média Retenção)', price: 690, desc: 'Privacidade e Ótimo Custo.' },
                 { id: 'bt_cer',  brand: 'BlueTech "Custo Benefício"', name: 'Cerâmica (Alta Retenção)', price: 890, desc: 'Tecnologia WindowBlue Térmica.' },
                 { id: 'gw_hp',   brand: 'Garware "Premium"',  name: 'HP (Média Retenção)', price: 899, desc: 'Privacidade e Ótima Visibilidade.' },
-                { id: 'gw_ir',   brand: 'Garware "Premium"',  name: 'IR Plus (Alta Retenção)',   price: 1499, desc: 'Máxima Rejeição de Calor.' }
+                { id: 'gw_ic',   brand: 'Garware "Premium"',  name: 'Ice Cool (Alta Retenção G70)',         price: 1200, desc: 'Máxima Rejeição de Calor.' },
+                { id: 'gw_ir',   brand: 'Garware "Premium"',  name: 'IR Plus (Alta Retenção)',   price: 1499, desc: 'Máxima Rejeição de Calor.' },
+                { id: 'none',    brand: 'Original',        name: 'Sem Película',   price: 0,   desc: 'Vidro original transparente.' }
             ],
             front: [
                 { id: 'bt_carb', brand: 'BlueTech "Custo Benefício"', name: 'Carbono (Média Retenção)',         price: 410, desc: 'Privacidade e Ótimo Custo.' },
@@ -678,10 +687,44 @@
             front: pricingData.front[0]  // Padrão
         };
 
+        // Função auxiliar para calcular as listas válidas baseadas no 3D
+        function getFilteredLists() {
+            const sideTint = state.currentTints.sides;
+            const frontTint = state.currentTints.front;
+
+            // --- FILTRO LATERAIS ---
+            const filteredSides = pricingData.sides.filter(item => {
+                // Se NÃO for G70 -> Remove Ice Cool
+                if (sideTint !== 'g70' && item.id === 'gw_ic') return false;
+                // Se FOR G70 -> Remove HP e IR Plus
+                if (sideTint === 'g70' && (item.id === 'gw_hp' || item.id === 'gw_ir')) return false;
+                return true;
+            });
+
+            // --- FILTRO PARABRISA ---
+            const filteredFront = pricingData.front.filter(item => {
+                // Se NÃO for G70 -> Remove Ice Cool
+                if (frontTint !== 'g70' && item.id === 'gw_ic') return false;
+                // Se FOR G70 -> Remove HP e IR Plus
+                if (frontTint === 'g70' && (item.id === 'gw_hp' || item.id === 'gw_ir')) return false;
+                return true;
+            });
+
+            return { filteredSides, filteredFront };
+        }
         // ================= LÓGICA DO MODAL =================
 
         function openModal() {
             document.getElementById('budget-modal').classList.remove('hidden');
+            
+            // 1. Pega as listas já filtradas
+            const { filteredSides, filteredFront } = getFilteredLists();
+
+            // 2. FORÇA a seleção a ser o primeiro item da lista disponível
+            if (filteredSides.length > 0) budgetState.sides = filteredSides[0];
+            if (filteredFront.length > 0) budgetState.front = filteredFront[0];
+
+            // 3. Renderiza
             renderBudgetOptions();
             updateSummary();
         }
@@ -694,13 +737,16 @@
 
         // Função principal que desenha os botões agrupados
         function renderBudgetOptions() {
-            // Renderiza Passo 1: Laterais
-            const sidesContainer = document.getElementById('options-sides');
-            sidesContainer.innerHTML = createGroupedHTML(pricingData.sides, 'sides');
+            // 1. Pega as listas filtradas (usando a mesma lógica do openModal)
+            const { filteredSides, filteredFront } = getFilteredLists();
 
-            // Renderiza Passo 2: Parabrisa
+            // 2. Renderiza Passo 1: Laterais
+            const sidesContainer = document.getElementById('options-sides');
+            sidesContainer.innerHTML = createGroupedHTML(filteredSides, 'sides');
+
+            // 3. Renderiza Passo 2: Parabrisa
             const frontContainer = document.getElementById('options-front');
-            frontContainer.innerHTML = createGroupedHTML(pricingData.front, 'front');
+            frontContainer.innerHTML = createGroupedHTML(filteredFront, 'front');
         }
 
         // Função auxiliar para agrupar por marca e gerar HTML
@@ -764,11 +810,15 @@
         }
 
         function selectBudgetOption(type, id) {
+            // Precisamos buscar na lista COMPLETA, não na filtrada, para garantir que o objeto existe
             const list = type === 'sides' ? pricingData.sides : pricingData.front;
-            budgetState[type] = list.find(item => item.id === id);
+            const selectedItem = list.find(item => item.id === id);
             
-            // Re-renderiza para atualizar a borda verde e o check
-            renderBudgetOptions();
+            if (selectedItem) {
+                budgetState[type] = selectedItem;
+                // Re-renderiza para atualizar a borda verde e o check
+                renderBudgetOptions();
+            }
         }
 
         function nextStep() {
@@ -829,6 +879,18 @@
             const finalTotal = rawTotal - discount;
             const format = (v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
+            // Pegar o nome da tonalidade (G5, G20 etc) selecionada no 3D
+            const sideTintCode = state.currentTints.sides;
+            const frontTintCode = state.currentTints.front;
+            
+            // Busca o nome legível no objeto tintData (ex: "G5")
+            const sideTintName = tintData[sideTintCode] ? tintData[sideTintCode].name : '';
+            const frontTintName = tintData[frontTintCode] ? tintData[frontTintCode].name : '';
+
+            // Só adiciona o nome da tonalidade se não for "Sem Película"
+            const sideDisplay = budgetState.sides.id !== 'none' ? ` (${sideTintName})` : '';
+            const frontDisplay = budgetState.front.id !== 'none' ? ` (${frontTintName})` : '';
+
             const phone = "5532999734079"; 
 
             const text = `*NOVO PEDIDO PELO SITE (5% OFF)*\n` +
@@ -837,11 +899,11 @@
                          `*PRODUTOS ESCOLHIDOS:*\n` +
                          `*Laterais/Traseira:*\n` +
                          `   Marca: ${budgetState.sides.brand}\n` +
-                         `   Linha: ${budgetState.sides.name}\n` +
+                         `   Linha: ${budgetState.sides.name}${sideDisplay}\n` +
                          `   Valor: ${format(budgetState.sides.price)}\n\n` +
                          `*Para-brisa:*\n` +
                          `   Marca: ${budgetState.front.brand}\n` +
-                         `   Linha: ${budgetState.front.name}\n` +
+                         `   Linha: ${budgetState.front.name}${frontDisplay}\n` +
                          `   Valor: ${budgetState.front.price === 0 ? 'Grátis/Original' : format(budgetState.front.price)}\n\n` +
                          `----------------------------\n` +
                          `Subtotal: ${format(rawTotal)}\n` +
