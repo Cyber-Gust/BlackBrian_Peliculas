@@ -1,111 +1,349 @@
-<!doctype html>
-<html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Black Brian — Escolha o Serviço</title>
-
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              500: "#4e7f49",
-              600: "#3d6538"
-            }
-          },
-          fontFamily: {
-            sans: ['Inter', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
-
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
-
-  <style>
-    body {
-      background: #000;
-    }
-  </style>
-</head>
-
-<body class="min-h-screen relative text-white font-sans antialiased overflow-hidden">
-
-  <!-- BACKGROUND IMAGE -->
-  <div class="absolute inset-0">
-    <div 
-      class="absolute inset-0 bg-[url('imgs/bg.jpg')] bg-cover bg-center bg-no-repeat scale-105">
-    </div>
-
-    <!-- Overlay escuro -->
-    <div class="absolute inset-0 bg-black/90 backdrop-blur-[2px]"></div>
-  </div>
-
-  <!-- CONTENT -->
-  <main class="relative z-10 min-h-screen flex items-center justify-center px-6">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Brian — Estética Automotiva Premium</title>
     
-    <div class="w-full max-w-3xl">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 
-      <div class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl font-black mb-4">
-          Escolha o que você procura
-        </h1>
-        <p class="text-zinc-300">
-          Selecione abaixo o serviço desejado para continuar.
-        </p>
-      </div>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            400: "#6f9f6a",
+                            500: "#4e7f49", // Verde Musgo Principal
+                            600: "#3d6538",
+                            900: "#1a2e19"
+                        },
+                        dark: {
+                            950: "#050505", // Fundo super preto
+                            900: "#0a0a0a",
+                            800: "#121212", 
+                            700: "#1c1c1c"
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,1)), url('imgs/wall.jpeg')",
+                        'wall-art': "linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0.7)), url('imgs/wall.jpeg')",
+                    }
+                }
+            }
+        }
+    </script>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <style>
+        body { background-color: #050505; color: #e4e4e7; }
+        
+        /* Efeito de Vidro Profissional */
+        .glass { 
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+        }
+        
+        .text-glow { text-shadow: 0 0 30px rgba(78, 127, 73, 0.6); }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden">
 
-        <!-- CARDÁPIO -->
-        <a href="Cardapio/Index.html"
-           class="group rounded-3xl p-10 bg-white/10 backdrop-blur-md border border-white/20 hover:border-brand-500 hover:bg-brand-500/20 transition-all duration-300 flex flex-col items-center justify-center text-center">
-          
-          <span class="text-sm uppercase tracking-widest text-zinc-300 mb-2 group-hover:text-brand-500 transition">
-            Serviços
-          </span>
+    <nav class="fixed top-0 w-full z-50 bg-dark-900/60 rounded-b-3xl backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="imgs/LOGO.png" alt="Black Brian" class="h-16 w-auto object-contain">
+                <div class="hidden md:block h-6 w-px bg-white/20"></div>
+                <span class="hidden md:block text-xs font-bold tracking-[0.2em] text-zinc-500 uppercase">Estética Automotiva</span>
+            </div>
 
-          <h2 class="text-2xl font-black mb-2">
-            Cardápio Completo
-          </h2>
+            <div class="flex items-center gap-6">
+                <a href="#servicos" class="text-sm font-medium text-zinc-400 hover:text-white transition hidden md:block">Nossos Serviços</a>
+                <a href="#localizacao" class="text-sm font-medium text-zinc-400 hover:text-white transition hidden md:block">Localização</a>
+                <a href="#Cursos" class="text-sm font-medium text-zinc-400 hover:text-white transition hidden md:block">Cursos</a>
+                <a href="#BLOG" class="text-sm font-medium text-zinc-400 hover:text-white transition hidden md:block">BLOG</a>
 
-          <p class="text-zinc-300 text-sm">
-            Detalhamento, vitrificação e pacotes.
-          </p>
-        </a>
+                <a href="https//wa.me/5532999734079" target="_blank" class="bg-brand-500 hover:bg-brand-400 text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition shadow-[0_0_15px_rgba(78,127,73,0.4)]">
+                    Fale Conosco
+                </a>
+            </div>
+        </div>
+    </nav>
 
-        <!-- PELÍCULAS -->
-        <a href="Peliculas_Solares/index.html"
-           class="group rounded-3xl p-10 bg-white/10 backdrop-blur-md border border-white/20 hover:border-brand-500 hover:bg-brand-500/20 transition-all duration-300 flex flex-col items-center justify-center text-center">
-          
-          <span class="text-sm uppercase tracking-widest text-zinc-300 mb-2 group-hover:text-brand-500 transition">
-            Proteção
-          </span>
+    <header class="relative min-h-screen flex items-center justify-center pt-20 pb-10 px-4 overflow-hidden bg-hero-pattern bg-cover bg-center bg-fixed bg-no-repeat">    
+        <div class="relative z-10 max-w-6xl mx-auto w-full flex flex-col items-center">
+    
+            <h1 class="text-center text-4xl md:text-8xl font-black text-white mb-6 leading-[0.9] drop-shadow-2xl tracking-tight">
+                SEU CARRO NO NÍVEL <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-b from-brand-400 to-brand-600 text-glow">QUE ELE MERECE</span>
+            </h1>
 
-          <h2 class="text-2xl font-black mb-2">
-            Películas Solares
-          </h2>
+            <p class="text-center text-zinc-300 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light leading-relaxed">
 
-          <p class="text-zinc-300 text-sm">
-            Conforto térmico, estética e segurança.
-          </p>
-        </a>
+            </p>
 
-      </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl px-4">
+                
+                <a href="/Cardapio/Index.html" class="group relative overflow-hidden rounded-2xl bg-zinc-900/50 backdrop-blur-md border border-white/10 p-8 flex items-center gap-6 hover:bg-white/5 transition-all duration-500 hover:border-brand-500/50">
+                    <div class="w-16 h-16 rounded-full bg-brand-500/10 flex items-center justify-center group-hover:bg-brand-500 transition-colors duration-500 shrink-0">
+                        <i class="ph-fill ph-list-dashes text-3xl text-brand-500 group-hover:text-white transition-colors"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-white mb-1">Menu de Serviços</h3>
+                        <p class="text-zinc-500 text-xs mb-3">Consulte nossa tabela.</p>
+                        <span class="text-brand-400 text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 group-hover:gap-4 transition-all">
+                            Acessar <i class="ph-bold ph-arrow-right"></i>
+                        </span>
+                    </div>
+                </a>
 
-      <footer class="mt-16 text-center text-zinc-400 text-xs">
-        © 2026 Black Brian Car Detailer
-      </footer>
+                <a href="/Peliculas_Solares/index.html" class="group relative overflow-hidden rounded-2xl bg-zinc-900/50 backdrop-blur-md border border-white/10 p-8 flex items-center gap-6 hover:bg-white/5 transition-all duration-500 hover:border-brand-500/50">
+                    <div class="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white transition-colors duration-500 shrink-0">
+                        <i class="ph-fill ph-sunglasses text-3xl text-white group-hover:text-black transition-colors"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-white mb-1">Simulador 3D</h3>
+                        <p class="text-zinc-500 text-xs mb-3">Teste as películas.</p>
+                        <span class="text-white text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 group-hover:gap-4 transition-all">
+                            Configurar <i class="ph-bold ph-arrow-right"></i>
+                        </span>
+                    </div>
+                </a>
 
-    </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40 animate-bounce">
+            <i class="ph-bold ph-mouse-simple text-2xl text-white"></i>
+        </div>
+    </header>
 
-  </main>
+    <section id="sobre" class="relative py-10 bg-dark-950 border-y border-white/5 overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-[url('imgs/Porsche.png')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 class="text-4xl md:text-6xl font-black text-white mb-8 uppercase italic leading-tight">
+                    Nossa  <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-white">FILOSOFIA</span>
+                </h2>
+                <p class="text-zinc-400 text-lg leading-relaxed mb-8 border-l-2 border-brand-500 pl-6">
+                    A Black Brian não é apenas uma estética automotiva. É um estúdio de detalhamento técnico. Nossa estrutura foi projetada para inspirar e entregar resultados que superam o estado de zero km.
+                </p>
+                
+                <div class="grid grid-cols-2 gap-8">
+                    <div>
+                        <span class="block text-4xl font-black text-white mb-1">5+</span>
+                        <span class="text-xs text-brand-500 uppercase font-bold tracking-widest">Anos de Excelência</span>
+                    </div>
+                    <div>
+                        <span class="block text-4xl font-black text-white mb-1">2k+</span>
+                        <span class="text-xs text-brand-500 uppercase font-bold tracking-widest">Carros Transformados</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="relative">
+                <div class="absolute -inset-4 bg-brand-500/20 blur-3xl rounded-full"></div>
+                <img src="imgs/Porsche.png" alt="Black Brian Detailing" class="relative rounded-2xl shadow-2xl border border-white/10 grayscale-0 hover:grayscale-0 transition duration-700 transform hover:scale-[1.02]">
+            </div>
+        </div>
+    </section>
+
+    <section id="servicos" class="py-10 bg-service-pattern bg-fixed bg-cover bg-center relative">
+        <div class="absolute inset-0 bg-dark-950/90 backdrop-blur-sm"></div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-6">
+            
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                <div>
+                    <span class="text-brand-500 text-xs font-bold uppercase tracking-widest">Expertise Técnica</span>
+                    <h2 class="text-3xl md:text-5xl font-black text-white mt-2">NOSSOS SERVIÇOS</h2>
+                </div>
+                <p class="text-zinc-400 max-w-md text-sm md:text-right">
+                    Utilizamos os melhores produtos do mundo e técnicas certificadas para garantir proteção e brilho incomparáveis.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <div class="group relative h-[420px] rounded-2xl overflow-hidden border border-white/10 cursor-pointer">
+                    <img src="imgs/Martelinho.png" class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-40" alt="Martelinho de Ouro">
+                    
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-950 via-dark-950/40 to-transparent"></div>
+                    
+                    <div class="absolute bottom-0 left-0 w-full p-8 transition-transform duration-500 group-hover:-translate-y-2">
+                        <div class="w-12 h-12 bg-brand-500 rounded-lg flex items-center justify-center mb-4 text-white shadow-lg">
+                            <i class="ph-fill ph-hammer text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Martelinho de Ouro</h3>
+                        <p class="text-zinc-400 text-sm line-clamp-3 group-hover:text-white transition-colors">
+                            Técnica artesanal para remover amassados preservando a originalidade da pintura, sem enchimentos ou repintura.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="group relative h-[420px] rounded-2xl overflow-hidden border border-white/10 cursor-pointer">
+                    <img src="imgs/Vitrificacao.jpg" class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-40" alt="Vitrificação">
+                    
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-950 via-dark-950/40 to-transparent"></div>
+                    
+                    <div class="absolute bottom-0 left-0 w-full p-8 transition-transform duration-500 group-hover:-translate-y-2">
+                        <div class="w-12 h-12 bg-white text-black rounded-lg flex items-center justify-center mb-4 shadow-lg">
+                            <i class="ph-fill ph-shield-check text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Vitrificação</h3>
+                        <p class="text-zinc-400 text-sm line-clamp-3 group-hover:text-white transition-colors">
+                            Aplicação de nano-cerâmica que cria uma barreira de vidro sobre o verniz. Brilho profundo e repelência à água por até 3 anos.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="group relative h-[420px] rounded-2xl overflow-hidden border border-white/10 cursor-pointer">
+                    <img src="imgs/Insulfilm.png" class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-40" alt="Insulfilm">
+                    
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-950 via-dark-950/40 to-transparent"></div>
+                    
+                    <div class="absolute bottom-0 left-0 w-full p-8 transition-transform duration-500 group-hover:-translate-y-2">
+                        <div class="w-12 h-12 bg-zinc-800 text-brand-500 border border-brand-500/30 rounded-lg flex items-center justify-center mb-4 shadow-lg">
+                            <i class="ph-fill ph-sun-dim text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Insulfilm Premium</h3>
+                        <p class="text-zinc-400 text-sm line-clamp-3 group-hover:text-white transition-colors">
+                            Películas de Nano Cerâmica e Carbono. Bloqueio UV/IR, conforto térmico superior e a estética Black que seu carro precisa.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="group relative h-[420px] rounded-2xl overflow-hidden border border-white/10 cursor-pointer">
+                    <img src="imgs/Detail.png" class="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-40" alt="Estética Interna">
+                    
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-950 via-dark-950/40 to-transparent"></div>
+                    
+                    <div class="absolute bottom-0 left-0 w-full p-8 transition-transform duration-500 group-hover:-translate-y-2">
+                        <div class="w-12 h-12 bg-zinc-800 text-white border border-white/20 rounded-lg flex items-center justify-center mb-4 shadow-lg">
+                            <i class="ph-fill ph-sparkle text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Full Detailing</h3>
+                        <p class="text-zinc-400 text-sm line-clamp-3 group-hover:text-white transition-colors">
+                            Higienização profunda de estofados, tratamento de couro, descontaminação de pintura e polimento técnico de faróis.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="localizacao" class="py-10 bg-zinc-900 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-12 rounded-3xl overflow-hidden bg-dark-800 shadow-2xl border border-white/5">
+                
+                <div class="relative h-96 lg:h-auto min-h-[400px]">
+                    <img src="imgs/fachada.jpg" alt="Fachada Black Brian" class="absolute inset-0 w-full h-full object-cover grayscale hover:grayscale-0 transition duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-8">
+                        <div>
+                            <span class="bg-brand-500 text-white px-3 py-1 rounded text-xs font-bold uppercase tracking-wide">Venha conhecer</span>
+                            <h3 class="text-3xl font-bold text-white mt-3">Studio Black Brian</h3>
+                            <p class="text-zinc-300 mt-2">Um ambiente preparado para receber sua máquina.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-10 flex flex-col justify-center">
+                    <div class="mb-8">
+                        <h2 class="text-3xl font-black text-white mb-4">ONDE ESTAMOS</h2>
+                        <div class="flex items-start gap-4 mb-4">
+                            <div class="bg-zinc-800 p-3 rounded-full text-brand-500">
+                                <i class="ph-fill ph-map-pin text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold">São João del-Rei, MG</h4>
+                                <p class="text-zinc-500 text-sm mt-1">Av. 31 de Março, 735 - Colonia do Marcal<br>(Endereço ilustrativo - Atualizar)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="bg-zinc-800 p-3 rounded-full text-brand-500">
+                                <i class="ph-fill ph-clock text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold">Horário de Funcionamento</h4>
+                                <p class="text-zinc-500 text-sm mt-1">Segunda a Sexta: 08:00 - 18:00<br>Sábado: 08:00 - 12:00</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-full h-64 rounded-xl overflow-hidden border border-white/10 relative bg-zinc-800">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3722.103488223563!2d-44.23855881453053!3d-21.108439925946914!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa1c7e3450438e5%3A0x41cca2acaa80986f!2sESTETICA%20AUTOMOTIVA%20BLACK%20BRIAN!5e0!3m2!1spt-BR!2sbr!4v1767805572856!5m2!1spt-BR!2sbr"" 
+                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" class="grayscale invert contrast-125 opacity-70 hover:opacity-100 transition duration-500">
+                        </iframe>
+                        <div class="absolute top-2 right-2 bg-black/80 text-white text-[10px] px-2 py-1 rounded pointer-events-none">Mapa Interativo</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="relative bg-black pt-16 pb-12 mt-12 rounded-t-[3rem] border-t border-white/10 z-20 shadow-[0_-10px_40px_rgba(0,0,0,1)]">
+        
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-1 bg-brand-500 rounded-full"></div>
+
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-12 mb-16">
+                
+                <div class="flex flex-col items-start">
+                    <img src="imgs/LOGO.png" onerror="this.src='https://placehold.co/100x40/black/white?text=BB'" alt="Black Brian" class="h-20 w-auto mb-6 opacity-80">
+                    <p class="text-zinc-500 text-sm leading-relaxed max-w-xs">
+                        Elevando o padrão da estética automotiva em São João del-Rei. Cuidado obsessivo, resultados impecáveis.
+                    </p>
+                </div>
+
+                <div class="flex flex-col md:items-center">
+                    <div>
+                        <h4 class="text-white font-bold mb-6">MENU</h4>
+                        <ul class="space-y-3">
+                            <li><a href="#servicos" class="text-zinc-500 hover:text-brand-500 transition text-sm">Serviços</a></li>
+                            <li><a href="/Cardapio/Index.html" class="text-zinc-500 hover:text-brand-500 transition text-sm">Tabela de Preços</a></li>
+                            <li><a href="/Peliculas_Solares/index.html" class="text-zinc-500 hover:text-brand-500 transition text-sm">Simulador 3D</a></li>
+                            <li><a href="#localizacao" class="text-zinc-500 hover:text-brand-500 transition text-sm">Localização</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:items-end">
+                    <h4 class="text-white font-bold mb-6">SIGA-NOS</h4>
+                    <div class="flex gap-4">
+                        <a href="https://instagram.com/blackbrian_cardetailer" target="_blank" class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-400 hover:bg-brand-500 hover:text-white transition-all duration-300">
+                            <i class="ph-fill ph-instagram-logo text-xl"></i>
+                        </a>
+                        <a href="https://www.facebook.com/profile.php?id=61572295149176" target="_blank" class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-400 hover:bg-brand-500 hover:text-white transition-all duration-300">
+                            <i class="ph-fill ph-facebook-logo text-xl"></i>
+                        </a>
+                        <a href="https://wa.me/5532999734079" target="_blank" class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-400 hover:bg-brand-500 hover:text-white transition-all duration-300">
+                            <i class="ph-fill ph-whatsapp-logo text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-zinc-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-zinc-700 text-xs text-center md:text-left">
+                    © 2026 Black Brian Car Detailer. Todos os direitos reservados.
+                </p>
+                <a href="https://bitbloomai.com" target="_blank" class="flex items-center gap-2">
+                    <img src="imgs/logo_bitbloom.png" class="w-10 h-10 animate-pulse"></img>
+                    <span class="text-white text-xs font-medium">BitBloom AI</span>
+                </a>
+            </div>
+        </div>
+    </footer>
 
 </body>
 </html>
