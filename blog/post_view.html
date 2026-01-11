@@ -91,24 +91,21 @@
 
         async function carregarArtigo() {
 
-            const categoriasValidas = ['vitrificacao', 'insulfilm', 'martelinho', 'detalhamento'];
-
-            if (!categoriasValidas.includes(categoria)) {
-            window.location.href = '/blog';
-            return;
-            }
-            
-            // NOVA LÓGICA: Pega o slug direto da URL (tudo depois da última barra)
-            // Exemplo: blackbrian.com/limpeza-de-bancos -> pega "limpeza-de-bancos"
             const pathSegments = window.location.pathname.split('/').filter(Boolean);
 
             const categoria = pathSegments[pathSegments.length - 2];
             const slug = pathSegments[pathSegments.length - 1];
 
-            // Proteção: Se não tiver slug ou se o "slug" for o próprio nome do arquivo .html
-            // (acontece se acessar direto sem reescrita de URL), redireciona para o blog.
-            if (!slug || slug.includes('.html') || slug === 'blog') {
-                window.location.href = '../index.html'; // Ajuste este caminho se necessário
+            // Proteções básicas
+            if (!categoria || !slug || slug.includes('.html') || slug === 'blog') {
+                window.location.href = '/blog';
+                return;
+            }
+
+            const categoriasValidas = ['vitrificacao', 'insulfilm', 'martelinho', 'detalhamento'];
+
+            if (!categoriasValidas.includes(categoria)) {
+                window.location.href = '/blog';
                 return;
             }
 
@@ -117,7 +114,7 @@
                 .select('*')
                 .eq('slug', slug)
                 .eq('categoria', categoria)
-                .single(); 
+                .single();
 
             const loader = document.getElementById('loading');
             const content = document.getElementById('content-area');
