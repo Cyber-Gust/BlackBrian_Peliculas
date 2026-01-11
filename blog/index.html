@@ -85,7 +85,7 @@
                 
                 // Cria o card HTML
                 const card = `
-                    <a href="post_view.html?s=${post.slug}" class="group bg-dark-900 border border-white/5 rounded-2xl overflow-hidden hover:border-brand-500/50 transition duration-500 flex flex-col">
+                    <a href="/blog/post_view.html?s=${post.slug}" class="group bg-dark-900 border border-white/5 rounded-2xl overflow-hidden hover:border-brand-500/50 transition duration-500 flex flex-col">
                         <div class="h-48 overflow-hidden relative">
                             <img src="${post.imagem_capa || 'imgs/fachada.jpg'}" alt="${post.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700 opacity-80 group-hover:opacity-100">
                         </div>
