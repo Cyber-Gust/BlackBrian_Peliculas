@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Brian Blog</title> <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 400: "#6f9f6a", 500: "#4e7f49", 600: "#3d6538" },
+                        dark: { 950: "#050505", 900: "#0a0a0a", 800: "#121212" }
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050505; color: #e4e4e7; }
+        /* Estilos para o conteúdo vindo do editor Quill */
+        .prose h1, .prose h2, .prose h3 { color: white; font-weight: 700; margin-top: 2rem; margin-bottom: 1rem; }
+        .prose h2 { font-size: 1.5rem; }
+        .prose p { margin-bottom: 1.5rem; line-height: 1.8; color: #d4d4d8; }
+        .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.5rem; color: #d4d4d8; }
+        .prose ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1.5rem; color: #d4d4d8; }
+        .prose a { color: #6f9f6a; text-decoration: underline; }
+        .prose strong { color: white; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="fixed top-0 w-full z-50 bg-dark-900/90 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2 text-zinc-400 hover:text-white transition">
+                <i class="ph-bold ph-arrow-left"></i> <span class="text-sm font-bold uppercase">Voltar</span>
+            </a>
+            <img src="../imgs/LOGO.png" alt="Black Brian" class="h-8 opacity-50">
+        </div>
+    </nav>
+
+    <article class="pt-32 pb-20 px-6">
+        <div class="max-w-3xl mx-auto">
+            
+            <div id="loading" class="text-center py-20">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500 mx-auto"></div>
+            </div>
+
+            <div id="content-area" class="hidden animate-fade-in">
+                <span id="post-date" class="text-brand-500 font-bold tracking-widest text-xs uppercase mb-4 block">...</span>
+                
+                <h1 id="post-title" class="text-3xl md:text-5xl font-black text-white mb-8 leading-tight">...</h1>
+
+                <img id="post-image" src="" class="w-full rounded-2xl mb-10 border border-white/10 shadow-2xl">
+
+                <div id="post-body" class="prose max-w-none text-lg">
+                    </div>
+            </div>
+
+        </div>
+    </article>
+
+    <footer class="border-t border-white/5 py-10 bg-dark-900">
+        <div class="max-w-3xl mx-auto px-6 text-center">
+            <h3 class="text-white font-bold text-xl mb-4">Gostou da dica?</h3>
+            <p class="text-zinc-400 mb-6">Agende uma avaliação para o seu carro agora mesmo.</p>
+            <a href="https://wa.me/5532999734079" class="inline-block bg-brand-600 text-white font-bold py-3 px-8 rounded-full hover:bg-brand-500 transition">
+                Falar no WhatsApp
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        const SUPABASE_URL = 'https://vdxliqcozysjgomcfuhs.supabase.co'; 
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZkeGxpcWNvenlzamdvbWNmdWhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc1NDUwOTUsImV4cCI6MjA4MzEyMTA5NX0.-QUm03qwxrFJuCDQEv276PYLtOJEwEni478GrnMeEPI';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        async function carregarArtigo() {
+            // Pega o parametro ?s=slug-do-post da URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const slug = urlParams.get('s');
+
+            if (!slug) {
+                window.location.href = 'blog.html';
+                return;
+            }
+
+            const { data, error } = await supabaseClient
+                .from('posts')
+                .select('*')
+                .eq('slug', slug)
+                .single(); // Espera apenas 1 resultado
+
+            const loader = document.getElementById('loading');
+            const content = document.getElementById('content-area');
+
+            if (error || !data) {
+                loader.innerHTML = '<p class="text-white">Artigo não encontrado.</p>';
+                return;
+            }
+
+            // Popula os dados
+            document.title = data.titulo + " | Black Brian Blog";
+            document.getElementById('post-date').innerText = new Date(data.created_at).toLocaleDateString('pt-BR');
+            document.getElementById('post-title').innerText = data.titulo;
+            
+            if(data.imagem_capa) {
+                document.getElementById('post-image').src = data.imagem_capa;
+            } else {
+                document.getElementById('post-image').style.display = 'none';
+            }
+
+            document.getElementById('post-body').innerHTML = data.conteudo;
+
+            // Mostra conteúdo
+            loader.classList.add('hidden');
+            content.classList.remove('hidden');
+        }
+
+        carregarArtigo();
+    </script>
+</body>
+</html>
