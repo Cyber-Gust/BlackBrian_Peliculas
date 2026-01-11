@@ -1,8 +1,8 @@
 {
   "rewrites": [
-    { 
-      "source": "/:slug", 
-      "destination": "/blog/post_view.html" 
+    {
+      "source": "/:categoria/:slug",
+      "destination": "/blog/post_view.html"
     }
   ]
 }

@@ -51,8 +51,17 @@
                 <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500 mx-auto"></div>
             </div>
 
-            <div id="content-area" class="hidden animate-fade-in">
-                <span id="post-date" class="text-brand-500 font-bold tracking-widest text-xs uppercase mb-4 block">...</span>
+            <div id="content-area" class="hidden animate-fade-in">´
+                <div class="mb-6">
+                    <span id="post-category"
+                        class="inline-block bg-brand-600/20 text-brand-400 text-xs font-bold uppercase tracking-widest px-4 py-1 rounded-full mb-3">
+                        ...
+                    </span>
+                    <div id="post-date"
+                        class="text-zinc-500 text-xs font-bold uppercase tracking-widest">
+                        ...
+                    </div>
+                </div>
                 
                 <h1 id="post-title" class="text-3xl md:text-5xl font-black text-white mb-8 leading-tight">...</h1>
 
@@ -81,10 +90,14 @@
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         async function carregarArtigo() {
+            if(document.getElementById('post-category'))
+            document.getElementById('post-category').innerText = data.categoria;
             // NOVA LÓGICA: Pega o slug direto da URL (tudo depois da última barra)
             // Exemplo: blackbrian.com/limpeza-de-bancos -> pega "limpeza-de-bancos"
-            const pathSegments = window.location.pathname.split('/').filter(p => p.length > 0);
-            const slug = pathSegments.pop();
+            const pathSegments = window.location.pathname.split('/').filter(Boolean);
+
+            const categoria = pathSegments[pathSegments.length - 2];
+            const slug = pathSegments[pathSegments.length - 1];
 
             // Proteção: Se não tiver slug ou se o "slug" for o próprio nome do arquivo .html
             // (acontece se acessar direto sem reescrita de URL), redireciona para o blog.
@@ -97,6 +110,7 @@
                 .from('posts')
                 .select('*')
                 .eq('slug', slug)
+                .eq('categoria', categoria)
                 .single(); 
 
             const loader = document.getElementById('loading');

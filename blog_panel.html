@@ -70,6 +70,20 @@
             </div>
 
             <div>
+                <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">
+                    Categoria da Postagem
+                </label>
+                <select id="categoria" required
+                    class="w-full bg-white border border-zinc-300 rounded-lg p-3 font-bold text-zinc-800 focus:ring-2 focus:ring-brand-500 outline-none">
+                    <option value="">Selecione uma categoria</option>
+                    <option value="vitrificacao">Vitrificação</option>
+                    <option value="insulfilm">Insulfilm</option>
+                    <option value="martelinho">Martelinho de Ouro</option>
+                    <option value="detalhamento">Detalhamento</option>
+                </select>
+            </div>
+
+            <div>
                 <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">Resumo (Para o Card)</label>
                 <textarea id="resumo" rows="3"
                     class="w-full bg-white border border-zinc-300 rounded-lg p-3 text-zinc-800 focus:ring-2 focus:ring-brand-500 outline-none"></textarea>
@@ -181,6 +195,7 @@
                 imagem_capa: imagemUrlFinal, // URL gerada pelo bucket
                 resumo: document.getElementById('resumo').value,
                 conteudo: quill.root.innerHTML,
+                categoria: document.getElementById('categoria').value,
                 publicado: true
             };
 
