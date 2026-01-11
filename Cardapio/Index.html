@@ -166,7 +166,8 @@
             name: 'Limpeza Plus',
             basePrice: 380,
             min: 1,
-            included: 1
+            included: 1,
+            options: SERVICE_OPTION_MAP.limpeza_protetora
           })"
           class="w-full py-4 rounded-xl font-black text-sm uppercase tracking-wider bg-zinc-800 text-white border border-zinc-600 hover:bg-white hover:text-black hover:border-white transition shadow-md">
           Selecionar
@@ -201,7 +202,8 @@
                 name: 'Limpeza Pro',
                 basePrice: 510,
                 min: 2,
-                included: 2
+                included: 2,
+                options: SERVICE_OPTION_MAP.limpeza_protetora
               })"
               class="w-full py-4 rounded-xl font-black text-sm uppercase tracking-wider bg-brand-600 text-white hover:bg-brand-500 transition shadow-lg shadow-brand-900/40 border border-brand-500">
               Selecionar
@@ -235,7 +237,8 @@
                 name: 'Limpeza Max',
                 basePrice: 650,
                 min: 3,
-                included: 3
+                included: 3,
+                options: SERVICE_OPTION_MAP.limpeza_protetora
               })"
               class="w-full py-4 rounded-xl font-black text-sm uppercase tracking-wider bg-zinc-800 text-white border border-zinc-600 hover:bg-white hover:text-black hover:border-white transition shadow-md">
               Selecionar
@@ -280,7 +283,8 @@
               name: 'Higienização Interna',
               basePrice: 750,
               min: 0,
-              included: 0
+              included: 0,
+              options: SERVICE_OPTION_MAP.higienizacao_interna
             })"
             class="w-full py-4 rounded-xl font-bold bg-zinc-100 text-black hover:bg-brand-500 hover:text-white transition shadow-lg">
             ADICIONAR AO CARRINHO
@@ -314,7 +318,8 @@
               name: 'Cristalização Paint',
               basePrice: 650,
               min: 0,
-              included: 0
+              included: 0,
+              options: SERVICE_OPTION_MAP.cristalizacao
             })"
             class="w-full py-4 rounded-xl font-bold bg-zinc-100 text-black hover:bg-brand-500 hover:text-white transition shadow-lg">
             ADICIONAR AO CARRINHO
@@ -369,7 +374,8 @@
             name: 'Vitrificação 1 Ano',
             basePrice: 1200,
             min: 0,
-            included: 0
+            included: 0,
+            options: SERVICE_OPTION_MAP.vitrificacao_pintura
           })"
           class="w-full py-4 rounded-xl font-bold bg-zinc-800 text-zinc-200 border border-zinc-600 hover:bg-white hover:text-black transition">
           SELECIONAR
@@ -403,7 +409,8 @@
               name: 'Vitrificação 2 Anos',
               basePrice: 1600,
               min: 0,
-              included: 0
+              included: 0,
+              options: SERVICE_OPTION_MAP.vitrificacao_pintura
             })"
             class="w-full py-4 rounded-xl font-bold bg-brand-600 text-white hover:bg-brand-500 transition shadow-lg shadow-brand-900/50 border border-brand-500 uppercase tracking-wider">
             SELECIONAR
@@ -433,7 +440,8 @@
             name: 'Vitrificação 3 Anos',
             basePrice: 1980,
             min: 0,
-            included: 0
+            included: 0,
+            options: SERVICE_OPTION_MAP.vitrificacao_pintura
           })"
           class="w-full py-4 rounded-xl font-bold bg-white text-black hover:bg-zinc-200 transition">
           SELECIONAR
@@ -560,23 +568,64 @@
 
   <script>
 
-    const OPTIONALS = [
-      { name: "Tratamento de Motor", price: 200 },
-      { name: "Tratamento dos Bancos", price: 200 },
-      { name: "Remoção de Chuva Ácida", price: 150 },
-      { name: "Enceramento com Maquina", price: 180 },
-      { name: "Vitrificação dos Plásticos Externos", price: 200 },
-      { name: "Vitrificação dos Plásticos Internos", price: 200 },
-      { name: "Vitrificação dos Vidros", price: 300 },
-      { name: "Oxi-Sanitização", price: 100 }
-    ];
+    const OPTIONALS = {
+      motor: { id: "motor", name: "Tratamento de Motor", price: 200 },
+      bancos: { id: "bancos", name: "Tratamento dos Bancos", price: 200 },
+      chuva: { id: "chuva", name: "Remoção de Chuva Ácida", price: 150 },
+      enceramento: { id: "enceramento", name: "Enceramento com Máquina", price: 180 },
+      plast_ext: { id: "plast_ext", name: "Vitrificação dos Plásticos Externos", price: 200 },
+      plast_int: { id: "plast_int", name: "Vitrificação dos Plásticos Internos", price: 200 },
+      vidros: { id: "vidros", name: "Vitrificação dos Vidros", price: 300 },
+      oxi: { id: "oxi", name: "Oxi-Sanitização", price: 100 }
+    };
 
+    const SERVICE_OPTION_MAP = {
+
+    higienizacao_interna: [
+      OPTIONALS.motor,
+      OPTIONALS.chuva,
+      OPTIONALS.enceramento,
+      OPTIONALS.plast_ext,
+      OPTIONALS.plast_int,
+      OPTIONALS.vidros
+    ],
+    cristalizacao: [
+      OPTIONALS.motor,
+      OPTIONALS.bancos,
+      OPTIONALS.chuva,
+      OPTIONALS.plast_ext,
+      OPTIONALS.plast_int,
+      OPTIONALS.vidros,
+      OPTIONALS.oxi
+    ],
+     vitrificacao_pintura: [
+      OPTIONALS.motor,
+      OPTIONALS.bancos,
+      OPTIONALS.chuva,
+      OPTIONALS.plast_ext,
+      OPTIONALS.plast_int,
+      OPTIONALS.vidros,
+      OPTIONALS.oxi
+    ],
+    limpeza_protetora: [
+      OPTIONALS.motor,
+      OPTIONALS.bancos,
+      OPTIONALS.chuva,
+      OPTIONALS.enceramento,
+      OPTIONALS.plast_ext,
+      OPTIONALS.plast_int,
+      OPTIONALS.vidros,
+      OPTIONALS.oxi
+    ]
+
+    };  
     let modalConfig = {
       name: "",
       basePrice: 0,
       min: 0,
       included: 0,
-      selected: []
+      selected: [],
+      availableOptions: []
     };
 
     function calculateExtra() {
@@ -598,26 +647,27 @@
         `R$ ${total.toLocaleString("pt-BR")}`;
     }
 
-    function openOptionsModal({ name, basePrice, min, included }) {
+    function openOptionsModal({ name, basePrice, min, included, options }) {
       modalConfig = {
         name,
         basePrice,
         min,
         included,
-        selected: [] 
+        selected: [], 
+        availableOptions: options
       };
 
       document.getElementById("modal-title").innerText = name;
 
       document.getElementById("modal-rule").innerText =
       min > 0
-        ? `Escolha no mínimo ${min} opcionais`
+        ? `Escolha no mínimo ${min} opcionais GRATIS`
         : `Escolha opcionais para TURBINAR seu tratamento!`;
 
       const container = document.getElementById("modal-options");
       container.innerHTML = "";
 
-      OPTIONALS.forEach((opt, index) => {
+      options.forEach((opt, index) => {
         container.innerHTML += `
           <label class="flex justify-between items-center bg-zinc-800 p-4 rounded-xl border border-zinc-700 cursor-pointer hover:bg-zinc-700 hover:border-brand-500 transition group mb-2">
             <div class="flex flex-col">
@@ -650,7 +700,7 @@
     }
 
     function toggleModalOption(index) {
-      const opt = OPTIONALS[index];
+      const opt = modalConfig.availableOptions[index];
       const i = modalConfig.selected.findIndex(o => o.name === opt.name);
 
       if (i > -1) {
