@@ -85,25 +85,22 @@
                 
                 // Cria o card HTML
                 const card = `
-                    <a href="/blog/post_view.html?s=${post.slug}" class="group bg-dark-900 border border-white/5 rounded-2xl overflow-hidden hover:border-brand-500/50 transition duration-500 flex flex-col">
-                        <div class="h-48 overflow-hidden relative">
-                            <img src="${post.imagem_capa || 'imgs/fachada.jpg'}" alt="${post.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700 opacity-80 group-hover:opacity-100">
-                        </div>
-                        <div class="p-6 flex-1 flex flex-col">
-                            <span class="text-brand-500 text-[10px] font-bold uppercase mb-2">${dataFormatada}</span>
-                            <h2 class="text-xl font-bold text-white mb-3 group-hover:text-brand-400 transition">${post.titulo}</h2>
-                            <p class="text-zinc-400 text-sm mb-6 line-clamp-3 flex-1">${post.resumo || ''}</p>
-                            <span class="text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2 group-hover:gap-3 transition-all">
-                                Ler Artigo <i class="ph-bold ph-arrow-right text-brand-500"></i>
-                            </span>
-                        </div>
-                    </a>
-                `;
-                grid.innerHTML += card;
-            });
-        }
-
-        carregarPosts();
-    </script>
-</body>
-</html>
+                <a href="/${post.slug}" class="group bg-dark-900 border border-white/5 rounded-2xl overflow-hidden hover:border-brand-500/50 transition duration-500 flex flex-col">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="${post.imagem_capa}" alt="${post.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700 opacity-80 group-hover:opacity-100">
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <span class="text-brand-500 text-[10px] font-bold uppercase mb-2">${dataFormatada}</span>
+                        <h2 class="text-xl font-bold text-white mb-3 group-hover:text-brand-400 transition">${post.titulo}</h2>
+                        <p class="text-zinc-400 text-sm mb-6 line-clamp-3 flex-1">${post.resumo || ''}</p>
+                        <span class="text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2 group-hover:gap-3 transition-all">
+                            Ler Artigo <i class="ph-bold ph-arrow-right text-brand-500"></i>
+                        </span>
+                    </div>
+                </a>
+            `;
+            grid.innerHTML += card;
+        });
+    }
+    carregarPosts();
+</script>

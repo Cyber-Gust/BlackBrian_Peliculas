@@ -81,12 +81,15 @@
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         async function carregarArtigo() {
-            // Pega o parametro ?s=slug-do-post da URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const slug = urlParams.get('s');
+            // NOVA LÓGICA: Pega o slug direto da URL (tudo depois da última barra)
+            // Exemplo: blackbrian.com/limpeza-de-bancos -> pega "limpeza-de-bancos"
+            const pathSegments = window.location.pathname.split('/').filter(p => p.length > 0);
+            const slug = pathSegments.pop();
 
-            if (!slug) {
-                window.location.href = 'blog.html';
+            // Proteção: Se não tiver slug ou se o "slug" for o próprio nome do arquivo .html
+            // (acontece se acessar direto sem reescrita de URL), redireciona para o blog.
+            if (!slug || slug.includes('.html') || slug === 'blog') {
+                window.location.href = '../index.html'; // Ajuste este caminho se necessário
                 return;
             }
 
@@ -94,34 +97,50 @@
                 .from('posts')
                 .select('*')
                 .eq('slug', slug)
-                .single(); // Espera apenas 1 resultado
+                .single(); 
 
             const loader = document.getElementById('loading');
             const content = document.getElementById('content-area');
 
             if (error || !data) {
-                loader.innerHTML = '<p class="text-white">Artigo não encontrado.</p>';
+                // Se der erro, mostra mensagem mas também sugere voltar
+                loader.innerHTML = `
+                    <div class="text-center">
+                        <p class="text-white text-xl font-bold mb-4">Artigo não encontrado.</p>
+                        <a href="../index.html" class="text-brand-500 hover:text-white transition">Voltar ao Blog</a>
+                    </div>`;
                 return;
             }
 
             // Popula os dados
             document.title = data.titulo + " | Black Brian Blog";
-            document.getElementById('post-date').innerText = new Date(data.created_at).toLocaleDateString('pt-BR');
-            document.getElementById('post-title').innerText = data.titulo;
             
-            if(data.imagem_capa) {
-                document.getElementById('post-image').src = data.imagem_capa;
-            } else {
-                document.getElementById('post-image').style.display = 'none';
+            // Verifica se os elementos existem antes de tentar inserir (segurança extra)
+            if(document.getElementById('post-date')) 
+                document.getElementById('post-date').innerText = new Date(data.created_at).toLocaleDateString('pt-BR');
+            
+            if(document.getElementById('post-title'))
+                document.getElementById('post-title').innerText = data.titulo;
+            
+            const imgElement = document.getElementById('post-image');
+            if(imgElement) {
+                if(data.imagem_capa) {
+                    imgElement.src = data.imagem_capa;
+                    imgElement.alt = data.titulo;
+                } else {
+                    imgElement.style.display = 'none';
+                }
             }
 
-            document.getElementById('post-body').innerHTML = data.conteudo;
+            if(document.getElementById('post-body'))
+                document.getElementById('post-body').innerHTML = data.conteudo;
 
             // Mostra conteúdo
-            loader.classList.add('hidden');
-            content.classList.remove('hidden');
+            if(loader) loader.classList.add('hidden');
+            if(content) content.classList.remove('hidden');
         }
 
+        // Executa a função
         carregarArtigo();
     </script>
 </body>
