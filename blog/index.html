@@ -79,20 +79,27 @@
                 return;
             }
 
+            const categoriasLabel = {
+            vitrificacao: 'Vitrificação',
+            insulfilm: 'Insulfilm',
+            martelinho: 'Martelinho de Ouro',
+            detalhamento: 'Detalhamento'
+            };
+
             data.forEach(post => {
                 // Formata data
                 const dataFormatada = new Date(post.created_at).toLocaleDateString('pt-BR');
                 
                 // Cria o card HTML
                 const card = `
-                <a href="/${post.slug}" class="group bg-dark-900 border border-white/5 rounded-2xl overflow-hidden hover:border-brand-500/50 transition duration-500 flex flex-col">
+                <a href="/${post.categoria}/${post.slug}" class="group bg-dark-900 border border-white/5 rounded-2xl overflow-hidden hover:border-brand-500/50 transition duration-500 flex flex-col">
                     <div class="h-48 overflow-hidden relative">
                         <img src="${post.imagem_capa}" alt="${post.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700 opacity-80 group-hover:opacity-100">
                     </div>
                     <div class="p-6 flex-1 flex flex-col">
                         <div class="mb-3">
                             <span class="inline-block bg-brand-600/20 text-brand-400 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-2">
-                                ${post.categoria}
+                                ${categoriasLabel[post.categoria] || post.categoria}
                             </span>
                             <div class="text-zinc-500 text-[11px] font-bold uppercase tracking-widest">
                                 ${dataFormatada}
