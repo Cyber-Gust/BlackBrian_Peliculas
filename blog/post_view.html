@@ -22,8 +22,8 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    
-    <link rel="icon" href="/favicon.png" sizes="48x48"<meta property="og:url" content="https://blackbrian.com.br"> type="image/png">
+
+    <link rel="icon" href="/favicon.png" sizes="48x48" type="image/png">
 
     <script>
         tailwind.config = {
@@ -81,7 +81,19 @@
                 </div>
                 
                 <h1 id="post-title" class="text-3xl md:text-5xl font-black text-white mb-8 leading-tight">...</h1>
+                <div class="flex items-center gap-3 mb-10">
+                    <button id="share-whatsapp"
+                        class="flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white text-sm font-bold px-4 py-2 rounded-full transition">
+                        <i class="ph-bold ph-whatsapp-logo"></i>
+                        Compartilhar
+                    </button>
 
+                    <button id="copy-link"
+                        class="flex items-center gap-2 bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-bold px-4 py-2 rounded-full transition">
+                        <i class="ph-bold ph-link"></i>
+                        Copiar link
+                    </button>
+                </div>
                 <img id="post-image" src="" class="w-full rounded-2xl mb-10 border border-white/10 shadow-2xl">
 
                 <div id="post-body" class="prose max-w-none text-lg">
@@ -161,7 +173,31 @@
             }
             
             const urlAtual = window.location.href;
+            // Compartilhar no WhatsApp
+            const btnWhatsapp = document.getElementById('share-whatsapp');
+            if (btnWhatsapp) {
+            btnWhatsapp.onclick = () => {
+                const texto = `${data.titulo} — confira no Black Brian 👇\n${urlAtual}`;
+                const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(texto)}`;
+                window.open(whatsappUrl, '_blank');
+            };
+            }
 
+            // Copiar link
+            const btnCopy = document.getElementById('copy-link');
+            if (btnCopy) {
+            btnCopy.onclick = async () => {
+                try {
+                await navigator.clipboard.writeText(urlAtual);
+                btnCopy.innerHTML = '<i class="ph-bold ph-check"></i> Copiado!';
+                setTimeout(() => {
+                    btnCopy.innerHTML = '<i class="ph-bold ph-link"></i> Copiar link';
+                }, 2000);
+                } catch {
+                alert('Não foi possível copiar o link.');
+                }
+            };
+            }
             setMeta('og:title', data.titulo + ' | Black Brian');
             setMeta('og:description', data.resumo || 'Dicas profissionais de estética automotiva.');
             setMeta(
