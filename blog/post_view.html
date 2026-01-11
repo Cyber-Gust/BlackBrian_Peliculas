@@ -4,9 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Black Brian Blog</title> <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Open Graph Base -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Black Brian">
+    <meta property="og:title" content="Black Brian Blog">
+    <meta property="og:description" content="Dicas de estética automotiva, vitrificação e cuidados profissionais.">
+    <meta property="og:image" content="https://blackbrian.com.br/imgs/bg.jpg">
+    <meta property="og:url" content="">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Black Brian Blog">
+    <meta name="twitter:description" content="Dicas de estética automotiva, vitrificação e cuidados profissionais.">
+    <meta name="twitter:image" content="https://blackbrian.com.br/imgs/bg.jpg">
+
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="icon" href="/favicon.png" sizes="48x48"<meta property="og:url" content="https://blackbrian.com.br"> type="image/png">
 
     <script>
         tailwind.config = {
@@ -89,6 +106,19 @@
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZkeGxpcWNvenlzamdvbWNmdWhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc1NDUwOTUsImV4cCI6MjA4MzEyMTA5NX0.-QUm03qwxrFJuCDQEv276PYLtOJEwEni478GrnMeEPI';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+        function setMeta(property, content) {
+        let meta = document.querySelector(`meta[property="${property}"]`)
+                || document.querySelector(`meta[name="${property}"]`);
+
+        if (!meta) {
+            meta = document.createElement('meta');
+            if (property.startsWith('og:')) meta.setAttribute('property', property);
+            else meta.setAttribute('name', property);
+            document.head.appendChild(meta);
+        }
+        meta.setAttribute('content', content);
+        }
+
         async function carregarArtigo() {
 
             const pathSegments = window.location.pathname.split('/').filter(Boolean);
@@ -129,9 +159,26 @@
                     </div>`;
                 return;
             }
+            
+            const urlAtual = window.location.href;
+
+            setMeta('og:title', data.titulo + ' | Black Brian');
+            setMeta('og:description', data.resumo || 'Dicas profissionais de estética automotiva.');
+            setMeta(
+            'og:image',
+            data.imagem_capa || 'https://blackbrian.com.br/imgs/bg.jpg'
+            );
+            setMeta('og:url', urlAtual);
+
+            setMeta('twitter:title', data.titulo + ' | Black Brian');
+            setMeta('twitter:description', data.resumo || 'Dicas profissionais de estética automotiva.');
+            setMeta(
+            'twitter:image',
+            data.imagem_capa || 'https://blackbrian.com.br/imgs/bg.jpg'
+            );
 
             // Popula os dados
-            document.title = data.titulo + " | Black Brian Blog";
+            document.title = data.titulo + " | Black Brian";
             
             // Verifica se os elementos existem antes de tentar inserir (segurança extra)
             if(document.getElementById('post-category'))
