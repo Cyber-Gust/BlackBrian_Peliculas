@@ -385,7 +385,7 @@
           </div>
 
           <!-- IMAGEM -->
-          <div class="h-56 md:h-auto bg-[url('/Cardapio/imgs/martelinho.png')] bg-cover bg-center opacity-60 group-hover:opacity-100 transition duration-500"></div>
+          <div class="h-56 md:h-auto bg-[url('/Cardapio/imgs/martelinho2.png')] bg-cover bg-center opacity-60 group-hover:opacity-100 transition duration-500"></div>
 
         </div>
       </div>
@@ -753,14 +753,14 @@
           // ✅ Enquanto NÃO completou a cota de inclusos:
           // tudo aparece como grátis (mesmo não selecionado)
           if (modalConfig.freeIds.length < modalConfig.included) {
-            priceLabel = `<span class="text-brand-400 font-black text-sm">GRÁTIS</span>`;
+            priceLabel = `<span class="text-brand-400 font-black text-[12px]">GRÁTIS</span>`;
           } else {
             // ✅ Depois que completou os inclusos:
             // grátis só quem tá no freeIds, o resto preço normal
             if (isFree) {
-              priceLabel = `<span class="text-brand-400 font-black text-sm">GRÁTIS</span>`;
+              priceLabel = `<span class="text-brand-400 font-black text-[12px]">GRÁTIS</span>`;
             } else {
-              priceLabel = `<span class="text-zinc-300 font-black text-sm">${formatMoney(opt.price)}</span>`;
+              priceLabel = `<span class="text-zinc-300 font-black text-[12px]">${formatMoney(opt.price)}</span>`;
             }
           }
 
@@ -773,11 +773,10 @@
             
             <div class="flex flex-col">
               <div class="flex items-center gap-2">
-                
-                <span class="text-white font-bold group-hover:text-brand-300 transition text-sm">
-                   ${opt.name} •
-                </span>
                 ${priceLabel}
+                <span class="text-white font-bold group-hover:text-brand-300 transition text-[12px]">
+                • ${opt.name} 
+                </span>
               </div>
             </div>
             
