@@ -771,13 +771,16 @@
         container.innerHTML += `
           <label class="flex justify-between items-center bg-zinc-800 p-4 rounded-xl border border-zinc-700 cursor-pointer hover:bg-zinc-700 hover:border-brand-500 transition group mb-2">
             
-            <div class="flex flex-col">
-              <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 w-full">
+  
+              <span class="w-16 shrink-0 text-left whitespace-nowrap">
                 ${priceLabel}
-                <span class="text-white font-bold group-hover:text-brand-300 transition text-[12px]">
-                • ${opt.name} 
-                </span>
-              </div>
+              </span>
+
+              <span class="text-white font-bold group-hover:text-brand-300 transition text-[12px] flex-1">
+                • ${opt.name}
+              </span>
+
             </div>
             
             <div class="relative flex items-center justify-center">
@@ -970,7 +973,9 @@
       <div class="p-6 pt-4 shrink-0 border-t border-zinc-800 bg-zinc-950">
         <div class="flex justify-between items-center">
           <span class="text-lg font-bold text-white flex flex-col">
-            <span class="text-xs text-zinc-500 font-bold uppercase tracking-widest">Total Estimado</span>
+            <span class="text-xs text-zinc-500 mr-4 mb-2 font-bold uppercase tracking-widest whitespace-nowrap overflow-hidden text-ellipsis max-w-full block">
+              Total Estimado
+            </span>
             <span id="modal-total" class="text-brand-400 text-2xl">R$ 0</span>
           </span>
           <button onclick="goToOrderSummary()"
