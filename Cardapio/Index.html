@@ -877,7 +877,7 @@
       }
 
       let total = 0;
-      let message = `*lá, Black Brian!\n\n`;
+      let message = `Olá, Black Brian!\n\n`;
       message += `*Resumo do Pedido*\n`;
       message += `👤 Nome: ${name}\n`;
       if (email) message += ` Email: ${email}\n`;
@@ -885,7 +885,7 @@
       message += `\n *Serviços selecionados:*\n`;
 
       cart.forEach((item) => {
-        message += `▪ ${item.name} - R$ ${item.price}\n`;
+        message += ` ${item.name} - R$ ${item.price}\n`;
         total += item.price;
       });
 
@@ -1054,7 +1054,7 @@
         <!-- ITENS -->
         <div class="bg-zinc-950/60 border border-zinc-800 rounded-2xl p-4">
           <p class="text-sm text-white font-bold mb-3 flex items-center gap-2">
-            <span class="text-brand-400">🧾</span> Itens do pedido
+            <span class="text-brand-400"></span> Itens do pedido
           </p>
           <div id="summary-items" class="space-y-2 text-sm text-zinc-300"></div>
         </div>
