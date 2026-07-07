@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Black Brian | Orcamentos</title>
+  <title>Black Brian | Orçamentos</title>
   <meta name="theme-color" content="#f5f1e8">
   <link rel="icon" href="/favicon.png" sizes="48x48" type="image/png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -31,6 +31,7 @@
 
     html {
       scroll-behavior: smooth;
+      overflow-x: hidden;
     }
 
     body {
@@ -40,6 +41,7 @@
         radial-gradient(circle at top left, rgba(125, 153, 96, 0.14), transparent 24%),
         linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
       color: var(--text);
+      overflow-x: hidden;
     }
 
     button,
@@ -170,6 +172,8 @@
     .field select,
     .field textarea {
       width: 100%;
+      max-width: 100%;
+      min-width: 0;
       border: 1px solid var(--line);
       background: #fff;
       color: var(--text);
@@ -182,6 +186,11 @@
     .field textarea {
       min-height: 96px;
       resize: vertical;
+    }
+
+    .field input[type="date"] {
+      min-width: 0;
+      max-width: 100%;
     }
 
     .field input:focus,
@@ -207,7 +216,7 @@
     }
 
     .search-shell input {
-      background: #ffffff;
+      background: #fffdf9;
       border: #6c9e58 2px solid;
       font-weight: 600;
       text-align: center;
@@ -530,7 +539,7 @@
       width: min(100%, 560px);
       max-height: min(92vh, 760px);
       overflow: auto;
-      background: #fffdf9;
+      background: #ffffff;
       border: 1px solid rgba(86, 108, 64, 0.14);
       border-radius: 18px;
       box-shadow: 0 24px 60px rgba(45, 36, 24, 0.18);
@@ -598,6 +607,21 @@
         grid-template-columns: repeat(6, minmax(0, 1fr));
       }
 
+      .field,
+      .field-grid,
+      .page-shell,
+      .main-grid {
+        min-width: 0;
+      }
+
+      .field input[type="date"] {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        appearance: none;
+        -webkit-appearance: none;
+      }
+
       .col-12,
       .col-8,
       .col-7,
@@ -617,11 +641,11 @@
       <div class="hero-top">
         <img class="hero-logo" src="imgs/logoo.png" alt="Black Brian">
         <div class="hero-meta">
-          <h1>Gerador de Orcamentos</h1>
-          <p>Black Brian Detalhamento Automotivo LTDA<br>CNPJ 37.654.432/0001-26<br>Av. 31 de Marco 735, Colonia do Marcal, Sao Joao del Rei, MG · CEP 36302016</p>
+          <h1>Gerador de Orçamentos</h1>
+          <p>Black Brian Detalhamento Automotivo LTDA<br>CNPJ 37.654.432/0001-26<br>Av. 31 de Mar&ccedil;o 735, Col&ocirc;nia do Mar&ccedil;al, S&atilde;o Jo&atilde;o del-Rei, MG &middot; CEP 36302016</p>
         </div>
         <div class="hero-actions">
-          <button class="btn-secondary" type="button" id="btnNovoNumero">Novo numero</button>
+          <button class="btn-secondary" type="button" id="btnNovoNumero">Novo número</button>
           <button class="btn-secondary" type="button" id="btnNovoRascunho">Limpar</button>
         </div>
       </div>
@@ -631,12 +655,12 @@
       <div class="stack">
         <section class="card">
           <div class="card-head">
-            <h2 class="card-title">Dados do orcamento</h2>
+            <h2 class="card-title">Dados do orçamento</h2>
           </div>
           <div class="card-body">
             <div class="field-grid">
               <div class="field col-4">
-                <label for="numeroOrcamento">Numero</label>
+                <label for="numeroOrcamento">Número</label>
                 <input id="numeroOrcamento" type="text" maxlength="3" inputmode="numeric" placeholder="000">
               </div>
               <div class="field col-4">
@@ -674,11 +698,11 @@
               </div>
               <div class="field col-12">
                 <label for="prazoEntrega">Prazo</label>
-                <input id="prazoEntrega" type="text" placeholder="Ex: 2 dias uteis">
+                <input id="prazoEntrega" type="text" placeholder="Ex: 2 dias úteis">
               </div>
               <div class="field col-12">
-                <label for="observacoes">Observacoes</label>
-                <textarea id="observacoes" placeholder="Garantias, condicoes especiais, forma de pagamento, observacoes tecnicas..."></textarea>
+                <label for="observacoes">Observações</label>
+                <textarea id="observacoes" placeholder="Garantias, condições especiais, forma de pagamento, observações técnicas..."></textarea>
               </div>
             </div>
           </div>
@@ -686,22 +710,24 @@
 
         <section class="card">
           <div class="card-head">
-            <h2 class="card-title">Adicionar servicos</h2>
+            <h2 class="card-title">Adicionar serviços</h2>
+            
           </div>
           <div class="card-body">
             <div class="toolbar">
               <div class="search-shell field">
-                <input id="buscaServico" type="text" placeholder="Pesquisar servico, categoria ou detalhe">
+                <input id="buscaServico" type="text" placeholder="Pesquisar serviço, categoria ou detalhe">
                 <div id="resultadosServicos" class="search-results"></div>
               </div>
-              <button class="btn-secondary" type="button" id="btnAdicionarServico">Adicionar servico</button>
+              <button class="btn-secondary" type="button" id="btnAdicionarServico">Adicionar serviço</button>
             </div>
           </div>
         </section>
 
         <section class="card">
           <div class="card-head">
-            <h2 class="card-title">Itens do orcamento</h2>
+            <h2 class="card-title">Itens do orçamento</h2>
+            <p class="card-subtitle">Arraste para o lado para remover o item.</p>
           </div>
           <div class="card-body">
             <div id="listaItens" class="item-list"></div>
@@ -746,7 +772,7 @@
 
         <section class="card">
           <div class="card-body footer-actions">
-            <button class="btn" type="button" id="btnGerarOrcamento">Gerar Orcamento</button>
+            <button class="btn" type="button" id="btnGerarOrcamento">Gerar Orçamento</button>
           </div>
         </section>
       </aside>
@@ -757,10 +783,10 @@
     <div class="modal-card">
       <div class="modal-head">
         <div>
-          <h3 class="modal-title" id="servicoModalTitulo">Adicionar servico</h3>
-          <div class="helper">Preencha os dados do item antes de incluir no orcamento.</div>
+          <h3 class="modal-title" id="servicoModalTitulo">Adicionar serviço</h3>
+          <div class="helper">Preencha os dados do item antes de incluir no orçamento.</div>
         </div>
-        <button class="icon-btn" type="button" id="btnFecharModal" aria-label="Fechar">×</button>
+        <button class="icon-btn" type="button" id="btnFecharModal" aria-label="Fechar">&times;</button>
       </div>
 
       <div class="field-grid">
@@ -769,19 +795,19 @@
           <input id="modalCategoria" type="text" placeholder="Categoria">
         </div>
         <div class="field col-12">
-          <label for="modalServico">Servico</label>
-          <input id="modalServico" type="text" placeholder="Nome do servico">
+          <label for="modalServico">Serviço</label>
+          <input id="modalServico" type="text" placeholder="Nome do serviço">
         </div>
         <div class="field col-12">
           <label for="modalDetalhes">Detalhes</label>
-          <textarea id="modalDetalhes" rows="3" placeholder="Descricao do servico"></textarea>
+          <textarea id="modalDetalhes" rows="3" placeholder="Descrição do serviço"></textarea>
         </div>
         <div class="field col-4">
           <label for="modalQuantidade">Quantidade</label>
           <input id="modalQuantidade" type="number" min="0" step="0.01" placeholder="1">
         </div>
         <div class="field col-4">
-          <label for="modalValorUnitario">Valor unitario</label>
+          <label for="modalValorUnitario">Valor unitário</label>
           <input id="modalValorUnitario" type="text" inputmode="decimal" placeholder="0,00">
         </div>
         <div class="field col-4">
@@ -792,7 +818,7 @@
 
       <div class="summary-item-actions" style="margin-top:16px;">
         <button class="btn-secondary" type="button" id="btnCancelarModal">Cancelar</button>
-        <button class="btn" type="button" id="btnSalvarItemModal">Salvar servico</button>
+        <button class="btn" type="button" id="btnSalvarItemModal">Salvar serviço</button>
       </div>
     </div>
   </div>
@@ -803,32 +829,32 @@
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     const serviceCatalog = [
-      { id: "martelinho", category: "Martelinho", service: "Martelinho de Ouro", details: "Valor sob avaliacao conforme avarias", qty: 1, unitPrice: null },
-      { id: "limpeza_manutencao", category: "Estetica", service: "Limpeza tecnica de manutencao", details: "Servico para carros ja vitrificados", qty: 1, unitPrice: 100 },
-      { id: "vitrificacao_1", category: "Estetica", service: "Vitrificacao de Pintura 1 Ano", details: "Protecao ceramica com durabilidade de 1 ano", qty: 1, unitPrice: 1200 },
-      { id: "vitrificacao_2", category: "Estetica", service: "Vitrificacao de Pintura 2 Anos", details: "Protecao ceramica com durabilidade de 2 anos", qty: 1, unitPrice: 1600 },
-      { id: "vitrificacao_3", category: "Estetica", service: "Vitrificacao de Pintura 3 Anos", details: "Protecao ceramica com durabilidade de 3 anos", qty: 1, unitPrice: 1980 },
-      { id: "limpeza_protetora", category: "Estetica", service: "Limpeza protetora", details: "Base para limpeza tecnica com opcionais", qty: 1, unitPrice: 380 },
-      { id: "higienizacao", category: "Estetica", service: "Higienizacao interna", details: "Higienizacao completa do interior do veiculo", qty: 1, unitPrice: 750 },
-      { id: "cristalizacao", category: "Estetica", service: "Cristalizacao de pintura", details: "Revitalizacao com protecao de curto prazo", qty: 1, unitPrice: 650 },
-      { id: "tratamento_motor", category: "Estetica", service: "Tratamento de motor", details: "Opcional extra", qty: 1, unitPrice: 200 },
-      { id: "tratamento_bancos", category: "Estetica", service: "Tratamento dos bancos", details: "Opcional extra", qty: 1, unitPrice: 200 },
-      { id: "chuva_acida", category: "Estetica", service: "Remocao de chuva acida", details: "Opcional extra", qty: 1, unitPrice: 150 },
-      { id: "enceramento", category: "Estetica", service: "Enceramento com maquina", details: "Opcional extra", qty: 1, unitPrice: 180 },
-      { id: "vitrificacao_couros", category: "Estetica", service: "Vitrificacao dos couros", details: "Opcional extra", qty: 1, unitPrice: 250 },
-      { id: "vitrificacao_plast_ext", category: "Estetica", service: "Vitrificacao dos plasticos externos", details: "Opcional extra", qty: 1, unitPrice: 200 },
-      { id: "vitrificacao_plast_int", category: "Estetica", service: "Vitrificacao dos plasticos internos", details: "Opcional extra", qty: 1, unitPrice: 200 },
-      { id: "vitrificacao_vidros", category: "Estetica", service: "Vitrificacao dos vidros", details: "Opcional extra", qty: 1, unitPrice: 300 },
-      { id: "oxi_sanitizacao", category: "Estetica", service: "Oxi-sanitizacao", details: "Opcional extra", qty: 1, unitPrice: 100 },
-      { id: "combo_interior_novo", category: "Combo", service: "Pacote Interior Novo", details: "Higienizacao completa + couros + plasticos internos", qty: 1, unitPrice: 1150 },
-      { id: "combo_blindagem", category: "Combo", service: "Pacote Blindagem Externa", details: "Vitrificacao 1 ano + plasticos externos + vidros", qty: 1, unitPrice: 1600 },
-      { id: "combo_full_detail", category: "Combo", service: "Pacote Full Detail", details: "Transformacao total com foco externo e interno", qty: 1, unitPrice: 4500 },
-      { id: "pelicula_lateral_carbono", category: "Insulfilm", service: "Pelicula Nano Carbono", details: "Laterais e traseiro", qty: 1, unitPrice: 690 },
-      { id: "pelicula_lateral_ceramica", category: "Insulfilm", service: "Pelicula Nano Ceramica", details: "Laterais e traseiro", qty: 1, unitPrice: 890 },
-      { id: "pelicula_lateral_premium", category: "Insulfilm", service: "Pelicula Ceramica Premium", details: "Laterais e traseiro", qty: 1, unitPrice: 1490 },
-      { id: "pelicula_parabrisa_carbono", category: "Insulfilm", service: "Pelicula Nano Carbono", details: "Parabrisa", qty: 1, unitPrice: 410 },
-      { id: "pelicula_parabrisa_ceramica", category: "Insulfilm", service: "Pelicula Nano Ceramica", details: "Parabrisa", qty: 1, unitPrice: 510 },
-      { id: "pelicula_parabrisa_premium", category: "Insulfilm", service: "Pelicula Ceramica Premium", details: "Parabrisa", qty: 1, unitPrice: 750 }
+      { id: "martelinho", category: "Martelinho", service: "Martelinho de Ouro", details: "Valor sob avaliação conforme avarias", qty: 1, unitPrice: null },
+      { id: "limpeza_manutencao", category: "Estética", service: "Limpeza técnica de manutenção", details: "Serviço para carros já vitrificados", qty: 1, unitPrice: 100 },
+      { id: "vitrificacao_1", category: "Estética", service: "Vitrificação de Pintura 1 Ano", details: "Proteção cerâmica com durabilidade de 1 ano", qty: 1, unitPrice: 1200 },
+      { id: "vitrificacao_2", category: "Estética", service: "Vitrificação de Pintura 2 Anos", details: "Proteção cerâmica com durabilidade de 2 anos", qty: 1, unitPrice: 1600 },
+      { id: "vitrificacao_3", category: "Estética", service: "Vitrificação de Pintura 3 Anos", details: "Proteção cerâmica com durabilidade de 3 anos", qty: 1, unitPrice: 1980 },
+      { id: "limpeza_protetora", category: "Estética", service: "Limpeza protetora", details: "Base para limpeza técnica com opcionais", qty: 1, unitPrice: 380 },
+      { id: "higienizacao", category: "Estética", service: "Higienização interna", details: "Higienização completa do interior do veículo", qty: 1, unitPrice: 750 },
+      { id: "cristalizacao", category: "Estética", service: "Cristalização de pintura", details: "Revitalização com proteção de curto prazo", qty: 1, unitPrice: 650 },
+      { id: "tratamento_motor", category: "Estética", service: "Tratamento de motor", details: "Opcional extra", qty: 1, unitPrice: 200 },
+      { id: "tratamento_bancos", category: "Estética", service: "Tratamento dos bancos", details: "Opcional extra", qty: 1, unitPrice: 200 },
+      { id: "chuva_acida", category: "Estética", service: "Remoção de chuva ácida", details: "Opcional extra", qty: 1, unitPrice: 150 },
+      { id: "enceramento", category: "Estética", service: "Enceramento com máquina", details: "Opcional extra", qty: 1, unitPrice: 180 },
+      { id: "vitrificacao_couros", category: "Estética", service: "Vitrificação dos couros", details: "Opcional extra", qty: 1, unitPrice: 250 },
+      { id: "vitrificacao_plast_ext", category: "Estética", service: "Vitrificação dos plásticos externos", details: "Opcional extra", qty: 1, unitPrice: 200 },
+      { id: "vitrificacao_plast_int", category: "Estética", service: "Vitrificação dos plásticos internos", details: "Opcional extra", qty: 1, unitPrice: 200 },
+      { id: "vitrificacao_vidros", category: "Estética", service: "Vitrificação dos vidros", details: "Opcional extra", qty: 1, unitPrice: 300 },
+      { id: "oxi_sanitizacao", category: "Estética", service: "Oxi-sanitização", details: "Opcional extra", qty: 1, unitPrice: 100 },
+      { id: "combo_interior_novo", category: "Combo", service: "Pacote Interior Novo", details: "Higienização completa + couros + plásticos internos", qty: 1, unitPrice: 1150 },
+      { id: "combo_blindagem", category: "Combo", service: "Pacote Blindagem Externa", details: "Vitrificação 1 ano + plásticos externos + vidros", qty: 1, unitPrice: 1600 },
+      { id: "combo_full_detail", category: "Combo", service: "Pacote Full Detail", details: "Transformação total com foco externo e interno", qty: 1, unitPrice: 4500 },
+      { id: "pelicula_lateral_carbono", category: "Insulfilm", service: "Película Nano Carbono", details: "Laterais e traseiro", qty: 1, unitPrice: 690 },
+      { id: "pelicula_lateral_ceramica", category: "Insulfilm", service: "Película Nano Cerâmica", details: "Laterais e traseiro", qty: 1, unitPrice: 890 },
+      { id: "pelicula_lateral_premium", category: "Insulfilm", service: "Película Cerâmica Premium", details: "Laterais e traseiro", qty: 1, unitPrice: 1490 },
+      { id: "pelicula_parabrisa_carbono", category: "Insulfilm", service: "Película Nano Carbono", details: "Parabrisa", qty: 1, unitPrice: 410 },
+      { id: "pelicula_parabrisa_ceramica", category: "Insulfilm", service: "Película Nano Cerâmica", details: "Parabrisa", qty: 1, unitPrice: 510 },
+      { id: "pelicula_parabrisa_premium", category: "Insulfilm", service: "Película Cerâmica Premium", details: "Parabrisa", qty: 1, unitPrice: 750 }
     ];
 
     const draftKey = "blackbrian_orcamento_draft_v1";
@@ -967,7 +993,7 @@
       el.numeroOrcamento.value = String(randomNumber);
       currentBudgetId = null;
       persistDraft();
-      showStatus("Novo numero de orcamento gerado.", false);
+      showStatus("Novo número de orçamento gerado.", false);
     }
 
     function renderServiceResults(query) {
@@ -1014,7 +1040,7 @@
 
     function openItemModal(baseItem = null, existingUid = null) {
       editingItemUid = existingUid;
-      el.servicoModalTitulo.textContent = existingUid ? "Editar servico" : "Adicionar servico";
+      el.servicoModalTitulo.textContent = existingUid ? "Editar serviço" : "Adicionar serviço";
       el.modalCategoria.value = baseItem?.category || "";
       el.modalServico.value = baseItem?.service || "";
       el.modalDetalhes.value = baseItem?.details || "";
@@ -1039,13 +1065,13 @@
     function saveItemFromModal() {
       const service = (el.modalServico.value || "").trim();
       if (!service) {
-        showStatus("Informe o nome do servico.", true);
+        showStatus("Informe o nome do serviço.", true);
         return;
       }
 
       const itemPayload = {
         uid: editingItemUid || createUid(),
-        category: (el.modalCategoria.value || "").trim() || "Servico",
+        category: (el.modalCategoria.value || "").trim() || "Serviço",
         service,
         details: (el.modalDetalhes.value || "").trim(),
         qty: Number(el.modalQuantidade.value) || 0,
@@ -1083,7 +1109,7 @@
           <div class="item-swipe-track">
             <div class="item-top">
               <div>
-                <div class="summary-chip">${escapeHtml(item.category || "Servico")}</div>
+                <div class="summary-chip">${escapeHtml(item.category || "Serviço")}</div>
                 <p class="summary-item-name">${escapeHtml(item.service)}</p>
               </div>
               <button class="edit-icon-btn" type="button" aria-label="Editar" data-action="edit" data-uid="${item.uid}">✎</button>
@@ -1239,13 +1265,13 @@
 
     function validateForm(data) {
       if (!/^\d{3}$/.test(data.numero)) {
-        throw new Error("O numero do orcamento precisa ter 3 digitos.");
+        throw new Error("O número do orçamento precisa ter 3 dígitos.");
       }
       if (!data.nomeCliente) {
         throw new Error("Informe o nome do cliente.");
       }
       if (!data.data) {
-        throw new Error("Informe a data do orcamento.");
+        throw new Error("Informe a data do orçamento.");
       }
       if (!data.items.length) {
         throw new Error("Adicione pelo menos um item com nome.");
@@ -1320,7 +1346,7 @@
 
       persistDraft();
       if (showMessage) {
-        showStatus(`Orcamento ${data.numero} salvo com sucesso.`, false);
+        showStatus(`Orçamento ${data.numero} salvo com sucesso.`, false);
       }
       return savedBudgetId;
     }
@@ -1391,14 +1417,14 @@
       try {
         await saveBudget({ showMessage: false });
       } catch (error) {
-        showStatus(`Falha ao salvar antes do PDF: ${error.message}. O arquivo sera gerado assim mesmo.`, true);
+        showStatus(`Falha ao salvar antes do PDF: ${error.message}. O arquivo será gerado assim mesmo.`, true);
       }
 
       try {
         await generatePdf();
         showStatus("PDF gerado com sucesso.", false);
       } catch (error) {
-        showStatus(`Nao foi possivel gerar o PDF: ${error.message}`, true);
+        showStatus(`Não foi possível gerar o PDF: ${error.message}`, true);
       }
     }
 
@@ -1425,7 +1451,7 @@
       doc.setTextColor(255, 255, 255);
       doc.setFont("helvetica", "bold");
       doc.setFontSize(20);
-      doc.text("ORCAMENTO", margin + 38, margin + 11);
+      doc.text("ORÇAMENTO", margin + 38, margin + 11);
       doc.setFontSize(11);
       doc.setFont("helvetica", "normal");
       doc.text(`No ${data.numero}`, margin + 38, margin + 18);
@@ -1434,8 +1460,8 @@
       doc.setFontSize(9);
       doc.text("Black Brian Detalhamento Automotivo LTDA", pageWidth - margin - 72, margin + 9);
       doc.text("CNPJ 37.654.432/0001-26", pageWidth - margin - 72, margin + 15);
-      doc.text("Av. 31 de Marco 735, Colonia do Marcal", pageWidth - margin - 72, margin + 21);
-      doc.text("Sao Joao del Rei - MG - CEP 36302016", pageWidth - margin - 72, margin + 27);
+      doc.text("Av. 31 de Março 735, Colônia do Marçal", pageWidth - margin - 72, margin + 21);
+      doc.text("São João del-Rei - MG - CEP 36302016", pageWidth - margin - 72, margin + 27);
 
       let cursorY = 52;
 
@@ -1445,7 +1471,7 @@
         [`Telefone`, data.telefone || "-"],
         [`CPF`, data.cpf || "-"]
       ]);
-      drawBlock(doc, margin + 95, cursorY, pageWidth - (margin * 2) - 95, 39, "Veiculo", [
+      drawBlock(doc, margin + 95, cursorY, pageWidth - (margin * 2) - 95, 39, "Veículo", [
         [`Modelo`, data.modelo || "-"],
         [`Cor`, data.cor || "-"],
         [`Placa`, data.placa || "-"]
@@ -1453,11 +1479,11 @@
 
       cursorY += 44;
 
-      drawBlock(doc, margin, cursorY, 62, 20, "Condicoes", [
+      drawBlock(doc, margin, cursorY, 62, 20, "Condições", [
         [`Prazo`, data.prazo || "-"]
       ]);
       drawBlock(doc, margin + 67, cursorY, 56, 20, "Datas", [
-        [`Orcamento`, formatDateForPdf(data.data)]
+        [`Orçamento`, formatDateForPdf(data.data)]
       ]);
       drawBlock(doc, margin + 128, cursorY, pageWidth - margin - (margin + 128), 20, "Validade", [
         [`Expira em`, data.validade ? formatDateForPdf(data.validade) : "-"]
@@ -1467,7 +1493,7 @@
 
       doc.autoTable({
         startY: cursorY,
-        head: [["Servico", "Detalhes", "Qtd", "Unit.", "Total"]],
+        head: [["Serviço", "Detalhes", "Qtd", "Unit.", "Total"]],
         body: data.items.map((item) => [
           item.servico,
           item.detalhes || "-",
@@ -1506,12 +1532,12 @@
       const totals = updateTotals();
 
       const obsHeight = 34;
-      drawNotesBlock(doc, margin, tableY, pageWidth - margin * 2 - 58, obsHeight, "Observacoes", data.observacoes || "Sem observacoes.");
+      drawNotesBlock(doc, margin, tableY, pageWidth - margin * 2 - 58, obsHeight, "Observações", data.observacoes || "Sem observações.");
       drawTotalsBlock(doc, pageWidth - margin - 53, tableY, 53, obsHeight, totals);
 
       doc.setFontSize(8.5);
       doc.setTextColor(110, 102, 91);
-      doc.text("Documento gerado para envio ao cliente. Valores sujeitos a confirmacao operacional.", margin, pageHeight - 10);
+      doc.text("Documento gerado para envio ao cliente. Valores sujeitos a confirmação operacional.", margin, pageHeight - 10);
 
       const filenameBase = normalizeForFile(`${data.numero}-${data.nomeCliente || "cliente"}`) || "orcamento";
       doc.save(`orcamento-${filenameBase}.pdf`);
@@ -1642,7 +1668,7 @@
       setDefaultDates();
       generateBudgetNumber();
       renderItems();
-      showStatus("Rascunho limpo. Novo orcamento iniciado.", false);
+      showStatus("Rascunho limpo. Novo orçamento iniciado.", false);
     }
 
     function showStatus(message, isError) {
