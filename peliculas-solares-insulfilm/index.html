@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="preload" as="image" href="/peliculas-solares-insulfilm/imgs/modelo_estatico.png" media="(max-width: 767px), (pointer: coarse) and (max-width: 1024px)">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="icon" href="/favicon.png" sizes="48x48" type="image/png">
     <!-- Google Tag Manager -->
@@ -163,23 +162,11 @@
                 <span class="text-xs font-bold text-moss tracking-widest uppercase animate-pulse">Carregando 3D...</span>
             </div>
 
-            <img
-                id="mobile-model-fallback"
-                src="/peliculas-solares-insulfilm/imgs/modelo_estatico.png"
-                alt="SUV preto usado na simulação de tonalidade de películas automotivas"
-                width="386"
-                height="316"
-                loading="eager"
-                fetchpriority="high"
-                decoding="async"
-                class="absolute inset-0 z-0 w-full h-full object-contain pointer-events-none -translate-y-[10%] transition-opacity duration-300">
-
             <model-viewer 
                 id="car-viewer"
                 loading="eager"
                 touch-action="pan-y"
                 reveal="auto"
-                poster="/peliculas-solares-insulfilm/imgs/modelo_estatico.png"
                 class="relative z-[1] w-full h-full -translate-y-[10%] md:translate-y-0 transition-transform duration-500"
                 src="/peliculas-solares-insulfilm/models/G63.glb"
                 camera-controls 
@@ -1108,8 +1095,8 @@
             'clear': { opacity: 0.1, color: '#ffffff', roughness: 0.1, name: 'Original' },
             'g70':   { opacity: 0.18, color: '#444444', roughness: 0.1, name: 'G70' },
             'g35':   { opacity: 0.82, color: '#2a2a2a', roughness: 0.05, name: 'G35' },
-            'g20':   { opacity: 0.90, color: '#111111', roughness: 0.02, name: 'G20' },
-            'g5':    { opacity: 0.98, color: '#000000', roughness: 0.01, name: 'G5' },
+            'g20':   { opacity: 0.85, color: '#111111', roughness: 0.02, name: 'G20' },
+            'g5':    { opacity: 0.95, color: '#000000', roughness: 0.01, name: 'G5' },
         };
 
         let state = {
@@ -1168,17 +1155,8 @@
             toggleLoader(false);
 
             if (isMobile() && !gestureShown) {
-                const mobileFallback = document.getElementById('mobile-model-fallback');
                 const cameraAngle = state.activeZone === 'front' ? '0deg' : '45deg';
                 viewer.cameraOrbit = `${cameraAngle} 75deg 220%`;
-
-                requestAnimationFrame(() => {
-                    mobileFallback.classList.add('opacity-0');
-                    setTimeout(() => {
-                        mobileFallback.style.display = 'none';
-                    }, 300);
-                });
-
                 setTimeout(showGestureHelp, 350);
             }
 
