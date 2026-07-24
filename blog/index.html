@@ -12,26 +12,13 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-NZT66LZR');</script>
     <!-- End Google Tag Manager -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/dist/blog.css">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link rel="icon" href="/favicon.png" sizes="48x48" type="image/png">
     
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: { 400: "#6f9f6a", 500: "#4e7f49", 600: "#3d6538", 900: "#1a2e19" },
-                        dark: { 950: "#050505", 900: "#0a0a0a", 800: "#121212" }
-                    },
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
-                }
-            }
-        }
-    </script>
-    <style>body { background-color: #050505; color: #e4e4e7; }</style>
+
 </head>
 <body class="antialiased">
     <!-- Google Tag Manager (noscript) -->
@@ -42,7 +29,7 @@
     <nav class="fixed top-0 w-full z-50 bg-dark-900/80 backdrop-blur-md border-b border-white/5">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <a href="index.html" class="flex items-center gap-3">
-                <img src="../imgs/LOGO.png" alt="Black Brian" class="h-10">
+            <img src="../imgs/LOGO.png" alt="Black Brian Car Detailer, blog de estética automotiva" class="h-10">
                 <div class="hidden md:block h-6 w-px bg-white/20"></div>
                 <span class="hidden md:block text-xs font-bold tracking-[0.2em] text-zinc-500 uppercase">BLOG</span>
             </a>
@@ -105,7 +92,7 @@
                 const card = `
                 <a href="/${post.categoria}/${post.slug}" class="group bg-dark-900 border border-white/5 rounded-2xl overflow-hidden hover:border-brand-500/50 transition duration-500 flex flex-col">
                     <div class="h-48 overflow-hidden relative">
-                        <img src="${post.imagem_capa}" alt="${post.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700 opacity-80 group-hover:opacity-100">
+                        <img src="${post.imagem_capa}" alt="${post.titulo} — artigo do blog Black Brian" class="w-full h-full object-cover group-hover:scale-105 transition duration-700 opacity-80 group-hover:opacity-100">
                     </div>
                     <div class="p-6 flex-1 flex flex-col">
                         <div class="mb-3">

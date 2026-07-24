@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body { background-color: #050505; color: #e4e4e7; }
+        /* Estilos para o conteúdo vindo do editor Quill */
+        .prose h1, .prose h2, .prose h3 { color: white; font-weight: 700; margin-top: 2rem; margin-bottom: 1rem; }
+        .prose h2 { font-size: 1.5rem; }
+        .prose p { margin-bottom: 1.5rem; line-height: 1.8; color: #d4d4d8; }
+        .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.5rem; color: #d4d4d8; }
+        .prose ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1.5rem; color: #d4d4d8; }
+        .prose a { color: #6f9f6a; text-decoration: underline; }
+        .prose strong { color: white; }

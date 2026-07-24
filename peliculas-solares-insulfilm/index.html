@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="/peliculas-solares-insulfilm/imgs/modelo_estatico.png" media="(max-width: 767px), (pointer: coarse) and (max-width: 1024px)">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="icon" href="/favicon.png" sizes="48x48" type="image/png">
     <!-- Google Tag Manager -->
@@ -19,81 +20,8 @@
     <!-- End Google Tag Manager -->
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        moss: '#4F6F52',       /* Verde Musgo */
-                        mossDark: '#3A523C',
-                        black: '#111111',
-                        surface: '#1A1A1A',
-                    },
-                    fontFamily: { sans: ['"Inter"', 'sans-serif'] },
-                    boxShadow: { 
-                        'dock': '0 -10px 40px -10px rgba(0,0,0,0.1)',
-                        'modal': '0 25px 50px -12px rgba(0, 0, 0, 0.25)' 
-                    }
-                }
-            }
-        }
-    </script>
-    
-    <style>
-        body { 
-            transition: background-color 0.5s ease;
-            overflow-x: hidden;
-        }
-        
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        model-viewer {
-            width: 100%; height: 100%;
-            --poster-color: transparent;
-            background-color: transparent;
-            outline: none;
-        }
-        
-        #gesture-overlay {
-            opacity: 0;
-            transform: scale(0.95);
-        }
+    <link rel="stylesheet" href="/dist/peliculas.css">
 
-        #gesture-overlay.show {
-            opacity: 1;
-            transform: scale(1);
-        }
-        /* Animações UI */
-        .tint-btn { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
-        .tint-btn:active { transform: scale(0.95); }
-
-        /* Card de Seleção no Modal */
-        .select-card {
-            transition: all 0.2s ease;
-            border: 2px solid transparent;
-        }
-        .select-card:hover { transform: translateY(-2px); }
-        .select-card.selected {
-            border-color: #4F6F52;
-            background-color: rgba(79, 111, 82, 0.05);
-        }
-        .dark .select-card.selected {
-            background-color: rgba(79, 111, 82, 0.2);
-        }
-        
-        /* Tema Escuro */
-        body.dark { background-color: #0f0f0f; color: white; }
-        body.dark footer { background-color: rgba(20, 20, 20, 0.85); border-top-color: rgba(255,255,255,0.1); }
-
-        footer { padding-bottom: env(safe-area-inset-bottom); }
-
-        /* Fade In Modal */
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        .modal-animate { animation: fadeIn 0.3s ease-out forwards; }
-    </style>
 </head>
 
 
@@ -131,8 +59,7 @@
                                 <i class="ph-fill ph-car text-lg"></i>
                             </div>
                             <select id="init-model" class="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white px-4 py-3.5 pl-11 rounded-xl appearance-none focus:ring-2 focus:ring-moss focus:border-moss outline-none transition-all text-sm font-medium cursor-pointer">
-                                <option value="hatch">Hatch</option>
-                                <option value="suv">SUV</option>
+                                <option value="suv" selected>SUV</option>
                                 <option value="sedan">Sedã</option>
                                 <option value="pickup">Caminhonete</option>
                                 <option value="sport">Esportivo</option>
@@ -152,7 +79,7 @@
                             </div>
                             <select id="init-color" class="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white px-4 py-3.5 pl-11 rounded-xl appearance-none focus:ring-2 focus:ring-moss focus:border-moss outline-none transition-all text-sm font-medium cursor-pointer">
                                 <option value="silver">Prata</option>
-                                <option value="black">Preto</option>
+                                <option value="black" selected>Preto</option>
                                 <option value="white">Branco</option>
                                 <option value="gray">Cinza</option>
                                 <option value="red">Vermelho</option>
@@ -217,32 +144,10 @@
         </div>
     </div>
 
-    <div id="promo-toast" class="fixed top-4 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-auto md:right-auto z-50 flex flex-col bg-white dark:bg-[#1A1A1A] border border-green-200 dark:border-green-900 shadow-2xl rounded-2xl transform -translate-y-[200%] transition-transform duration-700 ease-out overflow-hidden">
-        
-        <div class="flex items-center gap-3 p-4">
-            <div class="bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 p-2.5 rounded-full flex-shrink-0 animate-bounce">
-                <i class="ph-fill ph-seal-warning text-xl"></i>
-            </div>
-
-            <div class="flex-grow">
-                <h6 class="font-bold text-sm text-black dark:text-white leading-tight">PASSO 1</h6>
-                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Escolha a tonalidade da película e clique em ORÇAMENTO</p>
-            </div>
-
-            <button onclick="closeToast()" class="text-gray-400 hover:text-black dark:hover:text-white p-1 transition-colors">
-                <i class="ph-bold ph-x"></i>
-            </button>
-        </div>
-
-        <div class="h-1 w-full bg-gray-100 dark:bg-gray-800">
-            <div id="toast-progress" class="h-full bg-green-500 w-0"></div>
-        </div>
-    </div>
-
     <header class="fixed top-0 left-0 w-full p-6 z-0 flex justify-between items-start pointer-events-none">
     <div class="pointer-events-auto">
-        <img src="/Peliculas_Solares/imgs/logo.png" 
-             alt="Logo Loja" 
+        <img src="/peliculas-solares-insulfilm/imgs/logo.png" 
+             alt="Logotipo Black Brian, simulador de películas automotivas" 
              class="h-24 z-0 md:h-36 w-auto z-2 object-contain transition-all duration-500 brightness-0 dark:brightness-100 drop-shadow-sm">
              
     </div>
@@ -258,25 +163,36 @@
                 <span class="text-xs font-bold text-moss tracking-widest uppercase animate-pulse">Carregando 3D...</span>
             </div>
 
+            <img
+                id="mobile-model-fallback"
+                src="/peliculas-solares-insulfilm/imgs/modelo_estatico.png"
+                alt="SUV preto usado na simulação de tonalidade de películas automotivas"
+                width="386"
+                height="316"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+                class="absolute inset-0 z-0 w-full h-full object-contain pointer-events-none -translate-y-[10%] transition-opacity duration-300">
+
             <model-viewer 
                 id="car-viewer"
                 loading="eager"
                 touch-action="pan-y"
                 reveal="auto"
-                class="w-full h-full -translate-y-[10%] md:translate-y-0 transition-transform duration-500" 
-                src="/Peliculas_Solares/models/Golf.glb" 
+                poster="/peliculas-solares-insulfilm/imgs/modelo_estatico.png"
+                class="relative z-[1] w-full h-full -translate-y-[10%] md:translate-y-0 transition-transform duration-500"
+                src="/peliculas-solares-insulfilm/models/G63.glb"
                 camera-controls 
-                carColors="['silver']"
+                carColors="['black']"
                 shadow-intensity="1.2" 
                 shadow-softness="0.8"
                 exposure="1"
                 tone-mapping="commerce"
-                environment-image="/Peliculas_Solares/env/studio.hdr" 
-                alt="Veículo 3D"
+                alt="SUV preto em visualizador 3D para simular tonalidades de películas automotivas"
                 interaction-prompt="none"
                 min-camera-orbit="auto auto auto"
                 max-camera-orbit="auto auto auto"
-                camera-orbit="45deg 75deg 105%">
+                camera-orbit="35deg 75deg 155%">
             </model-viewer>
 
             <div id="gesture-overlay" 
@@ -288,7 +204,7 @@
                         <i class="ph-fill ph-hand-tap"></i>
                     </div>
 
-                    <h4 class="font-bold text-lg mb-2">Interaja com o carro</h4>
+                    <h4 class="font-bold text-lg mb-2">Como explorar o 3D</h4>
 
                     <div id="gesture-text" class="text-xs opacity-80 leading-relaxed"></div>
 
@@ -313,7 +229,7 @@
                     </svg>
                     <span class="text-xs font-bold tracking-widest uppercase">Voltar ao Início</span>
                 </a>
-                <div class="grid grid-cols-2 gap-3 w-full">
+                <div id="vehicle-selectors" class="hidden md:grid grid-cols-2 gap-3 w-full">
 
                     <div class="relative" id="model-dropdown-container">
                         <button onclick="toggleModelDropdown()" type="button" class="relative w-full bg-gray-100 dark:bg-gray-800 border-none text-gray-900 dark:text-gray-100 text-xs font-bold rounded-xl py-3 pl-10 pr-8 focus:ring-2 focus:ring-moss transition-all cursor-pointer text-left flex items-center justify-between">
@@ -322,7 +238,7 @@
                                 <i class="ph-fill ph-car text-lg"></i>
                             </div>
 
-                            <span id="displayModelText" class="truncate">Hatch</span>
+                            <span id="displayModelText" class="truncate">SUV</span>
 
                             <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-500">
                                 <i id="modelArrow" class="ph-bold ph-caret-down transition-transform duration-200"></i>
@@ -331,7 +247,6 @@
 
                         <div id="modelOptionsList" class="hidden absolute bottom-full mb-2 left-0 right-0 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 z-50 overflow-hidden transition-all animate-fade-in-up">
                             <ul class="max-h-60 overflow-y-auto py-1">
-                                <li onclick="selectModel('hatch', 'Hatch')" class="cursor-pointer px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-xs font-bold text-gray-700 dark:text-gray-200">Hatch</li>
                                 <li onclick="selectModel('suv', 'SUV')" class="cursor-pointer px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-xs font-bold text-gray-700 dark:text-gray-200">SUV</li>
                                 <li onclick="selectModel('sedan', 'Sedã')" class="cursor-pointer px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-xs font-bold text-gray-700 dark:text-gray-200">Sedã</li>
                                 <li onclick="selectModel('pickup', 'Caminhonete')" class="cursor-pointer px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-xs font-bold text-gray-700 dark:text-gray-200">Caminhonete</li>
@@ -342,7 +257,7 @@
                     </div>
 
                     <div class="relative" id="color-dropdown-container">
-                        <input type="hidden" id="selectedColorValue" value="silver">
+                        <input type="hidden" id="selectedColorValue" value="black">
 
                         <button onclick="toggleColorDropdown()" type="button" class="relative w-full bg-gray-100 dark:bg-gray-800 border-none text-gray-900 dark:text-gray-100 text-xs font-bold rounded-xl py-3 pl-10 pr-8 focus:ring-2 focus:ring-moss transition-all cursor-pointer text-left flex items-center justify-between">
                             
@@ -351,8 +266,8 @@
                             </div>
 
                             <span id="displayColorText" class="flex items-center gap-2 truncate">
-                                <span id="displayColorDot" class="w-3 h-3 rounded bg-gray-400 border border-gray-300"></span>
-                                Prata
+                                <span id="displayColorDot" class="w-3 h-3 rounded bg-black border border-gray-300"></span>
+                                Preto
                             </span>
 
                             <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-500">
@@ -407,10 +322,10 @@
     
                         <span class="text-[10px] font-extrabold text-moss dark:text-green-400 uppercase tracking-widest ml-1 flex items-center gap-1">
                             <i class="ph-bold ph-crosshair"></i>
-                            1. Selecione a Área
+                            1. Escolha o vidro
                         </span>
 
-                        <div class="bg-gray-100 dark:bg-gray-800 p-1.5 rounded-xl flex gap-1 w-full shadow-inner border border-gray-200 dark:border-gray-700">
+                        <div id="zone-tabs" class="bg-gray-100 dark:bg-gray-800 p-1.5 rounded-xl flex gap-1 w-full shadow-inner border border-gray-200 dark:border-gray-700">
                             
                             <button onclick="setTargetZone('sides')" id="tab-sides" class="group flex-1 md:flex-none px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wide transition-all duration-300 flex items-center justify-center gap-2 bg-white dark:bg-gray-700 text-moss dark:text-white shadow-sm ring-1 ring-black/5">
                                 <i class="ph-fill ph-car-profile text-lg"></i>
@@ -425,8 +340,9 @@
                     </div>
 
                     <div class="w-full md:flex-1 overflow-hidden">
-                        <div class="flex items-center justify-between px-1 mb-2 md:hidden">
-                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest" id="zone-title">Visualizando: Laterais</span>
+                        <div class="flex items-center justify-between px-1 mb-2">
+                            <span class="hidden md:inline text-[10px] font-extrabold text-moss dark:text-green-400 uppercase tracking-widest">2. Compare a tonalidade</span>
+                            <span class="md:hidden text-[10px] font-bold text-gray-400 uppercase tracking-widest" id="zone-title">Visualizando: Laterais</span>
                             <span id="film-label" class="text-[10px] font-bold text-moss uppercase tracking-widest">G20</span>
                         </div>
                         
@@ -675,7 +591,7 @@
         }
 
         function isMobile(){
-            return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+            return window.matchMedia('(max-width: 767px), (pointer: coarse) and (max-width: 1024px)').matches
         }
 
         function setGestureInstructions(){
@@ -685,17 +601,21 @@
             if(isMobile()){
 
                 container.innerHTML = `
-                🖐 Arraste para girar<br>
-                ✌ Arraste com dois dedos para mover<br>
-                🔍 Aproxime ou afaste os dedos para zoom
+                <div class="space-y-2 text-left">
+                    <p><i class="ph-bold ph-hand-swipe-right mr-1"></i> Arraste com um dedo para girar.</p>
+                    <p><i class="ph-bold ph-arrows-out mr-1"></i> Aproxime ou afaste dois dedos para dar zoom.</p>
+                    <p><i class="ph-bold ph-hand-pointing mr-1"></i> Arraste com dois dedos para mover.</p>
+                </div>
                 `
 
             }else{
 
                 container.innerHTML = `
-                🖱 Arraste para girar<br>
-                🔍 Use o scroll para zoom<br>
-                ↔ Botão direito para mover
+                <div class="space-y-2 text-left">
+                    <p><i class="ph-bold ph-mouse-left-click mr-1"></i> Clique e arraste para girar o veículo.</p>
+                    <p><i class="ph-bold ph-mouse-scroll mr-1"></i> Use a roda do mouse para aproximar ou afastar.</p>
+                    <p><i class="ph-bold ph-arrows-out-cardinal mr-1"></i> Use o botão direito e arraste para mover.</p>
+                </div>
                 `
 
             }
@@ -724,6 +644,8 @@
         }
 
         function selectColor(value, name, bgClass) {
+            if (isMobile()) return;
+
             // Atualiza o texto e a bolinha do botão principal
             document.getElementById('displayColorText').innerHTML = `
                 <span class="w-3 h-3 rounded ${bgClass} border border-gray-300 shadow-sm"></span>
@@ -760,6 +682,8 @@
         }
 
         function selectModel(value, name) {
+            if (isMobile()) return;
+
             document.getElementById('displayModelText').innerText = name;
             if (typeof setCarModel === 'function') setCarModel(value);
             toggleModelDropdown();
@@ -785,32 +709,27 @@
         const carModels = {
         sport: {
             name: 'Esportivo',
-            src: '/Peliculas_Solares/models/911.glb',
+            src: '/peliculas-solares-insulfilm/models/911.glb',
             camera: '45deg 75deg 145%'
         },
         suv: {
             name: 'SUV',
-            src: '/Peliculas_Solares/models/Jaecoo.glb',
+            src: '/peliculas-solares-insulfilm/models/G63.glb',
             camera: '35deg 75deg 155%'
-        },
-        hatch: {
-            name: 'Hatch',
-            src: '/Peliculas_Solares/models/Golf.glb',
-            camera: '45deg 70deg 150%'
         },
         sedan: {
             name: 'Sedã',
-            src: '/Peliculas_Solares/models/Sentra.glb',
+            src: '/peliculas-solares-insulfilm/models/Sentra.glb',
             camera: '40deg 75deg 150%'
         },
         pickup: {
             name: 'Caminhonete',
-            src: '/Peliculas_Solares/models/Frontier.glb',
+            src: '/peliculas-solares-insulfilm/models/Frontier.glb',
             camera: '30deg 70deg 165%'
         },
         classic: {
             name: 'Antigo',
-            src: '/Peliculas_Solares/models/Fusca.glb',
+            src: '/peliculas-solares-insulfilm/models/Fusca.glb',
             camera: '50deg 75deg 140%'
         }
         };
@@ -1197,11 +1116,19 @@
             activeZone: 'sides',
             currentTints: { sides: 'clear', front: 'clear' },
             isNight: false,
-            currentCar: 'Hatch',
-            currentColor: 'silver'
+            currentCar: 'suv',
+            currentColor: 'black'
         };
 
         const viewer = document.getElementById('car-viewer');
+
+        viewer.addEventListener("load", onModelLoaded);
+
+        // O HDR de estúdio tem cerca de 24 MB. No mobile, o ambiente neutro
+        // nativo do model-viewer evita esse download e reduz bastante o tráfego.
+        if (!isMobile()) {
+            viewer.environmentImage = '/peliculas-solares-insulfilm/env/studio.hdr';
+        }
 
         viewer.addEventListener("pointerdown", () => {
 
@@ -1214,6 +1141,8 @@
         // ================= FUNÇÕES DE CONTROLE DO VISUALIZADOR =================
         function setCarModel(carKey) {
 
+            if (isMobile()) carKey = 'suv';
+
             const car = carModels[carKey];
             if (!car) return;
 
@@ -1221,10 +1150,14 @@
 
             state.currentCar = carKey;
 
+            if (viewer.getAttribute('src') === car.src) {
+                viewer.cameraOrbit = car.camera;
+                onModelLoaded();
+                return;
+            }
+
             viewer.src = car.src;
             viewer.cameraOrbit = car.camera;
-
-            viewer.addEventListener("load", onModelLoaded, { once: true });
 
         }
 
@@ -1233,6 +1166,21 @@
             applyTintToModel();
             applyCarColor();
             toggleLoader(false);
+
+            if (isMobile() && !gestureShown) {
+                const mobileFallback = document.getElementById('mobile-model-fallback');
+                const cameraAngle = state.activeZone === 'front' ? '0deg' : '45deg';
+                viewer.cameraOrbit = `${cameraAngle} 75deg 220%`;
+
+                requestAnimationFrame(() => {
+                    mobileFallback.classList.add('opacity-0');
+                    setTimeout(() => {
+                        mobileFallback.style.display = 'none';
+                    }, 300);
+                });
+
+                setTimeout(showGestureHelp, 350);
+            }
 
         }
         // ================= FUNÇÕES DE COR DO CARRO =================
@@ -1259,6 +1207,7 @@
         }
 
         function setCarColor(colorKey) {
+        if (isMobile()) colorKey = 'black';
         state.currentColor = colorKey;
         applyCarColor();
         }
@@ -1267,6 +1216,7 @@
 
         function setTargetZone(zone) {
             state.activeZone = zone;
+            const cameraDistance = isMobile() ? '175%' : '145%';
             
             const btnSides = document.getElementById('tab-sides');
             const btnFront = document.getElementById('tab-front');
@@ -1305,9 +1255,9 @@
             updateTintButtonsUI();
             
             if(zone === 'front') {
-                viewer.cameraOrbit = '0deg 75deg 145%'; 
+                viewer.cameraOrbit = `0deg 75deg ${cameraDistance}`;
             } else {
-                viewer.cameraOrbit = '45deg 75deg 145%';
+                viewer.cameraOrbit = `45deg 75deg ${cameraDistance}`;
             }
         }
 
@@ -1420,6 +1370,8 @@
 
         // Função auxiliar para mostrar/esconder loader
         function toggleLoader(show) {
+            if (isMobile()) return;
+
             if (show) {
                 loader.classList.remove('opacity-0');
             } else {
@@ -1444,12 +1396,12 @@
             if (state.isNight) {
                 body.classList.add('dark');
                 if (icon) icon.classList.replace('ph-moon', 'ph-sun');
-                viewer.environmentImage = '/Peliculas_Solares/env/night.hdr';
+                viewer.environmentImage = '/peliculas-solares-insulfilm/env/night.hdr';
                 viewer.exposure = 0.7;
             } else {
                 body.classList.remove('dark');
                 if (icon) icon.classList.replace('ph-sun', 'ph-moon');
-                viewer.environmentImage = '/Peliculas_Solares/env/studio.hdr';
+                viewer.environmentImage = '/peliculas-solares-insulfilm/env/studio.hdr';
                 viewer.exposure = 1;
             }
             }, 100);
@@ -1473,6 +1425,12 @@
         // Inicialização Final
         renderTintButtons();
         setTargetZone('sides');
+
+        if (isMobile()) {
+            document.getElementById("start-config").style.display = "none";
+            state.currentCar = 'suv';
+            state.currentColor = 'black';
+        }
 
     </script>
 </body>

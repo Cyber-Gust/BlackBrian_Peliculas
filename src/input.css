@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body { background-color: #050505; color: #e4e4e7; }
+        
+        /* Efeito de Vidro */
+        .glass { 
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+        }
+        
+        .text-glow { text-shadow: 0 0 30px rgba(78, 127, 73, 0.6); }
+
+        /* Animação do Menu Mobile */
+        #mobile-menu {
+            transition: all 0.3s ease-in-out;
+            transform-origin: top;
+        }
+        .menu-hidden { opacity: 0; transform: scaleY(0); pointer-events: none; }
+        .menu-visible { opacity: 1; transform: scaleY(1); pointer-events: auto; }
+
+        html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 90px; /* evita a section ficar escondida atrás do menu fixo */
+        }

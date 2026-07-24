@@ -38,202 +38,12 @@
 
     <meta name="theme-color" content="#4e7f49">
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/dist/martelinho.css">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            400: "#6f9f6a",
-                            500: "#4e7f49",
-                            600: "#3d6538",
-                            900: "#1a2e19"
-                        },
-                        dark: {
-                            950: "#050505",
-                            900: "#0a0a0a",
-                            800: "#121212", 
-                            700: "#1c1c1c"
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
 
-    <style>
-        body { background-color: #050505; color: #e4e4e7; }
-
-        .glass { 
-            background: rgba(255, 255, 255, 0.02); 
-            backdrop-filter: blur(16px); 
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.06); 
-        }
-        
-        .glass-highlight {
-            background: linear-gradient(145deg, rgba(78, 127, 73, 0.10), rgba(0,0,0,0));
-            border: 1px solid rgba(78, 127, 73, 0.18);
-        }
-
-        .text-glow { text-shadow: 0 0 40px rgba(78, 127, 73, 0.45); }
-
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 100px;
-        }
-
-        /* ✅ Menu Mobile */
-        #mobile-menu {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-origin: top;
-        }
-        .menu-hidden { opacity: 0; transform: scaleY(0); pointer-events: none; }
-        .menu-visible { opacity: 1; transform: scaleY(1); pointer-events: auto; }
-
-        /* ✅ NAV efeito transparente no topo */
-        .nav-top {
-            background: rgba(10,10,10,0.22);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
-        .nav-scrolled {
-            background: rgba(10,10,10,0.86);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-
-        /* ✅ HERO vídeo fundo */
-        .hero-video {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: brightness(0.55) contrast(1.05) saturate(1.15);
-        }
-
-        /* ✅ Before / After cards */
-        .ba-card {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16 / 10;
-            border-radius: 24px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.08);
-            background: rgba(255,255,255,0.02);
-            transition: transform .35s ease, border-color .35s ease;
-            cursor: pointer;
-        }
-        .ba-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(78,127,73,0.40);
-        }
-        .ba-base, .ba-top {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* ✅ Antes em cima começa 100% visível */
-        .ba-top {
-            opacity: 1;
-            transform: scale(1);
-            transition: opacity .55s ease, transform .65s cubic-bezier(0.2, 0.9, 0.2, 1);
-        }
-
-        /* ✅ Clique revela o Depois (sumindo com o Antes) */
-        .ba-card.revealed .ba-top {
-            opacity: 0;
-            transform: scale(1.03);
-            pointer-events: none;
-        }
-
-        /* ✅ Animação de Loading */
-        @keyframes breathing {
-            0%, 100% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 10px rgba(78,127,73,0.2)); }
-            50% { transform: scale(1.08); opacity: 0.8; filter: drop-shadow(0 0 25px rgba(78,127,73,0.6)); }
-        }
-        .animate-breathing {
-            animation: breathing 2s ease-in-out infinite;
-        }
-
-        .ba-badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            padding: 8px 12px;
-            border-radius: 999px;
-            font-size: 12px;
-            font-weight: 800;
-            letter-spacing: .14em;
-            text-transform: uppercase;
-            background: rgba(5,5,5,0.55);
-            border: 1px solid rgba(255,255,255,0.14);
-        }
-
-        .ba-cta {
-            position: absolute;
-            bottom: 12px;
-            left: 12px;
-            right: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            padding: 12px 14px;
-            border-radius: 18px;
-            background: transparent;
-            border: none;
-        }
-
-        .ba-cta span {
-            font-size: 13px;
-            font-weight: 700;
-            color: rgba(255,255,255,0.92);
-        }
-
-        .ba-cta small {
-            font-size: 12px;
-            color: rgba(228,228,231,0.70);
-            font-weight: 500;
-        }
-
-        /* ✅ Painel visual (serve pra imagem também) */
-        .video-panel {
-            position: relative;
-            border-radius: 28px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.08);
-        }
-        .video-panel img, .video-panel video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: brightness(0.70);
-        }
-        .video-panel::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-    
-            pointer-events: none;
-        }
-        
-    </style>
-    
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NCDL5PK2WE"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NCDL5PK2WE"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -251,7 +61,7 @@
     <!-- End Google Tag Manager (noscript) -->
     <div id="page-loader" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#121212] transition-opacity duration-700 ease-out">
         <img src="../imgs/LOGO.png" 
-            alt="Carregando..." 
+            alt="Black Brian Car Detailer" 
             class="w-24 md:w-32 h-auto object-contain animate-breathing"
             onerror="this.style.display='none'" >
     </div>
@@ -264,7 +74,7 @@
             </button>
 
             <a href="#inicio" class="flex items-center gap-3 absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:left-auto">
-                <img src="../imgs/LOGO.png" alt="Black Brian" class="h-14 md:h-16 w-auto object-contain">
+                <img src="../imgs/LOGO.png" alt="Black Brian Car Detailer, serviço de martelinho de ouro" class="h-14 md:h-16 w-auto object-contain">
                 <div class="hidden md:block h-6 w-px bg-white/20"></div>
                 <span class="hidden md:block text-xs font-bold tracking-[0.2em] text-zinc-500 uppercase">Martelinho de Ouro</span>
             </a>
@@ -290,8 +100,8 @@
         <div id="mobile-menu" class="absolute top-20 left-0 w-full bg-dark-900/95 backdrop-blur-xl border-b border-white/10 shadow-2xl menu-hidden md:hidden">
             <div class="flex flex-col p-6 space-y-4 text-center">
                 <a href="../index.html#servicos" class="text-lg font-medium text-white py-2 border-b border-white/5" onclick="toggleMenu()">Nossos Serviços</a>
-                <a href="../Cardapio/Index.html" class="text-lg font-medium text-white py-2 border-b border-white/5" onclick="toggleMenu()">Tabela de Preços</a>
-                <a href="../Peliculas_Solares/index.html" class="text-lg font-medium text-white py-2 border-b border-white/5" onclick="toggleMenu()">Simulador 3D</a>
+                <a href="../servicos-estetica-automotiva/Index.html" class="text-lg font-medium text-white py-2 border-b border-white/5" onclick="toggleMenu()">Tabela de Preços</a>
+                <a href="../peliculas-solares-insulfilm/index.html" class="text-lg font-medium text-white py-2 border-b border-white/5" onclick="toggleMenu()">Simulador Insulfilm 3D</a>
                 <a href="#localizacao" class="text-lg font-medium text-white py-2 border-b border-white/5" onclick="toggleMenu()">Localização</a>
                 <a href="../blog" class="text-lg font-medium text-white py-2" onclick="toggleMenu()">Blog</a>
             </div>
@@ -407,7 +217,7 @@
             <div class="video-panel aspect-[4/3]">
                 <img
                     src="./imgs/Martelinho.png"
-                    alt="Resultado Martelinho de Ouro"
+                    alt="Técnico realizando reparo de martelinho de ouro sem pintura"
                     class="w-full h-full"
                     onerror="this.src='https://placehold.co/1200x900/0a0a0a/6f9f6a?text=FOTO+AQUI'"
                 />
@@ -432,9 +242,9 @@
                 <!-- 1 -->
                 <div class="ba-card" data-ba>
                     <!-- DEPOIS embaixo -->
-                    <img class="ba-base" src="./imgs/antesdepois/depois1.jpg" alt="Depois - reparado 1" onerror="this.src='https://placehold.co/1200x700/0a0a0a/6f9f6a?text=DEPOIS+1'">
+                    <img class="ba-base" src="./imgs/antesdepois/depois1.jpg" alt="Lateral traseira de SUV branco restaurada após martelinho de ouro" onerror="this.src='https://placehold.co/1200x700/0a0a0a/6f9f6a?text=DEPOIS+1'">
                     <!-- ANTES por cima -->
-                    <img class="ba-top"  src="./imgs/antesdepois/antes1.jpg" alt="Antes - amassado 1" onerror="this.src='https://placehold.co/1200x700/111/eee?text=ANTES+1'">
+                    <img class="ba-top"  src="./imgs/antesdepois/antes1.jpg" alt="Lateral traseira de SUV branco amassada antes do martelinho de ouro" onerror="this.src='https://placehold.co/1200x700/111/eee?text=ANTES+1'">
                     <div class="ba-badge text-white">ANTES → DEPOIS</div>
                     <div class="ba-cta">
                         <div>
@@ -449,8 +259,8 @@
 
                 <!-- 2 -->
                 <div class="ba-card" data-ba>
-                    <img class="ba-base" src="./imgs/antesdepois/depois2.jpg" alt="Depois - reparado 2" onerror="this.src='https://placehold.co/1200x700/0a0a0a/6f9f6a?text=DEPOIS+2'">
-                    <img class="ba-top"  src="./imgs/antesdepois/antes2.jpg" alt="Antes - amassado 2" onerror="this.src='https://placehold.co/1200x700/111/eee?text=ANTES+2'">
+                    <img class="ba-base" src="./imgs/antesdepois/depois2.jpg" alt="Teto de automóvel cinza nivelado após reparo de danos de granizo" onerror="this.src='https://placehold.co/1200x700/0a0a0a/6f9f6a?text=DEPOIS+2'">
+                    <img class="ba-top"  src="./imgs/antesdepois/antes2.jpg" alt="Teto de automóvel cinza com amassados de granizo antes do reparo" onerror="this.src='https://placehold.co/1200x700/111/eee?text=ANTES+2'">
                     <div class="ba-badge text-white">ANTES → DEPOIS</div>
                     <div class="ba-cta">
                         <div>
@@ -465,8 +275,8 @@
 
                 <!-- 3 -->
                 <div class="ba-card" data-ba>
-                    <img class="ba-base" src="./imgs/antesdepois/depois3.jpg" alt="Depois - reparado 3" onerror="this.src='https://placehold.co/1200x700/0a0a0a/6f9f6a?text=DEPOIS+3'">
-                    <img class="ba-top"  src="./imgs/antesdepois/antes3.jpg" alt="Antes - amassado 3" onerror="this.src='https://placehold.co/1200x700/111/eee?text=ANTES+3'">
+                    <img class="ba-base" src="./imgs/antesdepois/depois3.jpg" alt="Painel da carroceria preta restaurado após martelinho de ouro" onerror="this.src='https://placehold.co/1200x700/0a0a0a/6f9f6a?text=DEPOIS+3'">
+                    <img class="ba-top"  src="./imgs/antesdepois/antes3.jpg" alt="Painel da carroceria preta com vinco antes do martelinho de ouro" onerror="this.src='https://placehold.co/1200x700/111/eee?text=ANTES+3'">
                     <div class="ba-badge text-white">ANTES → DEPOIS</div>
                     <div class="ba-cta">
                         <div>
@@ -481,8 +291,8 @@
 
                 <!-- 4 -->
                 <div class="ba-card" data-ba>
-                    <img class="ba-base" src="./imgs/antesdepois/depois4.jpg" alt="Depois - reparado 4" onerror="this.src='https://placehold.co/1200x700/0a0a0a/6f9f6a?text=DEPOIS+4'">
-                    <img class="ba-top"  src="./imgs/antesdepois/antes4.jpg" alt="Antes - amassado 4" onerror="this.src='https://placehold.co/1200x700/111/eee?text=ANTES+4'">
+                    <img class="ba-base" src="./imgs/antesdepois/depois4.jpg" alt="Para-lama dianteiro branco restaurado após martelinho de ouro" onerror="this.src='https://placehold.co/1200x700/0a0a0a/6f9f6a?text=DEPOIS+4'">
+                    <img class="ba-top"  src="./imgs/antesdepois/antes4.jpg" alt="Para-lama dianteiro branco amassado antes do martelinho de ouro" onerror="this.src='https://placehold.co/1200x700/111/eee?text=ANTES+4'">
                     <div class="ba-badge text-white">ANTES → DEPOIS</div>
                     <div class="ba-cta">
                         <div>
@@ -546,7 +356,7 @@
             <div class="grid md:grid-cols-4 gap-12 mb-16">
                 
                 <div class="md:col-span-2 space-y-6">
-                    <img src="/imgs/LOGO.png" onerror="this.src='https://placehold.co/100x40/black/white?text=BLACK+BRIAN'" alt="Black Brian" class="h-16 w-auto opacity-90">
+                    <img src="/imgs/LOGO.png" onerror="this.src='https://placehold.co/100x40/black/white?text=BLACK+BRIAN'" alt="Logotipo Black Brian Car Detailer" class="h-16 w-auto opacity-90">
                     <p class="text-zinc-500 text-sm leading-relaxed max-w-sm">
                         Referência em estética automotiva high-end em São João del-Rei. Cuidado obsessivo com os detalhes, do motor à pintura.
                     </p>
@@ -564,8 +374,8 @@
                     <h4 class="text-white text-xs font-bold uppercase tracking-widest mb-6">Navegação</h4>
                     <ul class="space-y-3">
                         <li><a href="/index.html" class="text-zinc-500 hover:text-brand-500 transition text-sm">Início</a></li>
-                        <li><a href="/Cardapio/Index.html" class="text-zinc-500 hover:text-brand-500 transition text-sm">Tabela de Preços</a></li>
-                        <li><a href="/Peliculas_Solares/index.html" class="text-zinc-500 hover:text-brand-500 transition text-sm">Simulador 3D</a></li>
+                        <li><a href="/servicos-estetica-automotiva/Index.html" class="text-zinc-500 hover:text-brand-500 transition text-sm">Tabela de Preços</a></li>
+                        <li><a href="/peliculas-solares-insulfilm/index.html" class="text-zinc-500 hover:text-brand-500 transition text-sm">Simulador Insulfilm 3D</a></li>
                         <li><a href="/blog" class="text-zinc-500 hover:text-brand-500 transition text-sm">Blog Automotivo</a></li>
                     </ul>
                 </div>
@@ -591,7 +401,7 @@
                     © 2026 Black Brian Car Detailer. All rights reserved.
                 </p>
                 <a href="https://bitbloomai.com" target="_blank" class="flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity">
-                    <img src="/imgs/logo_bitbloom.png" class="w-6 h-6 grayscale hover:grayscale-0 transition-all"></img>
+                    <img src="/imgs/logo_bitbloom.png" alt="" class="w-6 h-6 grayscale hover:grayscale-0 transition-all">
                     <span class="text-zinc-600 hover:text-white text-[10px] font-bold uppercase tracking-wider">Desenvolvido por BitBloom</span>
                 </a>
             </div>

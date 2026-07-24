@@ -1,0 +1,165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body { background-color: #050505; color: #e4e4e7; }
+
+        .glass { 
+            background: rgba(255, 255, 255, 0.02); 
+            backdrop-filter: blur(16px); 
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.06); 
+        }
+        
+        .glass-highlight {
+            background: linear-gradient(145deg, rgba(78, 127, 73, 0.10), rgba(0,0,0,0));
+            border: 1px solid rgba(78, 127, 73, 0.18);
+        }
+
+        .text-glow { text-shadow: 0 0 40px rgba(78, 127, 73, 0.45); }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        /* ✅ Menu Mobile */
+        #mobile-menu {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: top;
+        }
+        .menu-hidden { opacity: 0; transform: scaleY(0); pointer-events: none; }
+        .menu-visible { opacity: 1; transform: scaleY(1); pointer-events: auto; }
+
+        /* ✅ NAV efeito transparente no topo */
+        .nav-top {
+            background: rgba(10,10,10,0.22);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .nav-scrolled {
+            background: rgba(10,10,10,0.86);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        /* ✅ HERO vídeo fundo */
+        .hero-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.55) contrast(1.05) saturate(1.15);
+        }
+
+        /* ✅ Before / After cards */
+        .ba-card {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.02);
+            transition: transform .35s ease, border-color .35s ease;
+            cursor: pointer;
+        }
+        .ba-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(78,127,73,0.40);
+        }
+        .ba-base, .ba-top {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ✅ Antes em cima começa 100% visível */
+        .ba-top {
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity .55s ease, transform .65s cubic-bezier(0.2, 0.9, 0.2, 1);
+        }
+
+        /* ✅ Clique revela o Depois (sumindo com o Antes) */
+        .ba-card.revealed .ba-top {
+            opacity: 0;
+            transform: scale(1.03);
+            pointer-events: none;
+        }
+
+        /* ✅ Animação de Loading */
+        @keyframes breathing {
+            0%, 100% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 10px rgba(78,127,73,0.2)); }
+            50% { transform: scale(1.08); opacity: 0.8; filter: drop-shadow(0 0 25px rgba(78,127,73,0.6)); }
+        }
+        .animate-breathing {
+            animation: breathing 2s ease-in-out infinite;
+        }
+
+        .ba-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            background: rgba(5,5,5,0.55);
+            border: 1px solid rgba(255,255,255,0.14);
+        }
+
+        .ba-cta {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 12px 14px;
+            border-radius: 18px;
+            background: transparent;
+            border: none;
+        }
+
+        .ba-cta span {
+            font-size: 13px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.92);
+        }
+
+        .ba-cta small {
+            font-size: 12px;
+            color: rgba(228,228,231,0.70);
+            font-weight: 500;
+        }
+
+        /* ✅ Painel visual (serve pra imagem também) */
+        .video-panel {
+            position: relative;
+            border-radius: 28px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .video-panel img, .video-panel video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.70);
+        }
+        .video-panel::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+    
+            pointer-events: none;
+        }

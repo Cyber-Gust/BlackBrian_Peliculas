@@ -22,77 +22,11 @@
 
     <meta name="theme-color" content="#4e7f49">
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/dist/ppf.css">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            400: "#6f9f6a",
-                            500: "#4e7f49",
-                            600: "#3d6538",
-                            900: "#1a2e19"
-                        },
-                        dark: {
-                            950: "#050505",
-                            900: "#0a0a0a",
-                            800: "#121212", 
-                            700: "#1c1c1c"
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
 
-    <style>
-        body { background-color: #050505; color: #e4e4e7; }
-
-        .glass { 
-            background: rgba(255, 255, 255, 0.02); 
-            backdrop-filter: blur(16px); 
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.06); 
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 100px;
-        }
-
-        /* Nav Mobile */
-        #mobile-menu {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-origin: top;
-        }
-        .menu-hidden { opacity: 0; transform: scaleY(0); pointer-events: none; }
-        .menu-visible { opacity: 1; transform: scaleY(1); pointer-events: auto; }
-
-        .nav-top {
-            background: rgba(10,10,10,0.22);
-            backdrop-filter: blur(18px);
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
-        .nav-scrolled {
-            background: rgba(10,10,10,0.86);
-            backdrop-filter: blur(14px);
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .card-img-wrapper img {
-            transition: transform 0.5s ease;
-        }
-        .group:hover .card-img-wrapper img {
-            transform: scale(1.05);
-        }
-    </style>
 </head>
 
 <body class="antialiased overflow-x-hidden selection:bg-black selection:text-white">
@@ -108,14 +42,14 @@
             </button>
 
             <a href="../index.html" class="flex items-center gap-3 absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:left-auto">
-                <img src="../imgs/LOGO.png" alt="Black Brian" class="h-14 md:h-16 w-auto object-contain">
+                <img src="../imgs/LOGO.png" alt="Black Brian Car Detailer, aplicação de PPF automotivo" class="h-14 md:h-16 w-auto object-contain">
                 <div class="hidden md:block h-6 w-px bg-white/20"></div>
                 <span class="hidden md:block text-xs font-bold tracking-[0.2em] text-zinc-500 uppercase">Proteção PPF</span>
             </a>
 
             <div class="hidden md:flex items-center gap-6">
                 <a href="../index.html#servicos" class="text-sm font-medium text-zinc-400 hover:text-white transition">Nossos Serviços</a>
-                <a href="../Cardapio/Index.html" class="text-sm font-medium text-zinc-400 hover:text-white transition">Tabela de Preços</a>
+                <a href="../servicos-estetica-automotiva/Index.html" class="text-sm font-medium text-zinc-400 hover:text-white transition">Tabela de Preços</a>
                 <a href="../index.html#localizacao" class="text-sm font-medium text-zinc-400 hover:text-white transition">Localização</a>
             </div>
 
@@ -133,7 +67,7 @@
         <div id="mobile-menu" class="absolute top-20 left-0 w-full bg-dark-900/95 backdrop-blur-xl border-b border-white/10 shadow-2xl menu-hidden md:hidden">
             <div class="flex flex-col p-6 space-y-4 text-center">
                 <a href="../index.html#servicos" class="text-lg font-medium text-white py-2 border-b border-white/5" onclick="toggleMenu()">Nossos Serviços</a>
-                <a href="../Cardapio/Index.html" class="text-lg font-medium text-white py-2 border-b border-white/5" onclick="toggleMenu()">Tabela de Preços</a>
+                <a href="../servicos-estetica-automotiva/Index.html" class="text-lg font-medium text-white py-2 border-b border-white/5" onclick="toggleMenu()">Tabela de Preços</a>
                 <a href="../index.html#localizacao" class="text-lg font-medium text-white py-2" onclick="toggleMenu()">Localização</a>
             </div>
         </div>
@@ -145,7 +79,7 @@
 
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full">
             <div class="max-w-2xl">
-                <a href="../Cardapio/Index.html" class="inline-flex items-center gap-2 text-zinc-400 hover:text-brand-400 transition-colors mb-6 group cursor-pointer">
+                <a href="../servicos-estetica-automotiva/Index.html" class="inline-flex items-center gap-2 text-zinc-400 hover:text-brand-400 transition-colors mb-6 group cursor-pointer">
                     <i class="ph-bold ph-arrow-left transition-transform duration-300 group-hover:-translate-x-1"></i>
                     <span class="text-xs font-bold tracking-widest uppercase">Voltar ao Menu</span>
                 </a>
@@ -172,7 +106,7 @@
 
             <div class="glass rounded-3xl overflow-hidden flex flex-col group hover:border-brand-500 transition duration-300">
                 <div class="card-img-wrapper h-48 overflow-hidden bg-zinc-800 relative">
-                    <img src="/PPF/imgs/quina-porta1.jpg" alt="PPF Quina de Porta" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/121212/4e7f49?text=Quina+de+Porta'">
+                    <img src="/ppf-pelicula-protetora/imgs/quina-porta1.jpg" alt="Película PPF aplicada na quina da porta para proteger a pintura" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/121212/4e7f49?text=Quina+de+Porta'">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                     <h3 class="absolute bottom-4 left-4 text-xl font-black text-white uppercase tracking-wide">Quina de Porta</h3>
                 </div>
@@ -193,7 +127,7 @@
 
             <div class="glass rounded-3xl overflow-hidden flex flex-col group hover:border-brand-500 transition duration-300">
                 <div class="card-img-wrapper h-48 overflow-hidden bg-zinc-800 relative">
-                    <img src="imgs/concha-macaneta.jpg" alt="PPF Concha Maçaneta" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/121212/4e7f49?text=Concha+Maçaneta'">
+                    <img src="imgs/concha-macaneta.jpg" alt="Película PPF transparente aplicada na concha da maçaneta" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/121212/4e7f49?text=Concha+Maçaneta'">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                     <h3 class="absolute bottom-4 left-4 text-xl font-black text-white uppercase tracking-wide">Concha Maçaneta</h3>
                 </div>
@@ -214,7 +148,7 @@
 
             <div class="glass rounded-3xl overflow-hidden flex flex-col group hover:border-brand-500 transition duration-300">
                 <div class="card-img-wrapper h-48 overflow-hidden bg-zinc-800 relative">
-                    <img src="imgs/soleiras.jpg" alt="PPF Soleiras" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/121212/4e7f49?text=Soleiras'">
+                    <img src="imgs/soleiras.jpg" alt="Película PPF aplicada na soleira da porta contra riscos" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/121212/4e7f49?text=Soleiras'">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                     <h3 class="absolute bottom-4 left-4 text-xl font-black text-white uppercase tracking-wide">Soleiras</h3>
                 </div>
@@ -235,7 +169,7 @@
 
             <div class="glass rounded-3xl overflow-hidden flex flex-col group hover:border-brand-500 transition duration-300">
                 <div class="card-img-wrapper h-48 overflow-hidden bg-zinc-800 relative">
-                    <img src="imgs/farois.jpg" alt="PPF Faróis" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/121212/4e7f49?text=Faróis'">
+                    <img src="imgs/farois.jpg" alt="Película PPF transparente protegendo o farol do veículo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/121212/4e7f49?text=Faróis'">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                     <h3 class="absolute bottom-4 left-4 text-xl font-black text-white uppercase tracking-wide">Faróis</h3>
                 </div>
@@ -256,7 +190,7 @@
 
             <div class="glass rounded-3xl overflow-hidden flex flex-col group hover:border-brand-500 transition duration-300">
                 <div class="card-img-wrapper h-48 overflow-hidden bg-zinc-800 relative">
-                    <img src="imgs/multimidia2.jpg" alt="PPF Multimídia" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/121212/4e7f49?text=Multimídia'">
+                    <img src="imgs/multimidia2.jpg" alt="Película PPF aplicada na tela da central multimídia" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/121212/4e7f49?text=Multimídia'">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                     <h3 class="absolute bottom-4 left-4 text-xl font-black text-white uppercase tracking-wide">Tela Multimídia</h3>
                 </div>
@@ -283,7 +217,7 @@
 
             <div class="glass rounded-3xl overflow-hidden flex flex-col group hover:border-brand-500 transition duration-300">
                 <div class="card-img-wrapper h-48 overflow-hidden bg-zinc-800 relative">
-                    <img src="imgs/black-piano.jpg" alt="PPF Black Piano Externo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/121212/4e7f49?text=Black+Piano'">
+                    <img src="imgs/black-piano.jpg" alt="Película PPF protegendo acabamento externo em black piano" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/121212/4e7f49?text=Black+Piano'">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                     <h3 class="absolute bottom-4 left-4 text-xl font-black text-white uppercase tracking-wide">Black Piano Externo</h3>
                 </div>
@@ -330,7 +264,7 @@
             <div class="grid md:grid-cols-4 gap-12 mb-16">
                 
                 <div class="md:col-span-2 space-y-6">
-                    <img src="../imgs/LOGO.png" onerror="this.src='https://placehold.co/100x40/black/white?text=BLACK+BRIAN'" alt="Black Brian" class="h-16 w-auto opacity-90">
+                    <img src="../imgs/LOGO.png" onerror="this.src='https://placehold.co/100x40/black/white?text=BLACK+BRIAN'" alt="Logotipo Black Brian Car Detailer" class="h-16 w-auto opacity-90">
                     <p class="text-zinc-500 text-sm leading-relaxed max-w-sm">
                         Referência em estética automotiva high-end em São João del-Rei. Cuidado obsessivo com os detalhes, do motor à pintura.
                     </p>
@@ -348,9 +282,9 @@
                     <h4 class="text-white text-xs font-bold uppercase tracking-widest mb-6">Navegação</h4>
                     <ul class="space-y-3">
                         <li><a href="../index.html" class="text-zinc-500 hover:text-brand-500 transition text-sm">Início</a></li>
-                        <li><a href="../Cardapio/Index.html" class="text-zinc-500 hover:text-brand-500 transition text-sm">Tabela de Preços</a></li>
-                        <li><a href="../Peliculas_Solares/index.html" class="text-zinc-500 hover:text-brand-500 transition text-sm">Simulador 3D</a></li>
-                        <li><a href="../Martelinho_de_Ouro/index.html" class="text-zinc-500 hover:text-brand-500 transition text-sm">Martelinho de Ouro</a></li>
+                        <li><a href="../servicos-estetica-automotiva/Index.html" class="text-zinc-500 hover:text-brand-500 transition text-sm">Tabela de Preços</a></li>
+                        <li><a href="../peliculas-solares-insulfilm/index.html" class="text-zinc-500 hover:text-brand-500 transition text-sm">Simulador Insulfilm 3D</a></li>
+                        <li><a href="../martelinho-de-ouro/index.html" class="text-zinc-500 hover:text-brand-500 transition text-sm">Martelinho de Ouro</a></li>
                     </ul>
                 </div>
 
@@ -375,7 +309,7 @@
                     © 2026 Black Brian Car Detailer. All rights reserved.
                 </p>
                 <a href="https://bitbloomai.com" target="_blank" class="flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity">
-                    <img src="../imgs/logo_bitbloom.png" class="w-6 h-6 grayscale hover:grayscale-0 transition-all" alt="BitBloom">
+                    <img src="../imgs/logo_bitbloom.png" class="w-6 h-6 grayscale hover:grayscale-0 transition-all" alt="">
                     <span class="text-zinc-600 hover:text-white text-[10px] font-bold uppercase tracking-wider">Desenvolvido por BitBloom</span>
                 </a>
             </div>

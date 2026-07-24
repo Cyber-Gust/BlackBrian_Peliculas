@@ -6,34 +6,17 @@
     <title>Painel do Blog - Black Brian</title>
     
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/dist/blog-panel.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: { 400: "#6f9f6a", 500: "#4e7f49", 600: "#3d6538" },
-                        dark: { 800: "#18181b", 900: "#09090b" }
-                    },
-                    fontFamily: { sans: ['Inter', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #f4f4f5; font-family: 'Inter', sans-serif; }
-        .ql-container { height: 300px; background: white; border-bottom-left-radius: 0.5rem; border-bottom-right-radius: 0.5rem; }
-        .ql-toolbar { background: white; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem; }
-    </style>
+
 </head>
 <body class="bg-zinc-100 pb-20">
 
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="max-w-3xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <img src="imgs/LOGO.png" class="h-10 bg-black p-1 rounded">
+                <img src="imgs/LOGO.png" alt="Logotipo Black Brian Car Detailer" class="h-10 bg-black p-1 rounded">
                 <h1 class="font-bold text-zinc-700">Editor de Blog</h1>
             </div>
             <a href="/blog/index.html" target="_blank" class="text-sm text-brand-600 font-bold hover:underline">Ver Blog</a>
@@ -64,7 +47,7 @@
                             <span class="block text-2xl mb-1">📷</span>
                             <span class="text-sm font-bold">Clique para enviar imagem</span>
                         </div>
-                        <img id="preview" class="hidden max-h-32 rounded object-cover" src="">
+                        <img id="preview" class="hidden max-h-32 rounded object-cover" src="" alt="Pré-visualização da imagem de capa do artigo">
                     </label>
                 </div>
             </div>

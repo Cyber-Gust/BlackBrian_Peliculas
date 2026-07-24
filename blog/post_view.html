@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black Brian Blog</title> <script src="https://cdn.tailwindcss.com"></script>
+    <title>Black Brian Blog</title> <link rel="stylesheet" href="/dist/blog-post.css">
 
     <!-- Open Graph Base -->
     <meta property="og:type" content="article">
@@ -33,30 +33,7 @@
 
     <link rel="icon" href="/favicon.png" sizes="48x48" type="image/png">
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: { 400: "#6f9f6a", 500: "#4e7f49", 600: "#3d6538" },
-                        dark: { 950: "#050505", 900: "#0a0a0a", 800: "#121212" }
-                    },
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #050505; color: #e4e4e7; }
-        /* Estilos para o conteúdo vindo do editor Quill */
-        .prose h1, .prose h2, .prose h3 { color: white; font-weight: 700; margin-top: 2rem; margin-bottom: 1rem; }
-        .prose h2 { font-size: 1.5rem; }
-        .prose p { margin-bottom: 1.5rem; line-height: 1.8; color: #d4d4d8; }
-        .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.5rem; color: #d4d4d8; }
-        .prose ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1.5rem; color: #d4d4d8; }
-        .prose a { color: #6f9f6a; text-decoration: underline; }
-        .prose strong { color: white; }
-    </style>
+
 </head>
 <body class="antialiased">
     <!-- Google Tag Manager (noscript) -->
@@ -69,7 +46,7 @@
             <a href="/blog" class="flex items-center gap-2 text-zinc-400 hover:text-white transition">
                 <i class="ph-bold ph-arrow-left"></i> <span class="text-sm font-bold uppercase">Voltar</span>
             </a>
-            <img src="../imgs/LOGO.png" alt="Black Brian" class="h-8 opacity-50">
+            <img src="../imgs/LOGO.png" alt="Black Brian Car Detailer, blog de estética automotiva" class="h-8 opacity-50">
         </div>
     </nav>
 
@@ -106,7 +83,7 @@
                         Copiar link
                     </button>
                 </div>
-                <img id="post-image" src="" class="w-full rounded-2xl mb-10 border border-white/10 shadow-2xl">
+                <img id="post-image" src="" alt="Imagem de capa do artigo" class="w-full rounded-2xl mb-10 border border-white/10 shadow-2xl">
 
                 <div id="post-body" class="prose max-w-none text-lg">
                     </div>
@@ -242,14 +219,21 @@
             if(imgElement) {
                 if(data.imagem_capa) {
                     imgElement.src = data.imagem_capa;
-                    imgElement.alt = data.titulo;
+                    imgElement.alt = `${data.titulo} — artigo do blog Black Brian`;
                 } else {
                     imgElement.style.display = 'none';
                 }
             }
 
-            if(document.getElementById('post-body'))
-                document.getElementById('post-body').innerHTML = data.conteudo;
+            if(document.getElementById('post-body')) {
+                const postBody = document.getElementById('post-body');
+                postBody.innerHTML = data.conteudo;
+                postBody.querySelectorAll('img').forEach((image, index) => {
+                    if (!image.getAttribute('alt')?.trim()) {
+                        image.alt = `${data.titulo} — imagem ${index + 1} do artigo`;
+                    }
+                });
+            }
 
             // Mostra conteúdo
             if(loader) loader.classList.add('hidden');

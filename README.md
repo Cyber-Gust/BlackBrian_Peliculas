@@ -10,7 +10,7 @@
   [![Supabase](https://img.shields.io/badge/Data-Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com)
   [![Tailwind CSS](https://img.shields.io/badge/UI-Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 
-  [Live website](https://blackbrian.com.br) · [Service menu](https://blackbrian.com.br/Cardapio/Index.html) · [Automotive blog](https://blackbrian.com.br/blog)
+  [Live website](https://blackbrian.com.br) · [Service menu](https://blackbrian.com.br/servicos-estetica-automotiva/Index.html) · [Automotive blog](https://blackbrian.com.br/blog)
 </div>
 
 ---
@@ -53,10 +53,10 @@ The project is intentionally lightweight: its pages are built with vanilla web t
 | Path | Purpose |
 | --- | --- |
 | `/index.html` | Main institutional website and service overview |
-| `/Cardapio/Index.html` | Interactive services, packages, pricing, and order summary |
-| `/Peliculas_Solares/index.html` | 3D solar-film simulator and quotation wizard |
-| `/Martelinho_de_Ouro/index.html` | Paintless dent repair landing page |
-| `/PPF/index.html` | Paint protection film catalog |
+| `/servicos-estetica-automotiva/Index.html` | Interactive services, packages, pricing, and order summary |
+| `/peliculas-solares-insulfilm/index.html` | 3D solar-film simulator and quotation wizard |
+| `/martelinho-de-ouro/index.html` | Paintless dent repair landing page |
+| `/ppf-pelicula-protetoraindex.html` | Paint protection film catalog |
 | `/blog/index.html` | Dynamic blog listing |
 | `/blog/post_view.html` | Dynamic article renderer used by clean blog routes |
 | `/blog_panel.html` | Internal blog publishing interface |
@@ -68,10 +68,10 @@ The project is intentionally lightweight: its pages are built with vanilla web t
 ```text
 .
 ├── index.html                 # Main website
-├── Cardapio/                  # Interactive service menu
-├── Peliculas_Solares/         # 3D film configurator, models, and HDR assets
-├── Martelinho_de_Ouro/        # Paintless dent repair experience
-├── PPF/                       # Paint protection film catalog
+├── servicos-estetica-automotiva/                  # Interactive service menu
+├── peliculas-solares-insulfilm/         # 3D film configurator, models, and HDR assets
+├── martelinho-de-ouro/        # Paintless dent repair experience
+├── ppf-pelicula-protetora                       # Paint protection film catalog
 ├── blog/                      # Blog listing, articles, and images
 ├── blog_panel.html            # Blog editor
 ├── agenda_interna.html        # Appointment management
@@ -82,17 +82,21 @@ The project is intentionally lightweight: its pages are built with vanilla web t
 
 ## Running Locally
 
-No dependency installation or build command is required. Clone the repository and serve its root with any static HTTP server:
+Install the Tailwind CLI dependency, compile the production CSS, and serve the repository root:
 
 ```bash
 git clone <repository-url>
 cd WebSite_BlackBrian
+npm install
+npm run build
 python -m http.server 8000
 ```
 
 Then open [http://localhost:8000](http://localhost:8000).
 
 > Opening the HTML files directly with a `file://` URL is not recommended. An HTTP server provides behavior closer to production and avoids browser restrictions around assets and routes.
+
+During CSS development, run `npm run dev:css` in a second terminal to rebuild the page styles automatically.
 
 ## Supabase Configuration
 
@@ -115,20 +119,22 @@ Because this is a client-side application, the anonymous key is public by design
 
 ## Deployment
 
-The repository is ready for zero-build deployment on Vercel:
+The repository includes a deterministic Tailwind production build for Vercel:
 
 1. Import the repository into Vercel.
 2. Keep the framework preset as **Other**.
-3. Leave the build command and output directory unset.
+3. `vercel.json` installs dependencies with `npm ci`, runs `npm run build`, and serves the repository root.
 4. Configure the production domain.
 
 `vercel.json` rewrites URLs shaped like `/:category/:slug` to the dynamic article renderer, allowing shareable blog paths without duplicating HTML files.
 
 ## Customization Notes
 
-- Brand colors are defined in each page's inline Tailwind configuration.
-- Service names, prices, bundles, and selection rules live directly in the scripts inside `Cardapio/Index.html` and `Peliculas_Solares/index.html`.
-- Vehicle assets use `.glb` models and an `.hdr` studio environment under `Peliculas_Solares/`.
+- Brand colors and shared design tokens are defined in `tailwind.config.js`.
+- The 3D simulator and service catalog use their dedicated Tailwind configurations to preserve page-specific colors and animations.
+- Custom page CSS lives under `src/`; compiled and minified files are generated under `dist/`.
+- Service names, prices, bundles, and selection rules live directly in the scripts inside `servicos-estetica-automotiva/Index.html` and `peliculas-solares-insulfilm/index.html`.
+- Vehicle assets use `.glb` models and an `.hdr` studio environment under `peliculas-solares-insulfilm/`.
 - WhatsApp numbers and prefilled messages are declared in the relevant page scripts and links.
 - Analytics identifiers are embedded in the public-facing pages and should be updated when deploying for another business.
 

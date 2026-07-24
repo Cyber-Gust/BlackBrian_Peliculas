@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body { background-color: #f4f4f5; color: #18181b; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .day-cell { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+    .day-cell:active { transform: scale(0.90); }
+    .modal-overlay { transition: opacity 0.3s ease; }
+    .modal-content { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+    
+    .glass-header {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }

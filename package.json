@@ -1,0 +1,25 @@
+{
+  "name": "website_blackbrian",
+  "version": "1.0.0",
+  "description": "<div align=\"center\">\r   <img src=\"./imgs/LOGO.png\" alt=\"Black Brian logo\" width=\"180\" />",
+  "scripts": {
+    "build": "node scripts/build-css.js",
+    "build:css": "node scripts/build-css.js",
+    "dev:css": "node scripts/build-css.js --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Guto-Edu/WebSite_BlackBrian.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Guto-Edu/WebSite_BlackBrian/issues"
+  },
+  "homepage": "https://github.com/Guto-Edu/WebSite_BlackBrian#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}
