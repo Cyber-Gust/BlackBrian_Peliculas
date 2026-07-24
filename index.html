@@ -130,8 +130,11 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-    <nav class="fixed top-0 w-full z-50 bg-dark-900/80 rounded-b-3xl backdrop-blur-md border-b border-white/5">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between relative">
+      <nav
+         id="main-header"
+         class="fixed top-0 w-full z-50 bg-transparent border-b border-transparent transition-all duration-500"
+      >  
+      <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between relative">
             
             <button id="mobile-menu-btn" class="md:hidden text-white p-2 -ml-2 hover:bg-white/10 rounded-lg transition">
                 <i class="ph-bold ph-list text-3xl"></i>
@@ -173,14 +176,17 @@
         </div>
     </nav>
 
-    <header id="inicio" class="relative min-h-screen flex items-center justify-center pt-16 md:pt-20 pb-8 md:pb-10 px-4 overflow-hidden bg-hero-pattern bg-cover bg-center bg-scroll md:bg-fixed bg-no-repeat">    
-    <div class="relative z-10 mt-10 md:mt-2 max-w-6xl mx-auto w-full flex flex-col items-center">
+    <header id="inicio" class="relative min-h-screen flex items-center justify-center pt-16 md:pt-14 pb-8 md:pb-10 px-4 overflow-hidden bg-hero-pattern bg-cover bg-center bg-scroll md:bg-fixed bg-no-repeat">    
+    <div class="relative z-10 mt-6 md:mt-2 max-w-6xl mx-auto w-full flex flex-col items-center">
 
-        <h1 class="text-center text-4xl md:mt-10 mt-4 md:text-8xl font-black text-white mb-4 md:mb-6 leading-[0.9] drop-shadow-2xl tracking-tight">
-            ESTÉTICA AUTOMOTIVA <br>
-            <span class="text-transparent bg-clip-text bg-gradient-to-b from-brand-400 to-brand-600 text-glow">EM SÃO JOÃO DEL-REI</span>
+        <h1 class="text-center text-4xl md:mt-0 mt-4 md:text-6xl font-black text-white mb-4 md:mb-6 leading-[0.9] drop-shadow-2xl tracking-tight">
+            ESTÉTICA AUTOMOTIVA
+
+            <span class="block mt-3 md:mt-2 text-3xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-b from-brand-400 to-brand-600 text-glow">
+                EM SÃO JOÃO DEL-REI
+            </span>
         </h1>
-        <!-- Coloque a frase de impacto como um subtítulo (p ou h2) logo abaixo -->
+
         <p class="text-center font-extrabold text-zinc-300 text-base md:text-xl max-w-2xl mx-auto mb-8 md:mb-12 leading-relaxed uppercase tracking-widest">
             Seu carro no nível que ele merece
         </p>
@@ -233,7 +239,7 @@
             </a>
 
             <!-- Card 4 (novo) -->
-            <a href="/ppf-pelicula-protetoraindex.html" class="group relative overflow-hidden rounded-2xl bg-zinc-900/50 backdrop-blur-md border border-white/10 p-5 md:p-8 flex items-center gap-4 md:gap-6 hover:bg-white/5 transition-all duration-500 hover:border-cyan-500/50 ">
+            <a href="/ppf-pelicula-protetora/index.html" class="group relative overflow-hidden rounded-2xl bg-zinc-900/50 backdrop-blur-md border border-white/10 p-5 md:p-8 flex items-center gap-4 md:gap-6 hover:bg-white/5 transition-all duration-500 hover:border-cyan-500/50 ">
                 <div class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-cyan-500/10 flex items-center justify-center group-hover:bg-cyan-500 transition-colors duration-500 shrink-0">
                     <i class="ph-fill ph-shield-check text-2xl md:text-3xl text-cyan-400 group-hover:text-black transition-colors"></i>
                 </div>
@@ -557,13 +563,11 @@
 
         function toggleMenu() {
             if (menu.classList.contains('menu-hidden')) {
-                // Abrir
                 menu.classList.remove('menu-hidden');
                 menu.classList.add('menu-visible');
                 icon.classList.remove('ph-list');
                 icon.classList.add('ph-x');
             } else {
-                // Fechar
                 menu.classList.remove('menu-visible');
                 menu.classList.add('menu-hidden');
                 icon.classList.remove('ph-x');
@@ -572,6 +576,44 @@
         }
 
         btn.addEventListener('click', toggleMenu);
+
+        // Header transparente no topo e escuro durante a rolagem
+        const header = document.getElementById('main-header');
+
+        function atualizarHeader() {
+            if (window.scrollY > 40) {
+                header.classList.remove(
+                    'bg-transparent',
+                    'border-transparent'
+                );
+
+                header.classList.add(
+                    'bg-dark-900/90',
+                    'backdrop-blur-md',
+                    'border-white/5',
+                    'shadow-xl',
+                    'rounded-b-3xl'
+                );
+            } else {
+                header.classList.remove(
+                    'bg-dark-900/90',
+                    'backdrop-blur-md',
+                    'border-white/5',
+                    'shadow-xl',
+                    'rounded-b-3xl'
+                );
+
+                header.classList.add(
+                    'bg-transparent',
+                    'border-transparent'
+                );
+            }
+        }
+
+        window.addEventListener('scroll', atualizarHeader);
+
+        // Executa ao carregar a página
+        atualizarHeader();
     </script>
 </body>
 </html>
