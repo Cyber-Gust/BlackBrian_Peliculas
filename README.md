@@ -56,7 +56,7 @@ The project is intentionally lightweight: its pages are built with vanilla web t
 | `/servicos-estetica-automotiva/Index.html` | Interactive services, packages, pricing, and order summary |
 | `/peliculas-solares-insulfilm/index.html` | 3D solar-film simulator and quotation wizard |
 | `/martelinho-de-ouro/index.html` | Paintless dent repair landing page |
-| `/ppf-pelicula-protetoraindex.html` | Paint protection film catalog |
+| `/ppf-pelicula-protetora/index.html` | Paint protection film catalog |
 | `/blog/index.html` | Dynamic blog listing |
 | `/blog/post_view.html` | Dynamic article renderer used by clean blog routes |
 | `/blog_panel.html` | Internal blog publishing interface |
