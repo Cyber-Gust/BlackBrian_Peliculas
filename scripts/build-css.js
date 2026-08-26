@@ -8,7 +8,6 @@ const watch = process.argv.includes('--watch');
 
 const jobs = [
   ['tailwind.config.js', 'src/input.css', 'dist/output.css'],
-  ['tailwind.config.js', 'src/pages/agenda.css', 'dist/agenda.css'],
   ['tailwind.config.js', 'src/pages/blog-panel.css', 'dist/blog-panel.css'],
   ['tailwind.config.js', 'src/pages/blog.css', 'dist/blog.css'],
   ['tailwind.config.js', 'src/pages/blog-post.css', 'dist/blog-post.css'],
@@ -16,7 +15,6 @@ const jobs = [
   ['tailwind.peliculas.config.js', 'src/pages/peliculas.css', 'dist/peliculas.css'],
   ['tailwind.config.js', 'src/pages/ppf.css', 'dist/ppf.css'],
   ['tailwind.servicos.config.js', 'src/pages/servicos.css', 'dist/servicos.css'],
-  ['tailwind.config.js', 'src/pages/orcamento.css', 'dist/orcamento.css'],
 ];
 
 mkdirSync(path.join(root, 'dist'), { recursive: true });
